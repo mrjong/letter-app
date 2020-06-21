@@ -1,13 +1,15 @@
-import React, { Component } from 'react';
+import React, { Component } from 'react'
+import './style.less'
+
 
 class Login extends Component {
   render() {
     return (
       <div>
-        login
+        <span className='Login__text--color'>login</span>
       </div>
-    );
+    )
   }
 }
 
-export default Login;
+export default Login
