@@ -1,14 +1,28 @@
-import React from 'react'
+import React, { Component, Suspense } from 'react'
 import { Route, Redirect } from 'react-router-dom'
+import { connect } from 'react-redux'
+import { Loading } from '@/components'
 
-class PrivateRoute extends React.Component {
+function MyComponent(props) {
+  if (props.route.component) {
+    return (
+      <Suspense fallback={<Loading />}>
+        <props.route.component route={props.route}>{props.renderChildRoutes}</props.route.component>
+      </Suspense>
+    )
+  }
+  return props.renderChildRoutes
+}
+
+@connect((state) => state)
+class PrivateRoute extends Component {
   render() {
-    const { component: Component, isLogin } = this.props
+    const { isLogin } = this.props
     return (
       <Route
         render={(props) => {
           return isLogin ? (
-            <Component {...props} />
+            <MyComponent {...props} />
           ) : (
             <Redirect
               to={{
@@ -18,7 +32,7 @@ class PrivateRoute extends React.Component {
             />
           )
         }}
-      ></Route>
+      />
     )
   }
 }
