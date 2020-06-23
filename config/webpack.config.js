@@ -117,7 +117,11 @@ module.exports = function (webpackEnv) {
         {
           loader: require.resolve(preProcessor),
           options: {
-            sourceMap: true
+            sourceMap: true,
+            lessOptions: {
+              // If you are using less-loader@5 please spread the lessOptions to options directly
+              javascriptEnabled: true
+            }
           }
         }
       )
@@ -366,7 +370,8 @@ module.exports = function (webpackEnv) {
                         }
                       }
                     }
-                  ]
+                  ],
+                  ['import', { style: true, libraryName: 'antd-mobile' }]
                 ],
                 // This is a feature of `babel-loader` for webpack (not Babel itself).
                 // It enables caching results in ./node_modules/.cache/babel-loader/

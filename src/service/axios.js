@@ -1,19 +1,20 @@
 import axios from 'axios'
+import { Toast } from 'antd-mobile'
 const env = process.env.NODE_ENV
 
 const host = {
-  development: '',
-  production: ''
+  development: 'http://xinyouge.email/api',
+  production: 'http://xinyouge.email'
 }
-
 const instance = axios.create({
-  baseURL: host[env],
+  baseURL: '/api',
   withCredentials: env !== 'local',
   timeout: 8000
 })
 
 instance.interceptors.request.use(
   (config) => {
+    Toast.loading('Loading...', 1)
     // 登录流程控制中，根据本地是否存在token判断用户的登录情况
     // 但是即使token存在，也有可能token是过期的，所以在每次的请求头中携带token
     // 后台根据携带的token判断用户的登录情况，并返回给我们对应的状态码
@@ -29,6 +30,7 @@ instance.interceptors.request.use(
 
 instance.interceptors.response.use(
   (response) => {
+    Toast.hide()
     // 如果返回的状态码为200，说明接口请求成功，可以正常拿到数据
     // 否则的话抛出错误
     if (response.status === 200) {

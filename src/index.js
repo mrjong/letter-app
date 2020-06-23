@@ -5,6 +5,8 @@ import { createStore, applyMiddleware, compose } from 'redux'
 import thunk from 'redux-thunk'
 import App from './views/App'
 import rootReducer from './redux'
+import './assets/libs/base.less'
+import './setupProxy'
 
 //使用redux调试插件
 const reduxDevtools = window.devToolsExtension ? window.devToolsExtension() : () => {}

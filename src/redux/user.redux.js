@@ -1,8 +1,8 @@
-import { login } from '../service'
+import { login, getSmsCode } from '../service'
 
 const initialState = {
-  username: '123',
-  password: 123
+  mobileNo: '',
+  smsCode: ''
 }
 
 const LOGIN = 'LOGIN'
@@ -16,9 +16,9 @@ export const user = (state = initialState, action) => {
   }
 }
 
-export const setUserInfo = () => {
+export const handleGetSmsCode = (params) => {
   return (dispatch, getState) => {
-    login()
+    getSmsCode(params)
       .then((res) => {
         // const userid = getState().user._id
         if (res.status === 200 && res.data && res.data.code === 0) {
