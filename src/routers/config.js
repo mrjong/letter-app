@@ -30,10 +30,16 @@ const config = [
     ]
   },
   {
-    path: '/mail',
+    path: '/mails',
     name: '阁中信',
     icon: 'setting',
-    component: lazy(() => import('@/views/Mail'))
+    component: lazy(() => import('@/views/Mails'))
+  },
+  {
+    path: '/mail_detail',
+    name: '阁中信',
+    icon: 'setting',
+    component: lazy(() => import('@/views/MailDetail'))
   },
   {
     path: '/friends',
@@ -42,10 +48,34 @@ const config = [
     component: lazy(() => import('@/views/Friends'))
   },
   {
+    path: '/friend_detail',
+    name: '阁中友',
+    icon: 'setting',
+    component: lazy(() => import('@/views/FriendDetail'))
+  },
+  {
     path: '/user',
     name: '阁中你',
     icon: 'setting',
     component: lazy(() => import('@/views/User'))
+  },
+  {
+    path: '/user_info',
+    name: '阁中你',
+    icon: 'setting',
+    component: lazy(() => import('@/views/UserInfo'))
+  },
+  {
+    path: '/improve_profile',
+    name: '阁中你',
+    icon: 'setting',
+    component: lazy(() => import('@/views/ImproveProfile'))
+  },
+  {
+    path: '/letter_paper',
+    name: '阁中你',
+    icon: 'setting',
+    component: lazy(() => import('@/views/LetterPaper'))
   },
   {
     path: '/404',
