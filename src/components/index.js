@@ -1,7 +1,4 @@
 import Loading from './Loading'
-import PrivateRoute from './PrivateRoute'
+import RouterGuard from './RouterGuard'
 
-export {
-  Loading,
-  PrivateRoute
-}
+export { Loading, RouterGuard }

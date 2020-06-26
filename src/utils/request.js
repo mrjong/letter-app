@@ -54,7 +54,7 @@ let cancelPending = (config) => {
 
 //校验后台状态code
 function checkBackendCode(response) {
-  if (response.status === 200 && response.data) {
+  if (response && (response.status === 200 || response.status === 304) && response.data) {
     switch (response.data.code) {
       case '0':
         return response.data.data
@@ -62,23 +62,23 @@ function checkBackendCode(response) {
         console.log('去登录')
         break
       default:
-        Toast.info(response.data.msg)
         return Promise.reject(response.data)
     }
-  } else {
-    return Promise.reject(response.data)
   }
 }
 
 instance.interceptors.request.use(
   (config) => {
-    Toast.loading('Loading...', 1)
+    Toast.loading('加载中...', 1)
     // 发起请求时，取消掉当前正在进行的相同请求
     cancelPending(config)
 
     config.cancelToken = new CancelToken((res) => {
       pending.push({ UrlPath: config.url, Cancel: res })
     })
+
+    config.headers['tokenId'] = localStorage.getItem('tokenId') || '';
+
     return config
   },
   (error) => {
@@ -93,14 +93,10 @@ instance.interceptors.response.use(
   },
   (error) => {
     if (error.response) {
-      // console.dir(error,999)
-      switch (error.response.status) {
-        case 401:
-        case 403:
-        case 404:
-          break
-        default:
-      }
+      return Promise.reject({
+        code: 'fail',
+        msg: '系统开小差了~'
+      })
     } else {
       //超时timeout
       if (error && error.message && error.message.includes('timeout')) {
@@ -132,7 +128,7 @@ export default {
           return Promise.reject(err)
         } else {
           Toast.hide()
-          Toast.error(err.msg)
+          Toast.fail(err.msg)
         }
         return Promise.reject(err)
       })
@@ -151,7 +147,7 @@ export default {
           return Promise.reject(err)
         } else {
           Toast.hide()
-          Toast.error(err.msg)
+          Toast.fail(err.msg)
         }
         return Promise.reject(err)
       })

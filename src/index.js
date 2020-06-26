@@ -5,7 +5,7 @@ import { createStore, applyMiddleware } from 'redux'
 import thunk from 'redux-thunk'
 import App from './views/App'
 import rootReducer from './redux'
-import './assets/libs/base.less'
+import './assets/styles/index.less';
 import './setupProxy'
 
 let store

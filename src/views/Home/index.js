@@ -1,12 +1,29 @@
 import React, { Component } from 'react'
 import { Carousel } from 'antd-mobile'
+import { connect } from 'react-redux'
+import { createForm } from 'rc-form'
+import { withRouter } from 'react-router-dom'
+import { queryBanner } from '../../redux/mail.redux'
+import { queryUserRecommend, queryUnreadPrompt } from '../../redux/user.redux'
+
+@withRouter
+@createForm()
+@connect((state) => state.mail, {
+  queryBanner,
+  queryUserRecommend,
+  queryUnreadPrompt
+})
 class Home extends Component {
   state = {
-    data: ['1', '2', '3'],
     imgHeight: 50
   }
+  componentDidMount() {
+    this.props.queryBanner()
+    this.props.queryUserRecommend()
+    this.props.queryUnreadPrompt()
+  }
   render() {
-    const { route, children } = this.props
+    const { children, bannerList } = this.props
     return (
       <div>
         Home
@@ -14,21 +31,20 @@ class Home extends Component {
         <Carousel
           autoplay={true}
           infinite
-          beforeChange={(from, to) => console.log(`slide from ${from} to ${to}`)}
-          afterChange={(index) => console.log('slide to', index)}
+          // beforeChange={(from, to) => console.log(`slide from ${from} to ${to}`)}
+          // afterChange={(index) => console.log('slide to', index)}
         >
-          {this.state.data.map((val) => (
+          {bannerList.map((item) => (
             <a
-              key={val}
-              href="http://www.alipay.com"
+              key={item.id}
+              href={item.bannerUrlAdrs}
               style={{ display: 'inline-block', width: '100%', height: this.state.imgHeight }}
             >
               <img
-                src={`https://zos.alipayobjects.com/rmsportal/PZUUCKTRIHWiZSY.jpeg`}
-                alt=""
+                src={item.bannerImgAdrs}
+                alt="轮播图"
                 style={{ width: '100%', verticalAlign: 'top', height: '200px' }}
                 onLoad={() => {
-                  // fire window resize event to change height
                   window.dispatchEvent(new Event('resize'))
                   this.setState({ imgHeight: 'auto' })
                 }}

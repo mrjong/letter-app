@@ -2,12 +2,13 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { InputItem, Button, Toast } from 'antd-mobile'
 import { createForm } from 'rc-form'
+import { withRouter } from 'react-router-dom'
 import { getFirstError, validatePhone, validateSmsCode } from '@/utils'
 import { handleGetSmsCode, smsCodeCountDownEnd, setCountDownTimes, handleGetLogin } from '../../redux/login.redux'
 import './style.less'
 
 let timer = null
-
+@withRouter
 @createForm()
 @connect((state) => state.login, {
   handleGetSmsCode,
@@ -16,6 +17,10 @@ let timer = null
   setCountDownTimes
 })
 class Login extends Component {
+  componentDidMount() {
+    localStorage.removeItem('mobileNo')
+    localStorage.removeItem('tokenId')
+  }
   componentDidUpdate(prevProps) {
     const { smsCodeCountDownSts } = this.props
     if (smsCodeCountDownSts && smsCodeCountDownSts !== prevProps.smsCodeCountDownSts) {
@@ -30,7 +35,7 @@ class Login extends Component {
   startTimer = () => {
     let { smsCodeTimes } = this.props
     timer = setInterval(() => {
-      if (smsCodeTimes < 0) {
+      if (smsCodeTimes < 1) {
         this.stopTimer()
       } else {
         this.props.setCountDownTimes(--smsCodeTimes)
@@ -59,18 +64,17 @@ class Login extends Component {
     })
   }
   onLoginClick = () => {
-    this.props.handleGetLogin()
-    // if (!this.props.smsCodeNo) {
-    //   Toast.info('请先获取验证码')
-    //   return
-    // }
-    // this.props.form.validateFields((err, values) => {
-    //   if (!err || JSON.stringify(err) === '{}') {
-    //     this.props.handleGetLogin(values.smsCode)
-    //   } else {
-    //     Toast.info(getFirstError(err))
-    //   }
-    // })
+    if (!this.props.smsCodeNo) {
+      Toast.info('请先获取验证码')
+      return
+    }
+    this.props.form.validateFields((err, values) => {
+      if (!err || JSON.stringify(err) === '{}') {
+        this.props.handleGetLogin(values.smsCode, this.props.history)
+      } else {
+        Toast.info(getFirstError(err))
+      }
+    })
   }
   render() {
     const {
@@ -93,7 +97,7 @@ class Login extends Component {
           {...getFieldProps('smsCode', {
             rules: [{ validator: validateSmsCode }]
           })}
-          maxLength="6"
+          maxLength="4"
           type="number"
           placeholder="请输入短信验证码"
           clear

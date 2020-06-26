@@ -13,7 +13,7 @@ const config = [
     name: '首页', // 菜单名称 (不设置,则不展示在菜单栏中）
     icon: 'setting', // 菜单图标
     component: lazy(() => import('@/views/Home')), // 懒加载 路由组件
-    auth: false,
+    auth: true,
     childRoutes: [
       {
         path: '/home/',
@@ -69,6 +69,7 @@ const config = [
     path: '/improve_profile',
     name: '阁中你',
     icon: 'setting',
+    auth:true,
     component: lazy(() => import('@/views/ImproveProfile'))
   },
   {
