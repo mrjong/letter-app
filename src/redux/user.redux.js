@@ -117,7 +117,7 @@ export const handleSelectCity = (params) => {
 }
 
 //用户注册
-export const handleUserRegister = ({ nickname, gender, history }) => {
+export const handleUserRegister = ({ nickname, gender }) => {
   return async (dispatch, getState) => {
     const { selectedArea, headImg } = getState().user
     const mobileNo = localStorage.getItem('mobileNo')
@@ -133,7 +133,7 @@ export const handleUserRegister = ({ nickname, gender, history }) => {
       const { businessCode = '', tokenId = '' } = res
       if (businessCode === '0002') {
         localStorage.setItem('tokenId', tokenId)
-        history.push('/home')
+        window.ReactRouterHistory.push('/home')
       }
     } catch (error) {
       console.log(error)

@@ -56,7 +56,6 @@ class ImproveProfile extends Component {
       this.props.handleUserRegister({
         nickname: '你好',
         gender: '1',
-        history: this.props.history
       })
     }
   }

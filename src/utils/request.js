@@ -59,10 +59,14 @@ function checkBackendCode(response) {
       case '0':
         return response.data.data
       case '0003':
-        console.log('去登录')
+        localStorage.clear()
+        window.ReactRouterHistory.replace('/login')
         break
       default:
-        return Promise.reject(response.data)
+        return Promise.reject({
+          ...response.data,
+          hideError: true
+        })
     }
   }
 }
@@ -77,7 +81,7 @@ instance.interceptors.request.use(
       pending.push({ UrlPath: config.url, Cancel: res })
     })
 
-    config.headers['tokenId'] = localStorage.getItem('tokenId') || '';
+    config.headers['tokenId'] = localStorage.getItem('tokenId') || ''
 
     return config
   },
@@ -123,9 +127,9 @@ export default {
     })
       .then((response) => checkBackendCode(response))
       .catch((err) => {
-        if (options && options.hideAutoError) {
-          //不需要提示
-          return Promise.reject(err)
+        if (err.hideError) {
+          Toast.hide()
+          Toast.info(err.msg)
         } else {
           Toast.hide()
           Toast.fail(err.msg)
@@ -142,9 +146,9 @@ export default {
     })
       .then((response) => checkBackendCode(response))
       .catch((err) => {
-        if (options && options.hideAutoError) {
-          //不需要提示
-          return Promise.reject(err)
+        if (err.hideError) {
+          Toast.hide()
+          Toast.info(err.msg)
         } else {
           Toast.hide()
           Toast.fail(err.msg)

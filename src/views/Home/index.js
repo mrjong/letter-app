@@ -28,30 +28,32 @@ class Home extends Component {
       <div>
         Home
         {children}
-        <Carousel
-          autoplay={true}
-          infinite
-          // beforeChange={(from, to) => console.log(`slide from ${from} to ${to}`)}
-          // afterChange={(index) => console.log('slide to', index)}
-        >
-          {bannerList.map((item) => (
-            <a
-              key={item.id}
-              href={item.bannerUrlAdrs}
-              style={{ display: 'inline-block', width: '100%', height: this.state.imgHeight }}
-            >
-              <img
-                src={item.bannerImgAdrs}
-                alt="轮播图"
-                style={{ width: '100%', verticalAlign: 'top', height: '200px' }}
-                onLoad={() => {
-                  window.dispatchEvent(new Event('resize'))
-                  this.setState({ imgHeight: 'auto' })
-                }}
-              />
-            </a>
-          ))}
-        </Carousel>
+        {bannerList && bannerList.length > 0 && (
+          <Carousel
+            autoplay={true}
+            infinite
+            // beforeChange={(from, to) => console.log(`slide from ${from} to ${to}`)}
+            // afterChange={(index) => console.log('slide to', index)}
+          >
+            {bannerList.map((item) => (
+              <a
+                key={item.id}
+                href={item.bannerUrlAdrs}
+                style={{ display: 'inline-block', width: '100%', height: this.state.imgHeight }}
+              >
+                <img
+                  src={item.bannerImgAdrs}
+                  alt="轮播图"
+                  style={{ width: '100%', verticalAlign: 'top', height: '200px' }}
+                  onLoad={() => {
+                    window.dispatchEvent(new Event('resize'))
+                    this.setState({ imgHeight: 'auto' })
+                  }}
+                />
+              </a>
+            ))}
+          </Carousel>
+        )}
       </div>
     )
   }

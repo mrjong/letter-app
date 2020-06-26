@@ -5,7 +5,7 @@ import { Loading } from '@/components'
 import { connect } from 'react-redux'
 import { renderRoutes } from '../../routers'
 
-@withRouter
+// @withRouter
 @connect()
 class RouterGuard extends Component {
   componentWillMount() {
@@ -13,6 +13,7 @@ class RouterGuard extends Component {
       route,
       history: { location }
     } = this.props
+    window.ReactRouterHistory = this.props.history
     const isImproveProfile = location.pathname === '/improve_profile'
     const mobileNo = localStorage.getItem('mobileNo')
     const tokenId = localStorage.getItem('tokenId')

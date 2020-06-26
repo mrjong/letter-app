@@ -18,8 +18,7 @@ let timer = null
 })
 class Login extends Component {
   componentDidMount() {
-    localStorage.removeItem('mobileNo')
-    localStorage.removeItem('tokenId')
+    localStorage.clear()
   }
   componentDidUpdate(prevProps) {
     const { smsCodeCountDownSts } = this.props
@@ -70,7 +69,7 @@ class Login extends Component {
     }
     this.props.form.validateFields((err, values) => {
       if (!err || JSON.stringify(err) === '{}') {
-        this.props.handleGetLogin(values.smsCode, this.props.history)
+        this.props.handleGetLogin(values.smsCode)
       } else {
         Toast.info(getFirstError(err))
       }

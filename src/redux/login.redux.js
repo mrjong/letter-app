@@ -47,7 +47,7 @@ export const handleGetSmsCode = (params) => {
 }
 
 //登录校验
-export const handleGetLogin = (smsCode, history) => {
+export const handleGetLogin = (smsCode) => {
   return (dispatch, getState) => {
     const smsCodeNo = getState().login.smsCodeNo
     api
@@ -59,10 +59,10 @@ export const handleGetLogin = (smsCode, history) => {
         const { businessCode = '', mobileNo = '', tokenId = '' } = res
         if (businessCode === '0001') {
           localStorage.setItem('mobileNo', mobileNo)
-          history.push('/improve_profile')
+          window.ReactRouterHistory.push('/improve_profile')
         } else if (businessCode === '0002') {
           localStorage.setItem('tokenId', tokenId)
-          history.push('/home')
+          window.ReactRouterHistory.push('/home')
         }
       })
       .catch((err) => {})
