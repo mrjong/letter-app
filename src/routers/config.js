@@ -15,26 +15,20 @@ const config = [
     component: lazy(() => import('@/components/NotFound'))
   },
   {
-    path: '/', // 路由路径
+    path: '/',
     component: AppLayout,
     childRoutes: [
       {
-        path: '/home', // 路由路径
-        name: '首页', // 菜单名称 (不设置,则不展示在菜单栏中）
-        icon: 'setting', // 菜单图标
-        component: lazy(() => import('@/views/Home')), // 懒加载 路由组件
+        path: '/home',
+        name: '首页',
+        icon: 'setting',
+        component: lazy(() => import('@/views/Home')),
         auth: true,
         childRoutes: [
           {
             path: '/home/',
             exact: true,
             redirect: '/home'
-          },
-          {
-            path: '/home/welcome',
-            name: '欢迎页',
-            icon: 'smile',
-            component: lazy(() => import('@/views/Welcome'))
           },
           { path: '*', exact: true, redirect: '/404' }
         ]
@@ -87,12 +81,12 @@ const config = [
         name: '阁中你',
         icon: 'setting',
         component: lazy(() => import('@/views/LetterPaper'))
+      },
+      {
+        name: '404', //不给path属性也可以匹配404页面
+        redirect: '/404'
       }
     ]
-  },
-  {
-    name: '404', //不给path属性也可以匹配404页面
-    redirect: '/404'
   }
 ]
 

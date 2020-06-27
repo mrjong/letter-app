@@ -2,11 +2,9 @@ import React, { Component } from 'react'
 import { Carousel } from 'antd-mobile'
 import { connect } from 'react-redux'
 import { createForm } from 'rc-form'
-import { withRouter } from 'react-router-dom'
 import { queryBanner } from '../../redux/mail.redux'
 import { queryUserRecommend, queryUnreadPrompt } from '../../redux/user.redux'
 
-@withRouter
 @createForm()
 @connect((state) => state.mail, {
   queryBanner,
@@ -23,11 +21,9 @@ class Home extends Component {
     this.props.queryUnreadPrompt()
   }
   render() {
-    const { children, bannerList } = this.props
+    const { bannerList } = this.props
     return (
       <div>
-        Home
-        {children}
         {bannerList && bannerList.length > 0 && (
           <Carousel
             autoplay={true}

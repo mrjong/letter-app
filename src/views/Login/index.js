@@ -2,13 +2,11 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { InputItem, Button, Toast } from 'antd-mobile'
 import { createForm } from 'rc-form'
-import { withRouter } from 'react-router-dom'
 import { getFirstError, validatePhone, validateSmsCode } from '@/utils'
 import { handleGetSmsCode, smsCodeCountDownEnd, setCountDownTimes, handleGetLogin } from '../../redux/login.redux'
 import './style.less'
 
 let timer = null
-@withRouter
 @createForm()
 @connect((state) => state.login, {
   handleGetSmsCode,

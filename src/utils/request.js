@@ -60,7 +60,11 @@ function checkBackendCode(response) {
         return response.data.data
       case '0003':
         localStorage.clear()
-        window.ReactRouterHistory.replace('/login')
+        Toast.info('未登录或登录超时，请重新登录')
+        let timer = setTimeout(() => {
+          window.ReactRouterHistory.replace('/login')
+          clearTimeout(timer)
+        }, 2000)
         break
       default:
         return Promise.reject({
@@ -73,7 +77,7 @@ function checkBackendCode(response) {
 
 instance.interceptors.request.use(
   (config) => {
-    Toast.loading('加载中...', 1)
+    // Toast.loading('加载中...', 1)
     // 发起请求时，取消掉当前正在进行的相同请求
     cancelPending(config)
 

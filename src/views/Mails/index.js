@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 // import { setUserInfo } from '../../redux/user.redux'
-import './index.less'
+import './style.less'
 
 const imgList = [
   {

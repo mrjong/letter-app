@@ -8,14 +8,14 @@ const initialState = {
 }
 
 //types
-const LOGIN = 'LOGIN'
+const LOGOUT = 'LOGOUT'
 const SMSCODE_COUNTDOWN = 'SMSCODE_COUNTDOWN'
 const COUNTDOWN_TIMES = 'COUNTDOWN_TIMES'
 
 //reducers
 export const login = (state = initialState, action) => {
   switch (action.type) {
-    case LOGIN:
+    case LOGOUT:
       return { ...state }
     case SMSCODE_COUNTDOWN:
       return { ...state, ...action.payload }
@@ -89,4 +89,10 @@ export const smsCodeCountDownEnd = () => {
       smsCodeTimes: 59
     }
   }
+}
+
+//退出app
+export const logoutApp = () => {
+  localStorage.clear()
+  window.ReactRouterHistory.replace('/login')
 }

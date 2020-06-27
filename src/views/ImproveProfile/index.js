@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import { withRouter } from 'react-router-dom'
 import { ImagePicker, Button, Toast } from 'antd-mobile'
 import { connect } from 'react-redux'
 import { createForm } from 'rc-form'
@@ -10,9 +9,8 @@ import {
   handleQueryCityList,
   handleSelectCity
 } from '../../redux/user.redux'
-import './index.less'
+import './style.less'
 
-@withRouter
 @createForm()
 @connect((state) => state.user, {
   handleUploadAvatar,

@@ -1,11 +1,10 @@
 import React, { Component, Suspense } from 'react'
-import { withRouter } from 'react-router-dom'
 import { Toast } from 'antd-mobile'
 import { Loading } from '@/components'
 import { connect } from 'react-redux'
 import { renderRoutes } from '../../routers'
+import { changeHistoryState } from '../../utils/back'
 
-// @withRouter
 @connect()
 class RouterGuard extends Component {
   componentWillMount() {
@@ -14,6 +13,7 @@ class RouterGuard extends Component {
       history: { location }
     } = this.props
     window.ReactRouterHistory = this.props.history
+    changeHistoryState()
     const isImproveProfile = location.pathname === '/improve_profile'
     const mobileNo = localStorage.getItem('mobileNo')
     const tokenId = localStorage.getItem('tokenId')
@@ -30,10 +30,6 @@ class RouterGuard extends Component {
         Toast.info('请先完善信息', 2, () => {
           this.props.history.replace('/improve_profile')
         })
-      } else if (!tokenId) {
-        Toast.info('请先登录', 2, () => {
-          this.props.history.replace('/login')
-        })
       }
     }
   }
@@ -43,7 +39,7 @@ class RouterGuard extends Component {
     if (route.component) {
       return (
         <Suspense fallback={<Loading />}>
-          <route.component route={route}>{renderChildRoutes}</route.component>
+          <route.component {...this.props}>{renderChildRoutes}</route.component>
         </Suspense>
       )
     }
