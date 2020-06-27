@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-class Inbox extends Component {
+class FollowList extends Component {
   render() {
     return (
       <div>
@@ -10,4 +10,4 @@ class Inbox extends Component {
   }
 }
 
-export default Inbox;
+export default FollowList;

@@ -5,6 +5,7 @@ import store from './redux/store'
 import App from './views/App'
 import './utils/back'
 import './assets/styles/index.less';
+import './assets/libs/flexible.min'
 import './setupProxy'
 
 

@@ -15,6 +15,7 @@ class RouterGuard extends Component {
     window.ReactRouterHistory = this.props.history
     changeHistoryState()
     const isImproveProfile = location.pathname === '/improve_profile'
+    document.title = this.props.route.name
     const mobileNo = localStorage.getItem('mobileNo')
     const tokenId = localStorage.getItem('tokenId')
     if (route.auth) {

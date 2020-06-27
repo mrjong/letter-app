@@ -8,7 +8,8 @@ const initialState = {
   citys: [],
   provName: '',
   selectedArea: [],
-  userRecommends: []
+  userRecommends: [],
+  unreadTip: false
 }
 
 //types
@@ -17,6 +18,7 @@ const QUERY_PROVINCELIST = 'QUERY_PROVINCELIST'
 const QUERY_CITYLIST = 'QUERY_CITYLIST'
 const SELECT_CITY = 'SELECT_CITY'
 const USER_RECOMMEND = 'USER_RECOMMEND'
+const UNREAD_TIP = 'UNREAD_TIP'
 
 //reducers
 export const user = (state = initialState, action) => {
@@ -31,6 +33,8 @@ export const user = (state = initialState, action) => {
       return { ...state, selectedArea: action.payload.selectedArea }
     case USER_RECOMMEND:
       return { ...state, userRecommends: action.payload.userRecommends }
+    case UNREAD_TIP:
+      return { ...state, unreadTip: action.payload.unreadTip }
     default:
       return state
   }
@@ -164,13 +168,13 @@ export const queryUnreadPrompt = (params) => {
   return async (dispatch, getState) => {
     try {
       const res = await api.unreadPrompt()
-      // const { areaList: citys = [] } = cityRes
-      // dispatch({
-      //   type: USER_RECOMMEND,
-      //   payload: {
-      //     userRecommends
-      //   }
-      // })
+      const { flag } = res
+      dispatch({
+        type: UNREAD_TIP,
+        payload: {
+          unreadTip: flag
+        }
+      })
     } catch (error) {
       console.log(error)
     }

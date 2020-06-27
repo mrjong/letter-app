@@ -97,6 +97,16 @@ module.exports = function (webpackEnv) {
               },
               stage: 3
             }),
+            require('postcss-plugin-px2rem')({
+              rootValue: 100, //你在html节点设的font-size大小
+              // unitPrecision: 5, //转rem精确到小数点多少位
+              // propList: [ 'font', 'font-size', 'line-height', 'letter-spacing' ], //指定转换成rem的属性，支持 * ！
+              // selectorBlackList: [], // str/reg 指定不转换的选择器，str时包含字段即匹配
+              // replace: true,
+              // mediaQuery: false, //媒体查询内的px是否转换
+              exclude: /(node_module)/,
+              minPixelValue: 1.00001 //小于指定数值的px不转换 })
+            }),
             // Adds PostCSS Normalize as the reset css with default options,
             // so that it honors browserslist config in package.json
             // which in turn let's users customize the target behavior as per their needs.
@@ -480,7 +490,16 @@ module.exports = function (webpackEnv) {
                   sourceMap: isEnvProduction && shouldUseSourceMap
                 },
                 'less-loader'
-              ),
+              ).concat({
+                // 全局的 样式不需要每次 @import
+                loader: 'sass-resources-loader',
+                options: {
+                  resources: [
+                    path.resolve(__dirname, '../src/assets/styles/mixin.less'),
+                    path.resolve(__dirname, '../src/assets/styles/variables.less')
+                  ]
+                }
+              }),
               sideEffects: true
             },
             {

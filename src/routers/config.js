@@ -65,22 +65,52 @@ const config = [
       },
       {
         path: '/user_info',
-        name: '阁中你',
+        name: '个人中心',
         icon: 'setting',
         component: lazy(() => import('@/views/UserInfo'))
       },
       {
         path: '/improve_profile',
-        name: '阁中你',
+        name: '完善个人信息',
         icon: 'setting',
         auth: true,
         component: lazy(() => import('@/views/ImproveProfile'))
       },
       {
         path: '/letter_paper',
-        name: '阁中你',
+        name: '信纸',
         icon: 'setting',
         component: lazy(() => import('@/views/LetterPaper'))
+      },
+      {
+        path: '/inbox',
+        name: '收件箱',
+        icon: 'setting',
+        component: lazy(() => import('@/views/Inbox'))
+      },
+      {
+        path: '/outbox',
+        name: '发件箱',
+        icon: 'setting',
+        component: lazy(() => import('@/views/Outbox'))
+      },
+      {
+        path: '/draftbox',
+        name: '草稿箱',
+        icon: 'setting',
+        component: lazy(() => import('@/views/Draftbox'))
+      },
+      {
+        path: '/follow_list',
+        name: '关注列表',
+        icon: 'setting',
+        component: lazy(() => import('@/views/FollowList'))
+      },
+      {
+        path: '/write_letter',
+        name: '写信',
+        icon: 'setting',
+        component: lazy(() => import('@/views/WriteLetter'))
       },
       {
         name: '404', //不给path属性也可以匹配404页面

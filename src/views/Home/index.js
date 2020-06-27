@@ -4,33 +4,99 @@ import { connect } from 'react-redux'
 import { createForm } from 'rc-form'
 import { queryBanner } from '../../redux/mail.redux'
 import { queryUserRecommend, queryUnreadPrompt } from '../../redux/user.redux'
+import './style.less'
+import refreshIcon from '../../assets/images/home/shuaxin.png'
+import nanIcon from '../../assets/images/home/nan.png'
+import nvIcon from '../../assets/images/home/nv.png'
+
+const featureList = [
+  {
+    icon: 'index_icon',
+    title: '收件箱',
+    en: 'inbox',
+    path: '/inbox'
+  },
+  {
+    icon: 'index_icon',
+    title: '写信',
+    en: 'write',
+    path: '/write_letter'
+  },
+  {
+    icon: 'index_icon',
+    title: '关注',
+    en: 'attention',
+    path: '/follow_list'
+  },
+  {
+    icon: 'index_icon',
+    title: '草稿箱',
+    en: 'drafts',
+    path: '/draftbox'
+  },
+  {
+    icon: 'index_icon',
+    title: '发件箱',
+    en: 'outbox',
+    path: '/outbox'
+  }
+]
 
 @createForm()
-@connect((state) => state.mail, {
-  queryBanner,
-  queryUserRecommend,
-  queryUnreadPrompt
-})
+@connect(
+  (state) => ({
+    mail: state.mail,
+    user: state.user
+  }),
+  {
+    queryBanner,
+    queryUserRecommend,
+    queryUnreadPrompt
+  }
+)
 class Home extends Component {
   state = {
-    imgHeight: 50
+    imgHeight: 50,
+    rotate: false
   }
   componentDidMount() {
     this.props.queryBanner()
     this.props.queryUserRecommend()
     this.props.queryUnreadPrompt()
   }
+
+  navigateTo(path) {
+    this.props.history.push(path)
+  }
+
+  reloadRecommendList = () => {
+    this.setState(
+      {
+        rotate: true
+      },
+      () => {
+        let timer = setTimeout(() => {
+          this.setState({
+            rotate: false
+          })
+          clearTimeout(timer)
+        }, 1000)
+      }
+    )
+
+    this.props.queryUserRecommend()
+  }
+
   render() {
-    const { bannerList } = this.props
+    const {
+      mail: { bannerList },
+      user: { userRecommends, unreadTip }
+    } = this.props
+    const { rotate } = this.state
     return (
       <div>
         {bannerList && bannerList.length > 0 && (
-          <Carousel
-            autoplay={true}
-            infinite
-            // beforeChange={(from, to) => console.log(`slide from ${from} to ${to}`)}
-            // afterChange={(index) => console.log('slide to', index)}
-          >
+          <Carousel autoplay={false} infinite>
             {bannerList.map((item) => (
               <a
                 key={item.id}
@@ -50,6 +116,65 @@ class Home extends Component {
             ))}
           </Carousel>
         )}
+        <div className="home__feature">
+          {featureList.map((item, index) => {
+            return (
+              <div
+                className="home__feature--item"
+                key={item.en}
+                onClick={() => {
+                  this.navigateTo(item.path)
+                }}
+              >
+                <div className="home__feature--item-inner">
+                  {item.title === '收件箱' && unreadTip === 'Y' && (
+                    <div className="home__feature--item-tip">新的来信</div>
+                  )}
+                  <img
+                    src={require(`../../assets/images/home/index_icon${index + 1}.png`)}
+                    alt=""
+                    className="home__feature--item-icon"
+                  />
+                  <span className="home__feature--item-title">{item.title}</span>
+                  <span className="home__feature--item-en">{item.en.toLocaleUpperCase()}</span>
+                </div>
+              </div>
+            )
+          })}
+        </div>
+        <div className="home__recommend">
+          <div className="home__recommend--bar">
+            <span className="home__recommend--bar-title">推荐信友</span>
+            <span className="home__recommend--bar-text" onClick={this.reloadRecommendList}>
+              <img
+                src={refreshIcon}
+                alt=""
+                className={`home__recommend--bar-icon ${rotate && 'home__recommend--bar-iconRotate'}`}
+              />
+              <span>换一换</span>
+            </span>
+          </div>
+          <div className="home__recommend--list">
+            {userRecommends &&
+              userRecommends.length > 0 &&
+              userRecommends.map((item, index) => {
+                return (
+                  <div className="home__recommend--item" key={index}>
+                    <div className="home__recommend--item-avatarWrap">
+                      <img src={item.headImg} alt="" className="home__recommend--item-avatar" />
+                    </div>
+                    <img src={item.sex === 0 ? nvIcon : nanIcon} alt="" className="home__recommend--item-gender" />
+                    <span className="home__recommend--item-name">{item.penName}</span>
+                    <span className="home__recommend--item-desc">{item.autograph}</span>
+                    <button className="home__recommend--item-button">写信</button>
+                    <span className="home__recommend--item-city">
+                      {item.addressProvince}·{item.addressCity}
+                    </span>
+                  </div>
+                )
+              })}
+          </div>
+        </div>
       </div>
     )
   }
