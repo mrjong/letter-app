@@ -1,4 +1,4 @@
-import api from '../service'
+import api from '../api'
 
 const initialState = {
   avatar: '',
@@ -9,7 +9,8 @@ const initialState = {
   provName: '',
   selectedArea: [],
   userRecommends: [],
-  unreadTip: false
+  unreadTip: false,
+  userInfo: {}
 }
 
 //types
@@ -19,6 +20,7 @@ const QUERY_CITYLIST = 'QUERY_CITYLIST'
 const SELECT_CITY = 'SELECT_CITY'
 const USER_RECOMMEND = 'USER_RECOMMEND'
 const UNREAD_TIP = 'UNREAD_TIP'
+const USER_INFO = 'USER_INFO'
 
 //reducers
 export const user = (state = initialState, action) => {
@@ -35,6 +37,8 @@ export const user = (state = initialState, action) => {
       return { ...state, userRecommends: action.payload.userRecommends }
     case UNREAD_TIP:
       return { ...state, unreadTip: action.payload.unreadTip }
+    case USER_INFO:
+      return { ...state, userInfo: action.payload.userInfo }
     default:
       return state
   }
@@ -229,6 +233,23 @@ export const cancelFollowUser = (params) => {
       //     userRecommends
       //   }
       // })
+    } catch (error) {
+      console.log(error)
+    }
+  }
+}
+
+//查询用户信息
+export const queryUserInfo = (params) => {
+  return async (dispatch, getState) => {
+    try {
+      const res = await api.queryUserInfo()
+      dispatch({
+        type: USER_INFO,
+        payload: {
+          userInfo: res
+        }
+      })
     } catch (error) {
       console.log(error)
     }

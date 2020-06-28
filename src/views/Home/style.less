@@ -74,8 +74,15 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border-top: 1px solid #595e4a;
-    border-bottom: 1px solid #595e4a;
+    position: relative;
+    padding: 8px 0;
+    &::before {
+      .top-line(#595e4a);
+    }
+    &::after {
+      .bottom-line(#595e4a);
+    }
+
     &-title {
       font-size: 36px;
       color: #595e4a;
@@ -91,7 +98,7 @@
       margin: 0 10px 5px 0;
     }
     &-iconRotate {
-      animation: rotate 0.5s ease;
+      animation: rotate 0.8s ease;
     }
   }
 

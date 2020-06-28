@@ -59,7 +59,7 @@ const config = [
       },
       {
         path: '/user',
-        name: '阁中你',
+        name: '个人中心',
         icon: 'setting',
         component: lazy(() => import('@/views/User'))
       },

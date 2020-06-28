@@ -3,8 +3,8 @@ import { Toast } from 'antd-mobile'
 const env = process.env.NODE_ENV
 
 // const host = {
-//   development: 'http://xinyouge.email/api',
-//   production: 'http://xinyouge.email'
+//   development: '/api',
+//   production: 'http://xinyouge.email/api'
 // }
 const instance = axios.create({
   baseURL: '/api',
@@ -60,7 +60,7 @@ function checkBackendCode(response) {
         return response.data.data
       case '0003':
         localStorage.clear()
-        Toast.info('未登录或登录超时，请重新登录')
+        Toast.info('登录超时，请重新登录~')
         let timer = setTimeout(() => {
           window.ReactRouterHistory.replace('/login')
           clearTimeout(timer)

@@ -1,4 +1,184 @@
-.picker__wrap {
+.picker__modal--wrap {
   display: flex;
-  justify-content: space-between;
+  height: 600px;
+  .popup-list {
+    width: 50%;
+    overflow: scroll;
+  }
+}
+
+.improve__form {
+  width: 670px;
+  height: auto;
+  background-color: #fff;
+  margin: 38px auto 56px;
+  padding: 0 27px 100px 30px;
+  box-sizing: border-box;
+  &--button {
+    width: 670px;
+    height: 88px;
+    border-radius: 4px;
+    color: #fff;
+    background-color: #595e4a;
+    margin: 0 auto;
+    display: block;
+    font-weight: bold;
+  }
+
+  &--item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+    &::after {
+      .bottom-line(#d9dad5);
+    }
+    padding-bottom: 36px;
+
+    &:nth-child(1) {
+      padding-top: 30px;
+    }
+    &:nth-child(2) {
+      padding-top: 46px;
+    }
+    &:nth-child(3) {
+      padding-top: 94px;
+    }
+    &:nth-child(4) {
+      padding-top: 84px;
+      border-bottom: none;
+    }
+
+    &-avatar {
+      border-radius: 50%;
+      overflow: hidden;
+
+      img {
+        width: 110px;
+        height: 110px;
+      }
+    }
+
+    &-label {
+      font-size: 30px;
+      color: #595e4a;
+      font-weight: bold;
+    }
+
+    &-input {
+      border: none;
+      width: 390px;
+      font-size: 30px;
+    }
+
+    &-gender {
+      display: flex;
+
+      &-item {
+        width: 110px;
+        height: 40px;
+        line-height: 34px;
+        border: 1px solid #595e4a;
+        border-radius: 6px;
+        box-sizing: border-box;
+        padding-left: 65px;
+        font-size: 28px;
+        position: relative;
+
+        &:nth-child(1) {
+          background-color: #fff;
+          color: #595e4a;
+          background-image: url('../../assets/images/common/nan_green.png');
+          background-size: 16px 28px;
+          background-repeat: no-repeat;
+          background-position: 25px 3px;
+        }
+        &:nth-child(2) {
+          background-color: #fff;
+          color: #595e4a;
+          background-image: url('../../assets/images/common/nv_green.png');
+          background-size: 16px 28px;
+          background-repeat: no-repeat;
+          background-position: 25px 3px;
+          margin-left: 20px;
+        }
+        &:nth-child(1).active {
+          color: #fff;
+          background-color: #595e4a;
+          background-image: url('../../assets/images/common/nan_white.png');
+        }
+        &:nth-child(2).active {
+          color: #fff;
+          background-color: #595e4a;
+          background-image: url('../../assets/images/common/nv_white.png');
+        }
+      }
+    }
+
+    &-city {
+      display: flex;
+
+      &-item {
+        font-size: 30px;
+        color: #ccc;
+
+        &:nth-child(2) {
+          margin-left: 40px;
+        }
+        &::after {
+          .arrow(0.08rem,#595e4a,0.02rem);
+          margin-left: 20px;
+          margin-bottom: 13px;
+          vertical-align: middle;
+        }
+      }
+    }
+    &-tip {
+      position: absolute;
+      left: 0;
+      bottom: -40px;
+      font-size: 20px;
+      color: #ad4c2e;
+    }
+  }
+}
+.improve__form {
+  .am-image-picker-list {
+    margin-bottom: 0px;
+    padding: 0px;
+  }
+  .am-flexbox.am-flexbox-align-center {
+    width: 110px;
+    height: 110px;
+    margin-bottom: 0px;
+  }
+  .am-image-picker-list .am-image-picker-upload-btn {
+    width: 110px;
+    height: 110px;
+    border: 0px;
+    &::before,
+    &::after {
+      content: '';
+      display: block;
+      width: 110px;
+      height: 110px;
+      background-image: url('../../assets/images/common/avatar_default.jpeg');
+      background-size: cover;
+      background-repeat: no-repeat;
+      z-index: -1;
+    }
+  }
+}
+
+::-webkit-input-placeholder {
+  color: #ccc;
+}
+:-moz-placeholder {
+  color: #ccc;
+}
+::-moz-placeholder {
+  color: #ccc;
+}
+:-ms-input-placeholder {
+  color: #ccc;
 }

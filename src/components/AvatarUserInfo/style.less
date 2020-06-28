@@ -1,0 +1,46 @@
+.avatar__userinfo {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: #595e4a;
+  width: 100%;
+  &--left {
+    &-img {
+      width: 100px;
+      height: 100px;
+      overflow: hidden;
+      border-radius: 50%;
+    }
+  }
+  &--right {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    &-name {
+      font-size: 36px;
+      font-weight: bold;
+      line-height: 1;
+    }
+    &-address {
+      font-size: 24px;
+      font-weight: bold;
+      line-height: 1;
+    }
+    &-autograph {
+      font-size: 20px;
+      color: #999;
+      line-height: 1;
+    }
+    &-genderWrap {
+      line-height: 1;
+      margin: 6px 0 13px;
+    }
+    &-gender {
+      width: 28px;
+      height: 28px;
+      margin-right: 8px;
+      vertical-align: middle;
+    }
+  }
+}

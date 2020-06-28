@@ -6,8 +6,8 @@ import { queryBanner } from '../../redux/mail.redux'
 import { queryUserRecommend, queryUnreadPrompt } from '../../redux/user.redux'
 import './style.less'
 import refreshIcon from '../../assets/images/home/shuaxin.png'
-import nanIcon from '../../assets/images/home/nan.png'
-import nvIcon from '../../assets/images/home/nv.png'
+import nanIcon from '../../assets/images/common/nan.png'
+import nvIcon from '../../assets/images/common/nv.png'
 
 const featureList = [
   {

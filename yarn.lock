@@ -2565,7 +2565,7 @@ bonjour@^3.5.0:
     dns-equal "^1.0.0"
     dns-txt "^2.0.2"
     multicast-dns "^6.0.1"
-    multicast-dns-service-types "^1.1.0"
+    multicast-dns-api-types "^1.1.0"
 
 boolbase@^1.0.0, boolbase@~1.0.0:
   version "1.0.0"
@@ -7208,9 +7208,9 @@ ms@^2.1.1:
   resolved "https://registry.npm.taobao.org/ms/download/ms-2.1.2.tgz#d09d1f357b443f493382a8eb3ccd183872ae6009"
   integrity sha1-0J0fNXtEP0kzgqjrPM0YOHKuYAk=
 
-multicast-dns-service-types@^1.1.0:
+multicast-dns-api-types@^1.1.0:
   version "1.1.0"
-  resolved "https://registry.npm.taobao.org/multicast-dns-service-types/download/multicast-dns-service-types-1.1.0.tgz#899f11d9686e5e05cb91b35d5f0e63b773cfc901"
+  resolved "https://registry.npm.taobao.org/multicast-dns-api-types/download/multicast-dns-api-types-1.1.0.tgz#899f11d9686e5e05cb91b35d5f0e63b773cfc901"
   integrity sha1-iZ8R2WhuXgXLkbNdXw5jt3PPyQE=
 
 multicast-dns@^6.0.1:

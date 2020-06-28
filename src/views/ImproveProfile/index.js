@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
-import { ImagePicker, Button, Toast } from 'antd-mobile'
+import { ImagePicker, Toast, Modal, List } from 'antd-mobile'
 import { connect } from 'react-redux'
-import { createForm } from 'rc-form'
 import {
   handleUploadAvatar,
   handleInitQueryAreaList,
@@ -10,8 +9,8 @@ import {
   handleSelectCity
 } from '../../redux/user.redux'
 import './style.less'
+import avatarDefault from '../../assets/images/common/avatar_default.jpeg'
 
-@createForm()
 @connect((state) => state.user, {
   handleUploadAvatar,
   handleInitQueryAreaList,
@@ -21,9 +20,11 @@ import './style.less'
 })
 class ImproveProfile extends Component {
   state = {
-    files: []
+    files: [],
+    gender: '',
+    showPikerModal: false
   }
-  onChange = (files, type, index) => {
+  onFileChange = (files, type, index) => {
     console.log(files, type, index)
     const mobileNo = localStorage.getItem('mobileNo')
     let formData = new FormData()
@@ -47,25 +48,47 @@ class ImproveProfile extends Component {
 
   onCityChange = (item) => {
     this.props.handleSelectCity(item)
+    this.onClosePikerModal()
   }
 
   onUserRegister = () => {
-    if (!this.validateForm()) {
+    const { nickname, gender } = this.state
+    if (this.validateForm()) {
       this.props.handleUserRegister({
-        nickname: '你好',
-        gender: '1',
+        nickname,
+        gender
       })
     }
   }
+
+  onSelectSex = (index) => {
+    this.setState({
+      gender: index
+    })
+  }
+
+  onClosePikerModal = () => {
+    this.setState({
+      showPikerModal: !this.state.showPikerModal
+    })
+  }
+
+  onNameChange = (e) => {
+    this.setState({
+      nickname: e.target.value
+    })
+  }
+
   validateForm = () => {
-    const { nickname, gender, selectedArea } = this.props
+    const { nickname, gender } = this.state
+    const { selectedArea } = this.props
     if (!nickname) {
       Toast.info('请填写昵称哦~')
       return false
     } else if (!gender) {
       Toast.info('请选择性别哦~')
       return false
-    } else if (selectedArea.length !== 2) {
+    } else if (!selectedArea || selectedArea.length !== 2) {
       Toast.info('请完善地址哦~')
       return false
     }
@@ -73,63 +96,100 @@ class ImproveProfile extends Component {
   }
 
   render() {
-    const { files } = this.state
-    const {
-      avatar,
-      provinces,
-      citys,
-      selectedArea,
-      form: { getFieldProps }
-    } = this.props
+    const { files, gender, showPikerModal, nickname } = this.state
+    const { avatar, provinces, citys, selectedArea } = this.props
     return (
       <div>
-        {avatar ? (
-          <img src={avatar} alt="头像" />
-        ) : (
-          <ImagePicker
-            files={files}
-            onChange={this.onChange}
-            selectable={files.length < 1}
-            accept="image/gif,image/jpeg,image/jpg,image/png"
-            disableDelete
-          />
-        )}
-        {`已经选择${selectedArea.join('|')}`}
-        <div className="picker__wrap">
-          <ul>
-            {provinces.length > 0 &&
-              provinces.map((item, index) => {
-                return (
-                  <li
-                    onClick={() => {
-                      this.onProvinceChange(item)
-                    }}
-                    key={item.areaId}
-                  >
-                    {item.areaName}
-                  </li>
-                )
-              })}
-          </ul>
-          <ul>
-            {citys.length > 0 &&
-              citys.map((item, index) => {
-                return (
-                  <li
-                    key={item.areaId}
-                    onClick={() => {
-                      this.onCityChange(item)
-                    }}
-                  >
-                    {item.areaName}
-                  </li>
-                )
-              })}
-          </ul>
+        <div className="improve__form">
+          <div className="improve__form--item">
+            <label className="improve__form--item-label">上传头像</label>
+            <div className="improve__form--item-avatar">
+              {avatar ? (
+                <img src={avatar || avatarDefault} alt="" />
+              ) : (
+                <ImagePicker
+                  files={files}
+                  onChange={this.onFileChange}
+                  selectable={files.length < 1}
+                  accept="image/gif,image/jpeg,image/jpg,image/png"
+                  disableDelete
+                />
+              )}
+            </div>
+          </div>
+          <div className="improve__form--item">
+            <label className="improve__form--item-label">*性别</label>
+            <div className="improve__form--item-gender">
+              <span
+                className={`improve__form--item-gender-item ${gender === '1' && 'active'}`}
+                onClick={() => {
+                  this.onSelectSex('1')
+                }}
+              >
+                男
+              </span>
+              <span
+                className={`improve__form--item-gender-item ${gender === '0' && 'active'}`}
+                onClick={() => {
+                  this.onSelectSex('0')
+                }}
+              >
+                女
+              </span>
+            </div>
+            <p className="improve__form--item-tip">后续不可更改</p>
+          </div>
+          <div className="improve__form--item">
+            <label className="improve__form--item-label">*笔名</label>
+            <input
+              className="improve__form--item-input"
+              type="text"
+              placeholder="想个能让信友印象深刻的吧～"
+              value={nickname || ''}
+              onChange={this.onNameChange}
+            />
+            <p className="improve__form--item-tip">后续将作为唯一身份标识。不可更改喔</p>
+          </div>
+          <div className="improve__form--item">
+            <label className="improve__form--item-label">*你的省市</label>
+            <div className="improve__form--item-city" onClick={this.onClosePikerModal}>
+              <span className="improve__form--item-city-item">{selectedArea[0] || '请选择'}</span>
+              <span className="improve__form--item-city-item">{selectedArea[1] || '请选择'}</span>
+            </div>
+            <p className="improve__form--item-tip">将成为你推荐信友的重要指标</p>
+          </div>
         </div>
-        <Button type="primary" onClick={this.onUserRegister}>
-          注册
-        </Button>
+        <button onClick={this.onUserRegister} className="improve__form--button">
+          完成
+        </button>
+        <Modal popup visible={showPikerModal} onClose={this.onClosePikerModal} animationType="slide-up">
+          <div className="picker__modal--wrap">
+            <List className="popup-list">
+              {provinces.map((item, index) => (
+                <List.Item
+                  key={item.areaId}
+                  onClick={() => {
+                    this.onProvinceChange(item)
+                  }}
+                >
+                  {item.areaName}
+                </List.Item>
+              ))}
+            </List>
+            <List className="popup-list">
+              {citys.map((item, index) => (
+                <List.Item
+                  key={item.areaId}
+                  onClick={() => {
+                    this.onCityChange(item)
+                  }}
+                >
+                  {item.areaName}
+                </List.Item>
+              ))}
+            </List>
+          </div>
+        </Modal>
       </div>
     )
   }

@@ -1,23 +1,21 @@
-import api from '../service'
+import api from '../api'
 
 const initialState = {
-  bannerList: []
+  bannerList: [],
+  mails: []
 }
 
 //types
 const BANNER = 'BANNER'
-const SMSCODE_COUNTDOWN = 'SMSCODE_COUNTDOWN'
-const COUNTDOWN_TIMES = 'COUNTDOWN_TIMES'
+const MAILS_LIST = 'MAILS_LIST'
 
 //reducers
 export const mail = (state = initialState, action) => {
   switch (action.type) {
     case BANNER:
       return { ...state, bannerList: action.payload.bannerList }
-    case SMSCODE_COUNTDOWN:
-      return { ...state, bannerList: action.payload.bannerList }
-    case COUNTDOWN_TIMES:
-      return { ...state, smsCodeTimes: action.payload.smsCodeTimes }
+    case MAILS_LIST:
+      return { ...state, mails: action.payload.mails }
     default:
       return state
   }
@@ -35,6 +33,26 @@ export const queryBanner = () => {
           bannerList
         }
       })
+    } catch (error) {
+      console.log(error)
+    }
+  }
+}
+
+export const queryMails = (pageIndex, callback) => {
+  return async (dispatch, getState) => {
+    try {
+      const res = await api.queryMails({
+        page: pageIndex + ''
+      })
+      const { contentList = [] } = res
+      dispatch({
+        type: MAILS_LIST,
+        payload: {
+          mails: contentList
+        }
+      })
+      callback()
     } catch (error) {
       console.log(error)
     }

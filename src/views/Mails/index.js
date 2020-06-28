@@ -1,90 +1,117 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-// import { setUserInfo } from '../../redux/user.redux'
+import { ListView } from 'antd-mobile'
+import { AvatarUserInfo } from '@/components'
 import './style.less'
+import { queryMails } from '../../redux/mail.redux'
 
-const imgList = [
-  {
-    name: 'bg1',
-    src: require('../../assets/images/bg1.png')
-  },
-  {
-    name: 'bg2',
-    src: require('../../assets/images/bg2.png')
-  },
-  {
-    name: 'bg3',
-    src: require('../../assets/images/bg3.png')
-  }
-]
-@connect(
-  (state) => ({
-    userInfo: state.userInfo
-  }),
-  {
-    // setUserInfo
-  }
-)
-class Mail extends Component {
+let pageIndex = 1
+
+@connect((state) => state.mail, {
+  queryMails
+})
+class Mails extends Component {
   constructor(props) {
     super(props)
+    const dataSource = new ListView.DataSource({
+      rowHasChanged: (row1, row2) => row1 !== row2
+    })
+
     this.state = {
-      mailContent: '你好:\n我是某  某某\n你好吗\n',
-      selectCoverImg: imgList[0].src
+      dataSource,
+      isLoading: true,
+      hasMore: true
     }
   }
-  handleMailContent = (e) => {
-    this.setState({
-      mailContent: e.target.value
+  rData = []
+  componentDidMount() {
+    pageIndex = 1
+    // you can scroll to the specified position
+    // setTimeout(() => this.lv.scrollTo(0, 120), 800);
+    this.props.queryMails(pageIndex, () => {
+      this.rData = [...this.props.mails]
+      this.setState({
+        dataSource: this.state.dataSource.cloneWithRows(this.rData),
+        isLoading: false
+      })
     })
   }
-  handleSubmitMail = () => {
-    // this.props.setUserInfo(this.state.mailContent)
-    console.log(this.state.mailContent)
-  }
-  selectCover = (index) => {
-    this.setState({
-      selectCoverImg: imgList[index].src
+
+  onEndReached = (event) => {
+    if (this.state.isLoading || !this.state.hasMore) {
+      return
+    }
+    this.setState({ isLoading: true })
+    this.props.queryMails(++pageIndex, () => {
+      this.rData = [...this.rData, ...this.props.mails]
+      if (this.props.mails.length <= 0) {
+        this.setState({
+          isLoading: false,
+          hasMore: false
+        })
+        return
+      }
+
+      this.setState({
+        dataSource: this.state.dataSource.cloneWithRows(this.rData),
+        isLoading: false
+      })
     })
   }
+
   render() {
-    const { mailContent, selectCoverImg } = this.state
-    return (
-      <div className="mail__content--background" style={{ backgroundImage: `url(${selectCoverImg})` }}>
-        <div className="mail__underline--layout">
-          {[1, 2, 3].map((item, index) => {
-            return <div className="mail__underline--item" key={index}></div>
-          })}
+    let index = this.rData.length - 1
+    const row = (rowData, sectionID, rowID) => {
+      if (index < 0) {
+        index = this.rData.length - 1
+      }
+      const obj = this.rData[index--]
+      return (
+        <div className="mails__list--item" key={rowID}>
+          <div className="mails__list--item-top">
+            <div className="mails__list--item-avatar">
+              <AvatarUserInfo headImgPath={obj.headImgPath} penName={obj.penName} address={obj.address} />
+            </div>
+            <button className="mails__list--item-button">写信</button>
+          </div>
+          <div className="mails__list--item-center">
+            <div className="mails__list--item-cover">
+              <span className="mails__list--item-label">{obj.createDay}</span>
+              <img src={obj.contentImgPath} alt="cover" />
+            </div>
+            <p className="mails__list--item-content">{obj.content}</p>
+          </div>
+          <div className="mails__list--item-bottom">
+            <span className="mails__list--item-views">{obj.readCount}</span>
+            <span className="mails__list--item-likes">{obj.goodCount}</span>
+          </div>
         </div>
-        <textarea
-          name=""
-          id=""
-          className="mail__textarea"
-          value={mailContent}
-          onChange={this.handleMailContent}
-        ></textarea>
-        <div style={{ whiteSpace: 'pre-wrap' }}>{mailContent}</div>
-        <ul className="mail__cover--wrap">
-          {imgList.map((item, index) => {
-            return (
-              <li
-                key={index}
-                className="mail__cover--item"
-                onClick={() => {
-                  this.selectCover(index)
-                }}
-              >
-                <img src={item.src} alt="" />
-              </li>
-            )
-          })}
-        </ul>
-        <button onClick={this.handleSubmitMail} style={{ marginTop: '700px' }}>
-          提交
-        </button>
+      )
+    }
+    return (
+      <div className="mails__list">
+        <ListView
+          ref={(el) => (this.lv = el)}
+          dataSource={this.state.dataSource}
+          renderFooter={() => (
+            <div style={{ padding: 30, textAlign: 'center' }}>
+              {this.state.isLoading ? '加载中...' : '我是有底线的~'}
+            </div>
+          )}
+          renderRow={row}
+          style={{
+            height: this.state.height,
+            overflow: 'auto'
+          }}
+          pageSize={4}
+          useBodyScroll
+          scrollRenderAheadDistance={500}
+          onEndReached={this.onEndReached}
+          onEndReachedThreshold={10}
+        />
       </div>
     )
   }
 }
 
-export default Mail
+export default Mails

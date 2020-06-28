@@ -1,4 +1,4 @@
-import api from '../service'
+import api from '../api'
 
 const initialState = {
   mobileNo: '',
