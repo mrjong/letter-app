@@ -5,6 +5,7 @@ import { createForm } from 'rc-form'
 import { getFirstError, validatePhone, validateSmsCode } from '@/utils'
 import { handleGetSmsCode, smsCodeCountDownEnd, setCountDownTimes, handleGetLogin } from '../../redux/login.redux'
 import './style.less'
+import logo from '../../assets/images/common/logo.png'
 
 let timer = null
 @createForm()
@@ -80,29 +81,45 @@ class Login extends Component {
       smsCodeTimes
     } = this.props
     return (
-      <div>
-        <InputItem
-          {...getFieldProps('mobileNo', {
-            rules: [{ validator: validatePhone }]
-          })}
-          maxLength="11"
-          type="number"
-          placeholder="请输入您的手机号"
-          clear
-        />
-        <InputItem
-          {...getFieldProps('smsCode', {
-            rules: [{ validator: validateSmsCode }]
-          })}
-          maxLength="4"
-          type="number"
-          placeholder="请输入短信验证码"
-          clear
-        />
-        <Button type="primary" onClick={this.onSmsCodeClick} disabled={smsCodeCountDownSts}>
-          {smsCodeCountDownSts ? `${smsCodeTimes}"` : '验证码'}
-        </Button>
-        <Button type="primary" onClick={this.onLoginClick}>
+      <div className="login">
+        <img src={logo} alt="logo" className="logo-img" />
+        <div className="login__input_wrap">
+          <InputItem
+            {...getFieldProps('mobileNo', {
+              rules: [{ validator: validatePhone }]
+            })}
+            maxLength="11"
+            type="number"
+            placeholder="请输入您的手机号"
+            clear
+          />
+        </div>
+        <span className="account-tip">*未注册手机号将自动创建账户</span>
+        <div className="login__input_wrap smsCode">
+          <InputItem
+            {...getFieldProps('smsCode', {
+              rules: [{ validator: validateSmsCode }]
+            })}
+            maxLength="4"
+            type="number"
+            placeholder="请输入短信验证码"
+            clear
+          />
+          <Button
+            type="primary"
+            onClick={this.onSmsCodeClick}
+            disabled={smsCodeCountDownSts}
+            style={{ width: '2.7rem', borderRadius: '0px', flexShrink: '0' }}
+          >
+            {smsCodeCountDownSts ? `${smsCodeTimes}"` : '验证码'}
+          </Button>
+        </div>
+
+        <Button
+          type="primary"
+          onClick={this.onLoginClick}
+          style={{ width: '6.6rem', marginTop: '1rem', borderRadius: '5rem' }}
+        >
           登录
         </Button>
       </div>

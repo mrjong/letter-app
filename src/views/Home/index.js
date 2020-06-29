@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import { createForm } from 'rc-form'
 import { queryBanner } from '../../redux/mail.redux'
 import { queryUserRecommend, queryUnreadPrompt } from '../../redux/user.redux'
+import { handleModalShow } from '../../redux/common.redux'
 import './style.less'
 import refreshIcon from '../../assets/images/home/shuaxin.png'
 import nanIcon from '../../assets/images/common/nan.png'
@@ -20,7 +21,7 @@ const featureList = [
     icon: 'index_icon',
     title: '写信',
     en: 'write',
-    path: '/write_letter'
+    path: '/post_confirm?userType=0'
   },
   {
     icon: 'index_icon',
@@ -46,12 +47,14 @@ const featureList = [
 @connect(
   (state) => ({
     mail: state.mail,
-    user: state.user
+    user: state.user,
+    common: state.common
   }),
   {
     queryBanner,
     queryUserRecommend,
-    queryUnreadPrompt
+    queryUnreadPrompt,
+    handleModalShow
   }
 )
 class Home extends Component {

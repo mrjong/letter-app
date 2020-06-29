@@ -1,0 +1,53 @@
+.letterPapper {
+  margin-top: 100px;
+
+  .paper-item-wrap {
+    display: block;
+    position: relative;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+    transition: transform 0.5s;
+  }
+
+  .paper-animation {
+    transform: scale(1.2);
+  }
+
+  .bottom-tip {
+    padding: 0 40px;
+    margin-top: 200px;
+
+    &-item {
+      font-size: 20px;
+      color: #333333;
+      margin-bottom: 10px;
+    }
+  }
+
+  .bottom-fixed-button {
+    width: 100%;
+    height: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 30px;
+    font-weight: bold;
+    background-color: #f7c644;
+    position: fixed;
+    left: 0;
+    bottom: 0;
+
+    .presentPrice-wrap {
+      margin-left: 25px;
+      font-size: 20px;
+      color: #a92121;
+    }
+
+    .presentPrice {
+      font-size: 36px;
+    }
+  }
+
+  .button-disabled {
+    opacity: 0.5;
+  }
+}

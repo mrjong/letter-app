@@ -21,6 +21,8 @@ const SELECT_CITY = 'SELECT_CITY'
 const USER_RECOMMEND = 'USER_RECOMMEND'
 const UNREAD_TIP = 'UNREAD_TIP'
 const USER_INFO = 'USER_INFO'
+const QUERY_FRIENDS = 'QUERY_FRIENDS'
+const QUERY_LETTER_PAPERS = 'QUERY_LETTER_PAPERS'
 
 //reducers
 export const user = (state = initialState, action) => {
@@ -39,6 +41,10 @@ export const user = (state = initialState, action) => {
       return { ...state, unreadTip: action.payload.unreadTip }
     case USER_INFO:
       return { ...state, userInfo: action.payload.userInfo }
+    case QUERY_FRIENDS:
+      return { ...state, friends: action.payload.friends }
+    case QUERY_LETTER_PAPERS:
+      return { ...state, letterPapers: action.payload.letterPapers }
     default:
       return state
   }
@@ -250,6 +256,62 @@ export const queryUserInfo = (params) => {
           userInfo: res
         }
       })
+    } catch (error) {
+      console.log(error)
+    }
+  }
+}
+
+//查询好友列表
+export const queryFriends = (pageIndex, callback) => {
+  return async (dispatch, getState) => {
+    try {
+      const res = await api.queryFriends({
+        page: pageIndex + ''
+      })
+      dispatch({
+        type: QUERY_FRIENDS,
+        payload: {
+          friends: res.userList
+        }
+      })
+      callback && callback()
+    } catch (error) {
+      console.log(error)
+    }
+  }
+}
+
+//查询用户拥有的信纸
+export const queryLetterPapers = () => {
+  return async (dispatch, getState) => {
+    try {
+      const res = await api.queryLetterPapers()
+      dispatch({
+        type: QUERY_LETTER_PAPERS,
+        payload: {
+          letterPapers: res.letterPaperList
+        }
+      })
+    } catch (error) {
+      console.log(error)
+    }
+  }
+}
+
+//信纸购买
+export const letterPaperPurchase = (id) => {
+  return async (dispatch, getState) => {
+    try {
+      const res = await api.letterPaperPurchase({
+        letterPaperId: id + ''
+      })
+      // dispatch({
+      //   type: QUERY_LETTER_PAPERS,
+      //   payload: {
+      //     letterPapers: res.letterPaperList
+      //   }
+      // })
     } catch (error) {
       console.log(error)
     }

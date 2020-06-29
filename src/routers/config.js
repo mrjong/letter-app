@@ -113,6 +113,12 @@ const config = [
         component: lazy(() => import('@/views/WriteLetter'))
       },
       {
+        path: '/post_confirm',
+        name: '信件选择',
+        icon: 'setting',
+        component: lazy(() => import('@/views/PostConfirm'))
+      },
+      {
         name: '404', //不给path属性也可以匹配404页面
         redirect: '/404'
       }

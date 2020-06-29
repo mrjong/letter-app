@@ -18,3 +18,8 @@ export const cancelFollowUser = (params) => request.post('/fans/cancelFollowUser
 
 export const queryUserInfo = (params) => request.post('/user/userDetail', params)
 
+export const queryFriends = (params) => request.post('/user/userFriend', params)
+
+export const queryLetterPapers = () => request.post('/user/paper/queryUserLetterPaper')
+
+export const letterPaperPurchase = (params) => request.post('/user/paper/letterPaperPurchase', params)

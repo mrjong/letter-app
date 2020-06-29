@@ -84,6 +84,18 @@
   border-style: solid;
   transform: rotate(45deg);
 }
+
+.arrow-top(@arrowsize, @borderColor, @borderWidth) {
+  content: ' ';
+  display: inline-block;
+  height: @arrowsize;
+  width: @arrowsize;
+  border-width: @borderWidth @borderWidth 0 0;
+  border-color: @borderColor;
+  border-style: solid;
+  transform: rotate(-45deg);
+}
+
 // 居中布局
 .center() {
   justify-content: center;

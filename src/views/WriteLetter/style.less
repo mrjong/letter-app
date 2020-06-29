@@ -1,8 +1,39 @@
+.writeLetter {
+  position: relative;
+
+  .letter__template--button {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 90px;
+    line-height: 90px;
+    font-size: 28px;
+    text-align: center;
+    opacity: 1;
+    color: #515a6e;
+    background-color: rgba(255, 255, 255, 0.2);
+    transition: opacity 0.2s linear, bottom 0.3s linear;
+
+    &::before {
+      position: absolute;
+      left: 49%;
+      top: 20px;
+      .arrow-top(0.08rem, #000,0.01rem);
+    }
+
+    &.animation {
+      bottom: 320px;
+      opacity: 0;
+    }
+  }
+}
+
 .mail__content--background {
   position: relative;
-  height: 600px;
+  min-height: 100vh;
   background-repeat: no-repeat;
-  background-size: cover;
+  background-size: 100% 100%;
   overflow: scroll;
 }
 
@@ -35,20 +66,4 @@
   font-family: 'Courier New', Courier, monospace;
   border: none;
   background-color: transparent;
-}
-
-.mail__cover--wrap {
-  display: flex;
-  width: 100%;
-  overflow: hidden;
-  justify-content: space-around;
-  margin-top: 400px;
-  z-index: 100;
-}
-
-
-.mail__cover--item {
-  width: 100px;
-  height: 140px;
-  // overflow: hidden;
 }

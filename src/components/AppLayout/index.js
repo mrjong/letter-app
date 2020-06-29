@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { TabBar } from 'antd-mobile'
-import { AppModal } from '@/components'
+import { Modal } from '@/components'
+import { connect } from 'react-redux'
 import './style.less'
 
 const tabConf = [
@@ -50,12 +51,16 @@ const renderIcon = (iconUrl) => {
   )
 }
 
+const mainNavs = ['/home', '/mails', '/friends', '/user']
+
+@connect((state) => state, {})
 class AppLayout extends Component {
   state = {
     selectedTab: window.location.pathname
   }
   render() {
     const { children } = this.props
+    // console.log(this.props)
     return (
       <div className="app__layout-container">
         <div className="app__layout-content">{children}</div>
@@ -66,6 +71,7 @@ class AppLayout extends Component {
             barTintColor="white"
             tabBarPosition="bottom"
             noRenderContent={true}
+            hidden={!mainNavs.includes(this.props.history.location.pathname)}
           >
             {tabConf.map((item) => (
               <TabBar.Item
@@ -86,7 +92,7 @@ class AppLayout extends Component {
             ))}
           </TabBar>
         </div>
-        <AppModal />
+        {/* <Modal {...this.props.common} /> */}
       </div>
     )
   }

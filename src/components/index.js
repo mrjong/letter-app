@@ -1,6 +1,6 @@
 import Loading from './Loading'
 import RouterGuard from './RouterGuard'
-import AppModal from './Modal'
+import Modal from './Modal'
 import AvatarUserInfo from './AvatarUserInfo'
 
-export { Loading, RouterGuard, AppModal, AvatarUserInfo }
+export { Loading, RouterGuard, Modal, AvatarUserInfo }
