@@ -22,7 +22,6 @@ const USER_RECOMMEND = 'USER_RECOMMEND'
 const UNREAD_TIP = 'UNREAD_TIP'
 const USER_INFO = 'USER_INFO'
 const QUERY_FRIENDS = 'QUERY_FRIENDS'
-const QUERY_LETTER_PAPERS = 'QUERY_LETTER_PAPERS'
 
 //reducers
 export const user = (state = initialState, action) => {
@@ -43,8 +42,6 @@ export const user = (state = initialState, action) => {
       return { ...state, userInfo: action.payload.userInfo }
     case QUERY_FRIENDS:
       return { ...state, friends: action.payload.friends }
-    case QUERY_LETTER_PAPERS:
-      return { ...state, letterPapers: action.payload.letterPapers }
     default:
       return state
   }
@@ -52,7 +49,7 @@ export const user = (state = initialState, action) => {
 
 //actions
 //上传头像
-export const handleUploadAvatar = (params) => {
+export const uploadAvatar = (params) => {
   return async (dispatch, getState) => {
     try {
       const res = await api.uploadImg(params)
@@ -71,7 +68,7 @@ export const handleUploadAvatar = (params) => {
 }
 
 //初始化查询地区信息
-export const handleInitQueryAreaList = (params) => {
+export const initQueryAreaList = (params) => {
   return async (dispatch, getState) => {
     try {
       const provRes = await api.queryAreaList(params)
@@ -98,7 +95,7 @@ export const handleInitQueryAreaList = (params) => {
 }
 
 //查询城市列表
-export const handleQueryCityList = (params) => {
+export const queryCityList = (params) => {
   return async (dispatch, getState) => {
     try {
       const cityRes = await api.queryAreaList({
@@ -119,7 +116,7 @@ export const handleQueryCityList = (params) => {
 }
 
 //选择城市
-export const handleSelectCity = (params) => {
+export const selectCity = (params) => {
   return async (dispatch, getState) => {
     dispatch({
       type: SELECT_CITY,
@@ -131,7 +128,7 @@ export const handleSelectCity = (params) => {
 }
 
 //用户注册
-export const handleUserRegister = ({ nickname, gender }) => {
+export const userRegister = ({ nickname, gender }) => {
   return async (dispatch, getState) => {
     const { selectedArea, headImg } = getState().user
     const mobileNo = localStorage.getItem('mobileNo')
@@ -149,6 +146,23 @@ export const handleUserRegister = ({ nickname, gender }) => {
         localStorage.setItem('tokenId', tokenId)
         window.ReactRouterHistory.push('/home')
       }
+    } catch (error) {
+      console.log(error)
+    }
+  }
+}
+
+//查询用户信息
+export const queryUserInfo = (params) => {
+  return async (dispatch, getState) => {
+    try {
+      const res = await api.queryUserInfo()
+      dispatch({
+        type: USER_INFO,
+        payload: {
+          userInfo: res
+        }
+      })
     } catch (error) {
       console.log(error)
     }
@@ -245,23 +259,6 @@ export const cancelFollowUser = (params) => {
   }
 }
 
-//查询用户信息
-export const queryUserInfo = (params) => {
-  return async (dispatch, getState) => {
-    try {
-      const res = await api.queryUserInfo()
-      dispatch({
-        type: USER_INFO,
-        payload: {
-          userInfo: res
-        }
-      })
-    } catch (error) {
-      console.log(error)
-    }
-  }
-}
-
 //查询好友列表
 export const queryFriends = (pageIndex, callback) => {
   return async (dispatch, getState) => {
@@ -276,42 +273,6 @@ export const queryFriends = (pageIndex, callback) => {
         }
       })
       callback && callback()
-    } catch (error) {
-      console.log(error)
-    }
-  }
-}
-
-//查询用户拥有的信纸
-export const queryLetterPapers = () => {
-  return async (dispatch, getState) => {
-    try {
-      const res = await api.queryLetterPapers()
-      dispatch({
-        type: QUERY_LETTER_PAPERS,
-        payload: {
-          letterPapers: res.letterPaperList
-        }
-      })
-    } catch (error) {
-      console.log(error)
-    }
-  }
-}
-
-//信纸购买
-export const letterPaperPurchase = (id) => {
-  return async (dispatch, getState) => {
-    try {
-      const res = await api.letterPaperPurchase({
-        letterPaperId: id + ''
-      })
-      // dispatch({
-      //   type: QUERY_LETTER_PAPERS,
-      //   payload: {
-      //     letterPapers: res.letterPaperList
-      //   }
-      // })
     } catch (error) {
       console.log(error)
     }

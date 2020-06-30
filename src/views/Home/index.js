@@ -2,9 +2,8 @@ import React, { Component } from 'react'
 import { Carousel } from 'antd-mobile'
 import { connect } from 'react-redux'
 import { createForm } from 'rc-form'
-import { queryBanner } from '../../redux/mail.redux'
+import { queryBanner, handleModalShow } from '../../redux/common.redux'
 import { queryUserRecommend, queryUnreadPrompt } from '../../redux/user.redux'
-import { handleModalShow } from '../../redux/common.redux'
 import './style.less'
 import refreshIcon from '../../assets/images/home/shuaxin.png'
 import nanIcon from '../../assets/images/common/nan.png'
@@ -22,7 +21,6 @@ const featureList = [
     title: '写信',
     en: 'write',
     path: '/post_confirm?userType=0'
-    // path:'/write_letter'
   },
   {
     icon: 'index_icon',
@@ -93,12 +91,12 @@ class Home extends Component {
 
   render() {
     const {
-      mail: { bannerList },
+      common: { bannerList },
       user: { userRecommends, unreadTip }
     } = this.props
     const { rotate } = this.state
     return (
-      <div className='home'>
+      <div className="home">
         {bannerList && bannerList.length > 0 && (
           <Carousel autoplay={false} infinite>
             {bannerList.map((item) => (

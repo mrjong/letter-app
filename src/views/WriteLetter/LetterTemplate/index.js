@@ -1,4 +1,5 @@
 import React from 'react'
+import { Toast } from 'antd-mobile'
 import './style.less'
 
 export default function LetterTemplate(props) {
@@ -21,6 +22,10 @@ export default function LetterTemplate(props) {
                   selectedPaper.letterPaperId === item.letterPaperId && 'active'
                 }`}
                 onClick={() => {
+                  if (item.status === 1) {
+                    Toast.info('请先购买')
+                    return
+                  }
                   onClick(item)
                 }}
               >

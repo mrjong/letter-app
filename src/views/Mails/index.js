@@ -2,13 +2,13 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { ListView } from 'antd-mobile'
 import { AvatarUserInfo } from '@/components'
+import { queryMailList } from '../../redux/mail.redux'
 import './style.less'
-import { queryMails } from '../../redux/mail.redux'
 
 let pageIndex = 1
 
 @connect((state) => state.mail, {
-  queryMails
+  queryMailList
 })
 class Mails extends Component {
   constructor(props) {
@@ -28,8 +28,8 @@ class Mails extends Component {
     pageIndex = 1
     // you can scroll to the specified position
     // setTimeout(() => this.lv.scrollTo(0, 120), 800);
-    this.props.queryMails(pageIndex, () => {
-      this.rData = [...this.props.mails]
+    this.props.queryMailList(pageIndex, () => {
+      this.rData = [...this.props.mailList]
       this.setState({
         dataSource: this.state.dataSource.cloneWithRows(this.rData),
         isLoading: false
@@ -42,9 +42,9 @@ class Mails extends Component {
       return
     }
     this.setState({ isLoading: true })
-    this.props.queryMails(++pageIndex, () => {
-      this.rData = [...this.rData, ...this.props.mails]
-      if (this.props.mails.length <= 0) {
+    this.props.queryMailList(++pageIndex, () => {
+      this.rData = [...this.rData, ...this.props.mailList]
+      if (this.props.mailList.length <= 0) {
         this.setState({
           isLoading: false,
           hasMore: false

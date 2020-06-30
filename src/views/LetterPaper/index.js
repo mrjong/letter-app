@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Carousel } from 'antd-mobile'
 import { connect } from 'react-redux'
-import { queryLetterPapers, letterPaperPurchase } from '../../redux/user.redux'
+import { queryLetterPapers, letterPaperPurchase } from '../../redux/mail.redux'
 import './style.less'
 
 @connect((state) => state.user, {

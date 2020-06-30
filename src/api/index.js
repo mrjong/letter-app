@@ -1,9 +1,9 @@
-import * as login from './login'
+import * as common from './common'
 import * as user from './user'
 import * as mail from './mail'
 
 export default {
-  ...login,
+  ...common,
   ...user,
   ...mail
 }

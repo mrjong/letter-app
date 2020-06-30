@@ -2,21 +2,21 @@ import React, { Component } from 'react'
 import { ImagePicker, Toast, Modal, List } from 'antd-mobile'
 import { connect } from 'react-redux'
 import {
-  handleUploadAvatar,
-  handleInitQueryAreaList,
-  handleUserRegister,
-  handleQueryCityList,
-  handleSelectCity
+  uploadAvatar,
+  initQueryAreaList,
+  userRegister,
+  queryCityList,
+  selectCity
 } from '../../redux/user.redux'
 import './style.less'
 import avatarDefault from '../../assets/images/common/avatar_default.jpeg'
 
 @connect((state) => state.user, {
-  handleUploadAvatar,
-  handleInitQueryAreaList,
-  handleUserRegister,
-  handleQueryCityList,
-  handleSelectCity
+  uploadAvatar,
+  initQueryAreaList,
+  userRegister,
+  queryCityList,
+  selectCity
 })
 class ImproveProfile extends Component {
   state = {
@@ -34,27 +34,27 @@ class ImproveProfile extends Component {
     this.setState({
       files
     })
-    this.props.handleUploadAvatar(formData)
+    this.props.uploadAvatar(formData)
   }
   componentDidMount() {
-    this.props.handleInitQueryAreaList({
+    this.props.initQueryAreaList({
       parentId: '-1'
     })
   }
 
   onProvinceChange = (item) => {
-    this.props.handleQueryCityList(item)
+    this.props.queryCityList(item)
   }
 
   onCityChange = (item) => {
-    this.props.handleSelectCity(item)
+    this.props.selectCity(item)
     this.onClosePikerModal()
   }
 
   onUserRegister = () => {
     const { nickname, gender } = this.state
     if (this.validateForm()) {
-      this.props.handleUserRegister({
+      this.props.userRegister({
         nickname,
         gender
       })

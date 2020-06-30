@@ -1,14 +1,6 @@
 import request from '@/utils/request'
 
-export const uploadImg = (params) => request.post('/user/uploadHeadImg', params)
-
-export const queryAreaList = (params) => request.post('/area/queryAreaList', params)
-
-export const userRegister = (params) => request.post('/user/userRegister', params)
-
 export const userRecommend = () => request.post('/user/userRecommend')
-
-export const unreadPrompt = (params) => request.post('/letter/unreadPrompt', params)
 
 export const followUser = (params) => request.post('/fans/followUser', params)
 
@@ -20,6 +12,4 @@ export const queryUserInfo = (params) => request.post('/user/userDetail', params
 
 export const queryFriends = (params) => request.post('/user/userFriend', params)
 
-export const queryLetterPapers = () => request.post('/user/paper/queryUserLetterPaper')
 
-export const letterPaperPurchase = (params) => request.post('/user/paper/letterPaperPurchase', params)
