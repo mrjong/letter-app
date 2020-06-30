@@ -22,6 +22,7 @@ const featureList = [
     title: '写信',
     en: 'write',
     path: '/post_confirm?userType=0'
+    // path:'/write_letter'
   },
   {
     icon: 'index_icon',
@@ -97,7 +98,7 @@ class Home extends Component {
     } = this.props
     const { rotate } = this.state
     return (
-      <div>
+      <div className='home'>
         {bannerList && bannerList.length > 0 && (
           <Carousel autoplay={false} infinite>
             {bannerList.map((item) => (

@@ -7,3 +7,7 @@ export const queryMails = (params) => request.post('/content/queryContent', para
 export const writeLettersCheck = (params) => request.post('/letter/writeLettersCheck', params)
 
 export const queryPostAddress = (params) => request.post('/user/queryUserAddress', params)
+
+export const lettersSave = (params) => request.post('/letter/lettersSave', params)
+
+export const lettersDelete = (params) => request.post('/letter/lettersDelete', params)

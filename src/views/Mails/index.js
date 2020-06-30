@@ -94,8 +94,8 @@ class Mails extends Component {
           ref={(el) => (this.lv = el)}
           dataSource={this.state.dataSource}
           renderFooter={() => (
-            <div style={{ padding: 30, textAlign: 'center' }}>
-              {this.state.isLoading ? '加载中...' : '我是有底线的~'}
+            <div style={{ padding: 20, textAlign: 'center' }}>
+              {this.state.isLoading ? '加载中...' : '我是有底线的'}
             </div>
           )}
           renderRow={row}

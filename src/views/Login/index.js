@@ -109,7 +109,7 @@ class Login extends Component {
             type="primary"
             onClick={this.onSmsCodeClick}
             disabled={smsCodeCountDownSts}
-            style={{ width: '2.7rem', borderRadius: '0px', flexShrink: '0' }}
+            style={{ width: '2.8rem', borderRadius: '0px', flexShrink: '0' }}
           >
             {smsCodeCountDownSts ? `${smsCodeTimes}"` : '验证码'}
           </Button>

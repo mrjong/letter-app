@@ -60,7 +60,7 @@ function checkBackendCode(response) {
         return response.data.data
       case '0003':
         localStorage.clear()
-        Toast.info('登录超时，请重新登录~')
+        Toast.info('登录超时，请重新登录')
         let timer = setTimeout(() => {
           window.ReactRouterHistory.replace('/login')
           clearTimeout(timer)
@@ -103,7 +103,7 @@ instance.interceptors.response.use(
     if (error.response) {
       return Promise.reject({
         code: 'fail',
-        msg: '系统开小差了~'
+        msg: '系统开小差了'
       })
     } else {
       //超时timeout

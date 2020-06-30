@@ -14,7 +14,7 @@ export const common = (state = initialState, action) => {
     case MODAL_SHOW:
       return { ...state, modalShow: action.payload.modalShow, modalType: action.payload.modalType }
     case MODAL_HIDE:
-      return { ...state, ...action.payload }
+      return { ...state, modalShow: action.payload.modalShow }
     default:
       return state
   }
@@ -24,14 +24,21 @@ export const common = (state = initialState, action) => {
 //处理全局弹窗显示/隐藏
 export const handleModalShow = (params) => {
   return async (dispatch, getState) => {
-    console.log(getState())
     dispatch({
       type: MODAL_SHOW,
       payload: {
-        modalShow: !getState().common.modalShow,
+        modalShow: true,
         modalType: params.type
       }
     })
   }
 }
 
+export const handleModalHide = (params) => {
+  return {
+    type: MODAL_HIDE,
+    payload: {
+      modalShow: false
+    }
+  }
+}

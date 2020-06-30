@@ -23,7 +23,7 @@ const navList = [
     icon: 'me_icon',
     title: '信纸',
     subTitle: renderSubTitle,
-    path: '',
+    path: '/letter_paper',
     extra: ''
   },
   {

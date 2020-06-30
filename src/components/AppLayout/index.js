@@ -53,14 +53,13 @@ const renderIcon = (iconUrl) => {
 
 const mainNavs = ['/home', '/mails', '/friends', '/user']
 
-@connect((state) => state, {})
+@connect((state) => state.common, {})
 class AppLayout extends Component {
   state = {
     selectedTab: window.location.pathname
   }
   render() {
     const { children } = this.props
-    // console.log(this.props)
     return (
       <div className="app__layout-container">
         <div className="app__layout-content">{children}</div>
@@ -92,7 +91,7 @@ class AppLayout extends Component {
             ))}
           </TabBar>
         </div>
-        {/* <Modal {...this.props.common} /> */}
+        <Modal {...this.props.common} />
       </div>
     )
   }
