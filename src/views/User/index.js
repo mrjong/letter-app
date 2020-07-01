@@ -20,28 +20,35 @@ const renderSubTitle = ({ index, addressDetail, letterPaperCount }) => {
 
 const navList = [
   {
-    icon: 'me_icon',
+    icon: require('../../assets/images/user/me_icon5.png'),
+    title: '我的动态',
+    subTitle: '',
+    path: '/my_dynamic',
+    extra: ''
+  },
+  {
+    icon: require('../../assets/images/user/me_icon1.png'),
     title: '信纸',
     subTitle: renderSubTitle,
     path: '/letter_paper',
     extra: ''
   },
   {
-    icon: 'me_icon',
+    icon: require('../../assets/images/user/me_icon2.png'),
     title: '收信地址',
     subTitle: renderSubTitle,
     path: '',
     extra: '编辑'
   },
   {
-    icon: 'me_icon',
+    icon: require('../../assets/images/user/me_icon3.png'),
     title: '通知',
     subTitle: '',
     path: '',
     extra: ''
   },
   {
-    icon: 'me_icon',
+    icon: require('../../assets/images/user/me_icon4.png'),
     title: '关于信友阁',
     subTitle: '',
     path: '',
@@ -100,7 +107,7 @@ class User extends Component {
                 </div>
               </div>
               <p className="total">
-                粉丝 {fansCount} 丨收信 {sendCount}丨写信 {receiveCount}
+                粉丝 {fansCount} 丨 收信 {sendCount} 丨 写信 {receiveCount}
               </p>
               <p className="nickname">{autograph}</p>
             </div>
@@ -117,11 +124,7 @@ class User extends Component {
                   }}
                 >
                   <div className="label">
-                    <img
-                      src={require(`../../assets/images/user/${item.icon}${index + 1}.png`)}
-                      className="icon"
-                      alt="icon"
-                    />
+                    <img src={item.icon} className="icon" alt="icon" />
                     <span>{item.title}</span>
                     {item.subTitle && item.subTitle({ index, addressDetail, letterPaperCount })}
                   </div>

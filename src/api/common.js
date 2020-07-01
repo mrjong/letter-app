@@ -12,4 +12,6 @@ export const queryAreaList = (params) => request.post('/area/queryAreaList', par
 
 export const uploadImg = (params) => request.post('/user/uploadHeadImg', params)
 
+export const uploadContentImg = (params) => request.post('/content/uploadContentImg', params)
+
 export const unreadPrompt = (params) => request.post('/letter/unreadPrompt', params)

@@ -1,5 +1,6 @@
 import api from '../api'
 import { handleModalHide } from './common.redux'
+import { Toast } from 'antd-mobile'
 
 const initialState = {
   mailList: [],
@@ -15,6 +16,12 @@ const CREATE_LETTER_ID = 'CREATE_LETTER_ID'
 const SAVE_WRITELETTER_CONTENT = 'SAVE_WRITELETTER_CONTENT'
 const SAVE_SELECTED_PAPER = 'SAVE_SELECTED_PAPER'
 const QUERY_LETTER_PAPERS = 'QUERY_LETTER_PAPERS'
+const QUERY_OUTBOX_LIST = 'QUERY_OUTBOX_LIST'
+const QUERY_INBOX_LIST = 'QUERY_INBOX_LIST'
+const QUERY_DRAFTBOX_LIST = 'QUERY_DRAFTBOX_LIST'
+const QUERY_DYNAMIC_DETAIL = 'QUERY_DYNAMIC_DETAIL'
+const UPLOAD_SHARE_IMG_SUCCESS = 'UPLOAD_SHARE_IMG_SUCCESS'
+const DYNAMIC_EDIT_ID = 'DYNAMIC_EDIT_ID'
 
 //reducers
 export const mail = (state = initialState, action) => {
@@ -29,6 +36,18 @@ export const mail = (state = initialState, action) => {
       return { ...state, selectedPaper: action.payload.selectedPaper }
     case QUERY_LETTER_PAPERS:
       return { ...state, letterPapers: action.payload.letterPapers }
+    case QUERY_OUTBOX_LIST:
+      return { ...state, outboxList: action.payload.outboxList }
+    case QUERY_INBOX_LIST:
+      return { ...state, inboxList: action.payload.inboxList }
+    case QUERY_DRAFTBOX_LIST:
+      return { ...state, draftboxList: action.payload.draftboxList }
+    case QUERY_DYNAMIC_DETAIL:
+      return { ...state, dynamicDetail: action.payload.dynamicDetail }
+    case UPLOAD_SHARE_IMG_SUCCESS:
+      return { ...state, dynamicShareImg: action.payload.dynamicShareImg }
+    case DYNAMIC_EDIT_ID:
+      return { ...state, dynamicShareId: action.payload.dynamicShareId }
     default:
       return state
   }
@@ -144,7 +163,7 @@ export const letterPaperPurchase = (id) => {
 }
 
 //信件内容提交后台保存
-export const lettersSave = () => {
+export const lettersSave = (callback) => {
   return async (dispatch, getState) => {
     const { writeLetterContent, letterId, selectedPaper } = getState().mail
     try {
@@ -154,7 +173,7 @@ export const lettersSave = () => {
         letterId
       })
       dispatch(handleModalHide())
-      window.ReactRouterHistory.push('/home')
+      callback && callback()
     } catch (error) {
       console.log(error)
     }
@@ -162,15 +181,170 @@ export const lettersSave = () => {
 }
 
 //删除信件
-export const lettersDelete = () => {
+export const lettersDelete = (id, callback) => {
   return async (dispatch, getState) => {
-    const { letterId } = getState().mail
     try {
       await api.lettersDelete({
-        letterId
+        letterId: id
       })
       dispatch(handleModalHide())
-      window.ReactRouterHistory.push('/home')
+      callback && callback()
+    } catch (error) {
+      console.log(error)
+    }
+  }
+}
+
+//查询发件箱列表
+export const queryOutboxList = () => {
+  return async (dispatch, getState) => {
+    try {
+      const res = await api.queryOutboxList()
+      dispatch({
+        type: QUERY_OUTBOX_LIST,
+        payload: {
+          outboxList: res.letterList
+        }
+      })
+    } catch (error) {
+      console.log(error)
+    }
+  }
+}
+
+//查询收件箱列表
+export const queryInboxList = () => {
+  return async (dispatch, getState) => {
+    try {
+      const res = await api.queryInboxList()
+      dispatch({
+        type: QUERY_INBOX_LIST,
+        payload: {
+          inboxList: res.letterList
+        }
+      })
+    } catch (error) {
+      console.log(error)
+    }
+  }
+}
+
+//查询草稿箱列表
+export const queryDraftboxList = () => {
+  return async (dispatch, getState) => {
+    try {
+      const res = await api.queryDraftboxList()
+      dispatch({
+        type: QUERY_DRAFTBOX_LIST,
+        payload: {
+          draftboxList: res.letterList
+        }
+      })
+    } catch (error) {
+      console.log(error)
+    }
+  }
+}
+
+//信件寄出
+export const letterSendOut = () => {
+  return async (dispatch, getState) => {
+    try {
+      const res = await api.letterSendOut({
+        letterId: getState().mail.letterId
+      })
+      window.ReactRouterHistory.replace('/outbox')
+    } catch (error) {
+      console.log(error)
+    }
+  }
+}
+
+//查询动态详情
+export const queryDynamicDetail = (id) => {
+  return async (dispatch, getState) => {
+    try {
+      const res = await api.queryDynamicDetail({
+        contentId: id
+      })
+      dispatch({
+        type: QUERY_DYNAMIC_DETAIL,
+        payload: {
+          dynamicDetail: {
+            ...res.content,
+            commentList: res.contentCommentList
+          }
+        }
+      })
+    } catch (error) {
+      console.log(error)
+    }
+  }
+}
+
+//评论动态
+export const commentDynamic = (id, comment, callback) => {
+  return async (dispatch, getState) => {
+    try {
+      const res = await api.commentDynamic({
+        contentId: id,
+        comment
+      })
+      callback && callback()
+    } catch (error) {
+      console.log(error)
+    }
+  }
+}
+
+//分享配图
+export const dynamicEditCheck = (callback) => {
+  return async (dispatch, getState) => {
+    try {
+      const res = await api.dynamicEditCheck()
+      dispatch({
+        type: DYNAMIC_EDIT_ID,
+        payload: {
+          dynamicShareId: res.contentId
+        }
+      })
+      callback && callback()
+    } catch (error) {
+      console.log(error)
+    }
+  }
+}
+
+//分享配图
+export const uploadContentImg = (params) => {
+  return async (dispatch, getState) => {
+    try {
+      const res = await api.uploadContentImg(params)
+      dispatch({
+        type: UPLOAD_SHARE_IMG_SUCCESS,
+        payload: {
+          dynamicShareImg: res.contentImgPath
+        }
+      })
+    } catch (error) {
+      console.log(error)
+    }
+  }
+}
+
+//发表动态
+export const publishDynamic = (params, callback) => {
+  return async (dispatch, getState) => {
+    try {
+      const res = await api.publishDynamic(params)
+      // dispatch({
+      //   type: UPLOAD_SHARE_IMG_SUCCESS,
+      //   payload: {
+      //     dynamicShareImg: res.contentImgPath
+      //   }
+      // })
+      Toast.info('发布成功')
+      callback && callback()
     } catch (error) {
       console.log(error)
     }

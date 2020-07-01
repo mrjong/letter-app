@@ -40,10 +40,10 @@ const config = [
         component: lazy(() => import('@/views/Mails'))
       },
       {
-        path: '/mail_detail',
-        name: '阁中信',
+        path: '/dynamic_detail/:dynamicId',
+        name: '动态详情',
         icon: 'setting',
-        component: lazy(() => import('@/views/MailDetail'))
+        component: lazy(() => import('@/views/DynamicDetail'))
       },
       {
         path: '/friends',
@@ -52,8 +52,8 @@ const config = [
         component: lazy(() => import('@/views/Friends'))
       },
       {
-        path: '/friend_detail',
-        name: '阁中友',
+        path: '/friend_detail/:userId',
+        name: '好友详情',
         icon: 'setting',
         component: lazy(() => import('@/views/FriendDetail'))
       },
@@ -65,7 +65,7 @@ const config = [
       },
       {
         path: '/user_info',
-        name: '个人中心',
+        name: '修改个人信息',
         icon: 'setting',
         component: lazy(() => import('@/views/UserInfo'))
       },
@@ -117,6 +117,18 @@ const config = [
         name: '信件选择',
         icon: 'setting',
         component: lazy(() => import('@/views/PostConfirm'))
+      },
+      {
+        path: '/my_dynamic',
+        name: '我的动态',
+        icon: 'setting',
+        component: lazy(() => import('@/views/MyDynamic'))
+      },
+      {
+        path: '/dynamic_edit',
+        name: '发表动态',
+        icon: 'setting',
+        component: lazy(() => import('@/views/DynamicEdit'))
       },
       {
         name: '404', //不给path属性也可以匹配404页面

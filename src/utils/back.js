@@ -9,17 +9,23 @@ export const changeHistoryState = () => {
   }
 }
 window.addEventListener('popstate', () => {
+  /**首页拦截 */
+  if (window.location.pathname === '/home') {
+    console.log(666)
+    // window.history.pushState(null, null, document.URL);
+    return;
+  }
   changeHistoryState()
   switch (window.location.pathname) {
     case '/home':
     case '/mails':
     case '/friends':
     case '/user':
-      store.dispatch(
-        handleModalShow({
-          type: 'logout'
-        })
-      )
+      // store.dispatch(
+      //   handleModalShow({
+      //     type: 'logout'
+      //   })
+      // )
       break
     case '/write_letter':
       store.dispatch(

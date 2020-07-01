@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Toast, Tabs } from 'antd-mobile'
-import { saveWriteLetterContent, saveSelectedPaper, queryLetterPapers } from '../../redux/mail.redux'
+import { saveWriteLetterContent, saveSelectedPaper, queryLetterPapers, lettersSave } from '../../redux/mail.redux'
+import { handleModalShow } from '../../redux/common.redux'
 import LetterTemplate from './LetterTemplate'
 import './style.less'
 
@@ -13,7 +14,9 @@ import './style.less'
   {
     queryLetterPapers,
     saveWriteLetterContent,
-    saveSelectedPaper
+    saveSelectedPaper,
+    lettersSave,
+    handleModalShow
   }
 )
 class WriteLetter extends Component {
@@ -59,7 +62,17 @@ class WriteLetter extends Component {
     this.props.saveWriteLetterContent(e.target.value)
   }
 
-  handleSubmitMail = () => {}
+  handleSubmitMail = () => {
+    if (!this.state.content) {
+      Toast.info('您还未书写内容哦')
+      return
+    }
+    this.props.lettersSave(() => {
+      this.props.handleModalShow({
+        type: 'postConfirm'
+      })
+    })
+  }
 
   togglePaper = (item) => {
     //让组件完全受控(props)
@@ -128,7 +141,9 @@ class WriteLetter extends Component {
               )
             })}
         </Tabs> */}
-        <button className="letter__postout_button">寄出</button>
+        <button className="letter__postout_button" onClick={this.handleSubmitMail}>
+          寄出
+        </button>
         <button className={`letter__template--button ${templateShow && 'animation'}`} onClick={this.toggleTemplateShow}>
           信纸选择
         </button>

@@ -161,7 +161,13 @@ class Home extends Component {
               userRecommends.length > 0 &&
               userRecommends.map((item, index) => {
                 return (
-                  <div className="home__recommend--item" key={index}>
+                  <div
+                    className="home__recommend--item"
+                    key={index}
+                    onClick={() => {
+                      this.navigateTo(`/friend_detail/${item.userId}`)
+                    }}
+                  >
                     <div className="home__recommend--item-avatarWrap">
                       <img src={item.headImg} alt="" className="home__recommend--item-avatar" />
                     </div>

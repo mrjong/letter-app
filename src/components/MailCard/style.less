@@ -1,0 +1,29 @@
+.mail-card {
+  padding: 36px 28px 32px;
+  background-color: #fff;
+  box-sizing: border-box;
+  overflow: hidden;
+  &__top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    &--avatar {
+      width: 170px;
+    }
+    &--type {
+      font-size: 24px;
+      font-weight: bold;
+      color: #715c2e;
+    }
+  }
+  &__center {
+    margin: 20px 0 28px;
+    width: 100%;
+    // .ellipsisText(100%);
+    .ellipsisLn(2);
+  }
+  &__bottom {
+    display: flex;
+    justify-content: flex-end;
+  }
+}

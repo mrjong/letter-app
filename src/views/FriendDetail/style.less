@@ -1,0 +1,177 @@
+.friend__detail {
+  &--brief {
+    display: flex;
+    justify-content: space-between;
+    background-color: #595e4a;
+    padding: 50px 40px 70px;
+    box-sizing: border-box;
+    color: #fff;
+    position: relative;
+
+    .avatar-wrap {
+      display: flex;
+      color: #fff;
+      font-size: 22px;
+    }
+
+    .avatar {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      overflow: hidden;
+      margin-right: 37px;
+    }
+    .edit {
+      font-size: 24px;
+      font-weight: bold;
+      margin-top: 20px;
+      &::after {
+        margin: 0 0 3px 12px;
+        .arrow-right(0.1rem,#595e4a,0.02rem);
+      }
+    }
+    .name {
+      font-size: 36px;
+      font-weight: bold;
+      display: inline-block;
+      .ellipsisText(220px);
+    }
+    .age {
+      border-radius: 15px;
+      background-color: #ad4c2e;
+      padding: 2px 10px 2px 32px;
+      box-sizing: border-box;
+      margin-right: 8px;
+      background-size: 12px 24px;
+      background-repeat: no-repeat;
+      background-position: 15px 3px;
+      &.nan {
+        background-image: url('../../assets/images/common/nan_white.png');
+      }
+      &.nv {
+        background-image: url('../../assets/images/common/nv_white.png');
+      }
+    }
+    .city {
+      border-radius: 15px;
+      background-color: #eae7d9;
+      padding: 2px 10px;
+      box-sizing: border-box;
+      color: #595e4a;
+    }
+    .total {
+      font-size: 24px;
+      margin: 32px 0 12px;
+    }
+    .nickname {
+      font-size: 30px;
+      font-weight: bold;
+      .ellipsisText(300px);
+    }
+
+    .button-wrap {
+      position: absolute;
+      right: 40px;
+      bottom: 70px;
+      .operate-button {
+        padding: 8px 32px;
+        box-sizing: border-box;
+        background-color: #585e48;
+        font-size: 24px;
+        margin-left: 18px;
+        border-radius: 6px;
+        border: 1px solid #fff;
+        font-weight: bold;
+        color: #fff;
+      }
+    }
+  }
+
+  &--list {
+    padding: 30px 48px 0 32px;
+
+    &-title {
+      font-size: 36px;
+      color: #595e4a;
+      margin-bottom: 25px;
+      font-weight: bold;
+    }
+  }
+
+  &--item {
+    width: 100%;
+    overflow: hidden;
+    margin-bottom: 28px;
+    background-color: #fff;
+    color: #595e4a;
+    padding: 15px 32px 20px;
+    box-sizing: border-box;
+
+    &-cover {
+      position: relative;
+      margin: 30px 0 22px;
+      img {
+        display: block;
+        width: 100%;
+        height: 240px;
+      }
+    }
+
+    &-label {
+      position: absolute;
+      left: 40px;
+      top: -10px;
+      width: 120px;
+      height: 52px;
+      line-height: 54px;
+      text-align: center;
+      background-image: url('../../assets/images/mails/biaoqian.png');
+      background-size: cover;
+      background-repeat: no-repeat;
+      font-size: 24px;
+      font-weight: bold;
+      color: #fff;
+    }
+
+    &-content {
+      width: 100%;
+      font-size: 28px;
+      color: #333333;
+      .ellipsisLn(2);
+    }
+
+    &-bottom {
+      display: flex;
+      justify-content: space-between;
+      text-align: right;
+      font-size: 24px;
+      color: #999999;
+      margin-top: 10px;
+    }
+
+    &-views {
+      margin-right: 68px;
+      background-image: url('../../assets/images/mails/shuji.png');
+      background-size: 24px 20px;
+      background-position: 0px 6px;
+      background-repeat: no-repeat;
+      padding-left: 40px;
+    }
+
+    &-likes {
+      background-image: url('../../assets/images/mails/zan.png');
+      background-size: 24px 20px;
+      background-position: 0px 6px;
+      background-repeat: no-repeat;
+      padding-left: 40px;
+    }
+
+    &-delete {
+      background-image: url('../../assets/images/mails/delete.png');
+      background-size: 24px 20px;
+      background-position: 0px 6px;
+      background-repeat: no-repeat;
+      padding-left: 40px;
+    }
+  }
+}

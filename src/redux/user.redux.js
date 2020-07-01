@@ -1,4 +1,5 @@
 import api from '../api'
+import { Toast } from 'antd-mobile'
 
 const initialState = {
   avatar: '',
@@ -10,7 +11,8 @@ const initialState = {
   selectedArea: [],
   userRecommends: [],
   unreadTip: false,
-  userInfo: {}
+  userInfo: {},
+  friendDetail: {}
 }
 
 //types
@@ -22,6 +24,8 @@ const USER_RECOMMEND = 'USER_RECOMMEND'
 const UNREAD_TIP = 'UNREAD_TIP'
 const USER_INFO = 'USER_INFO'
 const QUERY_FRIENDS = 'QUERY_FRIENDS'
+const QUERY_FANSLIST = 'QUERY_FANSLIST'
+const QUERY_FRIEND_DETAIL = 'QUERY_FRIEND_DETAIL'
 
 //reducers
 export const user = (state = initialState, action) => {
@@ -42,6 +46,10 @@ export const user = (state = initialState, action) => {
       return { ...state, userInfo: action.payload.userInfo }
     case QUERY_FRIENDS:
       return { ...state, friends: action.payload.friends }
+    case QUERY_FANSLIST:
+      return { ...state, fansUserList: action.payload.fansUserList }
+    case QUERY_FRIEND_DETAIL:
+      return { ...state, friendDetail: action.payload.friendDetail }
     default:
       return state
   }
@@ -206,35 +214,14 @@ export const queryUnreadPrompt = (params) => {
 }
 
 //关注用户
-export const followUser = (params) => {
+export const followUser = (id, callback) => {
   return async (dispatch, getState) => {
     try {
-      const res = await api.followUser()
-      // const { areaList: citys = [] } = cityRes
-      // dispatch({
-      //   type: USER_RECOMMEND,
-      //   payload: {
-      //     userRecommends
-      //   }
-      // })
-    } catch (error) {
-      console.log(error)
-    }
-  }
-}
-
-//关注列表查询
-export const fansUserList = (params) => {
-  return async (dispatch, getState) => {
-    try {
-      const res = await api.fansUserList()
-      // const { areaList: citys = [] } = cityRes
-      // dispatch({
-      //   type: USER_RECOMMEND,
-      //   payload: {
-      //     userRecommends
-      //   }
-      // })
+      await api.followUser({
+        targetUserId: id
+      })
+      Toast.info('关注成功')
+      callback && callback()
     } catch (error) {
       console.log(error)
     }
@@ -242,17 +229,31 @@ export const fansUserList = (params) => {
 }
 
 //取消关注
-export const cancelFollowUser = (params) => {
+export const cancelFollowUser = (id, callback) => {
   return async (dispatch, getState) => {
     try {
-      const res = await api.cancelFollowUser()
-      // const { areaList: citys = [] } = cityRes
-      // dispatch({
-      //   type: USER_RECOMMEND,
-      //   payload: {
-      //     userRecommends
-      //   }
-      // })
+      await api.cancelFollowUser({
+        targetUserId: id
+      })
+      Toast.info('取消成功')
+      callback && callback()
+    } catch (error) {
+      console.log(error)
+    }
+  }
+}
+
+//关注列表查询
+export const queryFansUserList = (params) => {
+  return async (dispatch, getState) => {
+    try {
+      const res = await api.fansUserList()
+      dispatch({
+        type: QUERY_FANSLIST,
+        payload: {
+          fansUserList: res.fansUserList
+        }
+      })
     } catch (error) {
       console.log(error)
     }
@@ -273,6 +274,25 @@ export const queryFriends = (pageIndex, callback) => {
         }
       })
       callback && callback()
+    } catch (error) {
+      console.log(error)
+    }
+  }
+}
+
+//查询好友详情
+export const queryFriendDetail = (id) => {
+  return async (dispatch, getState) => {
+    try {
+      const res = await api.queryFriendDetail({
+        userId: id
+      })
+      dispatch({
+        type: QUERY_FRIEND_DETAIL,
+        payload: {
+          friendDetail: res
+        }
+      })
     } catch (error) {
       console.log(error)
     }

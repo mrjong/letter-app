@@ -1,31 +1,20 @@
-.mails__list {
-  padding: 30px 40px 30px;
-  overflow: scroll;
-  margin-bottom: 100px;
-  &--item {
+.my__dynamic--list {
+  padding: 30px 48px 0 32px;
+
+  &-title {
+    font-size: 36px;
+    color: #595e4a;
+    margin-bottom: 25px;
+    font-weight: bold;
+  }
+  .my__dynamic--item {
     width: 100%;
     overflow: hidden;
     margin-bottom: 28px;
     background-color: #fff;
     color: #595e4a;
-    padding: 40px 32px 30px 25px;
+    padding: 15px 32px 20px;
     box-sizing: border-box;
-
-    &-top {
-      display: flex;
-      justify-content: space-between;
-    }
-
-    &-button {
-      width: 110px;
-      height: 40px;
-      font-size: 24px;
-      font-weight: bold;
-      background-color: #fff;
-      position: relative;
-      border: 1px solid #585e48;
-      border-radius: 5px;
-    }
 
     &-cover {
       position: relative;
@@ -61,17 +50,19 @@
     }
 
     &-bottom {
+      display: flex;
+      justify-content: space-between;
       text-align: right;
       font-size: 24px;
       color: #999999;
-      margin-top: 20px;
+      margin-top: 10px;
     }
 
     &-views {
       margin-right: 68px;
       background-image: url('../../assets/images/mails/shuji.png');
       background-size: 24px 20px;
-      background-position: 0px 4px;
+      background-position: 0px 6px;
       background-repeat: no-repeat;
       padding-left: 40px;
     }
@@ -79,27 +70,17 @@
     &-likes {
       background-image: url('../../assets/images/mails/zan.png');
       background-size: 24px 20px;
-      background-position: 0px 4px;
+      background-position: 0px 6px;
       background-repeat: no-repeat;
       padding-left: 40px;
     }
-  }
 
-  .share-button {
-    width: 238px;
-    height: 74px;
-    font-size: 28px;
-    color: #fff;
-    background-color: #595e4a;
-    border-radius: 36px;
-    position: fixed;
-    right: 15px;
-    bottom: 140px;
-    font-weight: bold;
-    z-index: 99;
-  }
-
-  .am-list-body {
-    background-color: transparent;
+    &-delete {
+      background-image: url('../../assets/images/mails/delete.png');
+      background-size: 24px 20px;
+      background-position: 0px 6px;
+      background-repeat: no-repeat;
+      padding-left: 40px;
+    }
   }
 }

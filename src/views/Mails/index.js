@@ -2,13 +2,14 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { ListView } from 'antd-mobile'
 import { AvatarUserInfo } from '@/components'
-import { queryMailList } from '../../redux/mail.redux'
+import { queryMailList, dynamicEditCheck } from '../../redux/mail.redux'
 import './style.less'
 
 let pageIndex = 1
 
 @connect((state) => state.mail, {
-  queryMailList
+  queryMailList,
+  dynamicEditCheck
 })
 class Mails extends Component {
   constructor(props) {
@@ -59,6 +60,12 @@ class Mails extends Component {
     })
   }
 
+  goDynamicEdit = () => {
+    this.props.dynamicEditCheck(() => {
+      this.props.history.push('/dynamic_edit')
+    })
+  }
+
   render() {
     let index = this.rData.length - 1
     const row = (rowData, sectionID, rowID) => {
@@ -70,7 +77,12 @@ class Mails extends Component {
         <div className="mails__list--item" key={rowID}>
           <div className="mails__list--item-top">
             <div className="mails__list--item-avatar">
-              <AvatarUserInfo headImgPath={obj.headImgPath} penName={obj.penName} address={obj.address} />
+              <AvatarUserInfo
+                avatar={obj.headImgPath}
+                penName={obj.penName}
+                address={obj.address}
+                userId={obj.userId}
+              />
             </div>
             <button className="mails__list--item-button">写信</button>
           </div>
@@ -109,6 +121,9 @@ class Mails extends Component {
           onEndReached={this.onEndReached}
           onEndReachedThreshold={10}
         />
+        <button className="share-button" onClick={this.goDynamicEdit}>
+          +写一条分享吧
+        </button>
       </div>
     )
   }

@@ -66,7 +66,7 @@ class Friends extends Component {
       return (
         <div className="friends__list--item" key={rowID}>
           <div className="friends__list--item-left">
-            <AvatarUserInfo {...obj} headImgPath={obj.headImg} />
+            <AvatarUserInfo {...obj} avatar={obj.headImg} />
           </div>
           <button className="friends__list--item-button">写信</button>
         </div>

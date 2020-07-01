@@ -12,4 +12,9 @@ export const queryUserInfo = (params) => request.post('/user/userDetail', params
 
 export const queryFriends = (params) => request.post('/user/userFriend', params)
 
+export const queryFriendDetail = (params) => request.post('/user/userDetailContent', params)
+
+export const commentDynamic = (params) => request.post('/content/contentComment', params)
+
+
 

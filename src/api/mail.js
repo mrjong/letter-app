@@ -13,3 +13,17 @@ export const lettersDelete = (params) => request.post('/letter/lettersDelete', p
 export const queryLetterPapers = () => request.post('/user/paper/queryUserLetterPaper')
 
 export const letterPaperPurchase = (params) => request.post('/user/paper/letterPaperPurchase', params)
+
+export const queryOutboxList = (params) => request.post('/letter/outBox', params)
+
+export const queryInboxList = (params) => request.post('/letter/inbox', params)
+
+export const queryDraftboxList = (params) => request.post('/letter/drafts', params)
+
+export const letterSendOut = (params) => request.post('/letter/sendOut', params)
+
+export const queryDynamicDetail = (params) => request.post('/content/contentDetail', params)
+
+export const dynamicEditCheck = (params) => request.post('/content/writeContent', params)
+
+export const publishDynamic = (params) => request.post('/content/saveContent', params)
