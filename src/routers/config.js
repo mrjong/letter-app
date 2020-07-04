@@ -131,6 +131,12 @@ const config = [
         component: lazy(() => import('@/views/DynamicEdit'))
       },
       {
+        path: '/preview',
+        name: '信件查看',
+        icon: 'setting',
+        component: lazy(() => import('@/views/Preview'))
+      },
+      {
         name: '404', //不给path属性也可以匹配404页面
         redirect: '/404'
       }

@@ -3,11 +3,13 @@ import { connect } from 'react-redux'
 import { ListView } from 'antd-mobile'
 import { AvatarUserInfo } from '@/components'
 import { queryFriends } from '../../redux/user.redux'
+import { queryPostAddress } from '../../redux/mail.redux'
 import './style.less'
 
 let pageIndex = 1
 @connect((state) => state.user, {
-  queryFriends
+  queryFriends,
+  queryPostAddress
 })
 class Friends extends Component {
   constructor(props) {
@@ -56,6 +58,10 @@ class Friends extends Component {
     })
   }
 
+  onWriteLetterButton = (id) => {
+    this.props.queryPostAddress(id)
+  }
+
   render() {
     let index = this.rData.length - 1
     const row = (rowData, sectionID, rowID) => {
@@ -68,32 +74,45 @@ class Friends extends Component {
           <div className="friends__list--item-left">
             <AvatarUserInfo {...obj} avatar={obj.headImg} />
           </div>
-          <button className="friends__list--item-button">写信</button>
+          <button
+            className="friends__list--item-button"
+            onClick={() => {
+              this.onWriteLetterButton(obj.userId)
+            }}
+          >
+            写信
+          </button>
         </div>
       )
     }
 
     return (
       <div className="friends__list">
-        <ListView
-          ref={(el) => (this.lv = el)}
-          dataSource={this.state.dataSource}
-          renderFooter={() => (
-            <div style={{ padding: 20, textAlign: 'center' }}>
-              {this.state.isLoading ? '加载中...' : '我是有底线的'}
-            </div>
-          )}
-          renderRow={row}
-          style={{
-            height: this.state.height,
-            overflow: 'auto'
-          }}
-          pageSize={4}
-          useBodyScroll
-          scrollRenderAheadDistance={500}
-          onEndReached={this.onEndReached}
-          onEndReachedThreshold={10}
-        />
+        {this.rData.length > 0 ? (
+          <ListView
+            ref={(el) => (this.lv = el)}
+            dataSource={this.state.dataSource}
+            renderFooter={() => (
+              <div style={{ padding: 20, textAlign: 'center' }}>
+                {this.state.isLoading ? '加载中...' : '我是有底线的'}
+              </div>
+            )}
+            renderRow={row}
+            style={{
+              height: this.state.height,
+              overflow: 'auto'
+            }}
+            pageSize={4}
+            useBodyScroll
+            scrollRenderAheadDistance={500}
+            onEndReached={this.onEndReached}
+            onEndReachedThreshold={10}
+          />
+        ) : (
+          <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '80vh' }}>
+            <p>暂无信友</p>
+          </div>
+        )}
       </div>
     )
   }

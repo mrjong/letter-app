@@ -1,7 +1,18 @@
 import store from '../redux/store'
 import { handleModalShow } from '../redux/common.redux'
 
-const interceptRouteArr = ['/home', '/mails', '/friends', '/user', '/write_letter']
+const interceptRouteArr = [
+  '/home',
+  '/mails',
+  '/friends',
+  '/user',
+  '/write_letter',
+  // '/outbox',
+  // '/inbox',
+  // '/post_confirm',
+  // '/follow_list',
+  // '/draftbox'
+]
 
 export const changeHistoryState = () => {
   if (interceptRouteArr.includes(window.location.pathname)) {
@@ -9,13 +20,6 @@ export const changeHistoryState = () => {
   }
 }
 window.addEventListener('popstate', () => {
-  /**首页拦截 */
-  if (window.location.pathname === '/home') {
-    console.log(666)
-    // window.history.pushState(null, null, document.URL);
-    return;
-  }
-  changeHistoryState()
   switch (window.location.pathname) {
     case '/home':
     case '/mails':
@@ -33,6 +37,13 @@ window.addEventListener('popstate', () => {
           type: 'editSave'
         })
       )
+      break
+    case '/outbox':
+    case '/inbox':
+    case '/post_confirm':
+    case '/follow_list':
+    case '/draftbox':
+      // window.ReactRouterHistory.push('/home')
       break
     default:
       break

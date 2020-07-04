@@ -3,9 +3,9 @@ import AvatarUserInfo from '../AvatarUserInfo'
 import './style.less'
 
 export default function MailCard(props) {
-  const { headImg: avatar, label, penName, renderContent, buttons } = props
+  const { headImg: avatar, label, penName, renderContent, buttons, onMailCardClick } = props
   return (
-    <div className="mail-card">
+    <div className="mail-card" onClick={onMailCardClick}>
       <div className="mail-card__top">
         <div className="mail-card__top--avatar">
           <AvatarUserInfo avatar={avatar} penName={penName} />

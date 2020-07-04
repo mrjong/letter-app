@@ -1,16 +1,68 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import { Steps } from 'antd-mobile'
 import { MailCard } from '@/components'
-import { queryInboxList } from '../../redux/mail.redux'
+import { queryInboxList, lettersDelete, queryPostAddress } from '../../redux/mail.redux'
+import { handleModalShow } from '../../redux/common.redux'
+import successIcon from '../../assets/images/mails/success.png'
+import waitIcon from '../../assets/images/mails/wait.png'
 import './style.less'
 
+const Step = Steps.Step
+
 @connect((state) => state.mail, {
-  queryInboxList
+  queryInboxList,
+  lettersDelete,
+  queryPostAddress,
+  handleModalShow
 })
 class InBox extends Component {
   componentDidMount() {
     this.props.queryInboxList()
   }
+
+  onMailCardClick = (item) => {
+    console.log(item)
+  }
+
+  onWriteLetterButton = (id) => {
+    this.props.queryPostAddress(id)
+  }
+
+  renderContent = (item) => {
+    if (item.process === 'Y') {
+      return item.content
+    } else {
+      return (
+        <Steps direction="horizontal" size="small">
+          <Step status="finish" title="制作信件" icon={<img className="process-icon" src={successIcon} alt="icon" />} />
+          <Step
+            status={`${item.letterDistributeSts === '02' || item.letterDistributeSts === '03' ? 'finish' : 'wait'}`}
+            title="寄送信件"
+            icon={
+              <img
+                className="process-icon"
+                src={item.letterDistributeSts === '02' || item.letterDistributeSts === '03' ? successIcon : waitIcon}
+                alt="icon"
+              />
+            }
+          />
+          <Step
+            status={`${item.letterDistributeSts === '03' ? 'finish' : 'wait'}`}
+            title="读取信件"
+            icon={
+              <img
+                className="process-icon"
+                src={item.letterDistributeSts === '03' ? successIcon : waitIcon}
+                alt="icon"
+              />
+            }
+          />
+        </Steps>
+      )
+    }
+  }
+
   render() {
     const { inboxList = [] } = this.props
     return (
@@ -22,12 +74,13 @@ class InBox extends Component {
                 <MailCard
                   {...item}
                   label={`${item.addressCity}·${item.letterName}`}
-                  renderContent={item.content}
+                  renderContent={this.renderContent(item)}
                   buttons={[
                     <button
                       className="operate-button"
-                      onClick={() => {
-                        this.props.history.push('/post_confirm')
+                      onClick={(e) => {
+                        e.stopPropagation()
+                        this.onWriteLetterButton(item.sendUserId)
                       }}
                       key="0"
                     >
@@ -35,9 +88,15 @@ class InBox extends Component {
                     </button>,
                     <button
                       className="operate-button"
-                      onClick={() => {
-                        this.props.lettersDelete(item.letterId, () => {
-                          this.props.queryInboxList()
+                      onClick={(e) => {
+                        e.stopPropagation()
+                        this.props.handleModalShow({
+                          type: 'delete',
+                          onConfirm: () => {
+                            this.props.lettersDelete(item.letterId, () => {
+                              this.props.queryInboxList()
+                            })
+                          }
                         })
                       }}
                       key="1"
@@ -45,6 +104,9 @@ class InBox extends Component {
                       删除
                     </button>
                   ]}
+                  onMailCardClick={() => {
+                    this.onMailCardClick(item)
+                  }}
                 ></MailCard>
               </li>
             )

@@ -1,17 +1,30 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { MailCard } from '@/components'
-import { queryOutboxList, lettersDelete } from '../../redux/mail.redux'
+import { queryOutboxList, lettersDelete, queryPostAddress, readLetter } from '../../redux/mail.redux'
+import { handleModalShow } from '../../redux/common.redux'
 import './style.less'
 
 @connect((state) => state.mail, {
   queryOutboxList,
-  lettersDelete
+  lettersDelete,
+  queryPostAddress,
+  handleModalShow,
+  readLetter
 })
 class OutBox extends Component {
   componentDidMount() {
     this.props.queryOutboxList()
   }
+
+  onWriteLetterButton = (id) => {
+    this.props.queryPostAddress(id, 'letter')
+  }
+
+  onMailCardClick = (item) => {
+    this.props.readLetter(item.letterId)
+  }
+
   render() {
     const { outboxList = [] } = this.props
     return (
@@ -22,7 +35,6 @@ class OutBox extends Component {
               <li className="outbox__list--item" key={item.letterId}>
                 <MailCard
                   {...item}
-                  label={item.letterType}
                   renderContent={
                     <div className="outbox__list--item-content">
                       <p>
@@ -34,8 +46,9 @@ class OutBox extends Component {
                   buttons={[
                     <button
                       className="operate-button"
-                      onClick={() => {
-                        this.props.history.push('/post_confirm')
+                      onClick={(e) => {
+                        e.stopPropagation()
+                        this.onWriteLetterButton(item.letterId)
                       }}
                       key="0"
                     >
@@ -43,9 +56,15 @@ class OutBox extends Component {
                     </button>,
                     <button
                       className="operate-button"
-                      onClick={() => {
-                        this.props.lettersDelete(item.letterId, () => {
-                          this.props.queryOutboxList()
+                      onClick={(e) => {
+                        e.stopPropagation()
+                        this.props.handleModalShow({
+                          type: 'delete',
+                          onConfirm: () => {
+                            this.props.lettersDelete(item.letterId, () => {
+                              this.props.queryOutboxList()
+                            })
+                          }
                         })
                       }}
                       key="1"
@@ -53,6 +72,9 @@ class OutBox extends Component {
                       删除
                     </button>
                   ]}
+                  onMailCardClick={() => {
+                    this.onMailCardClick(item)
+                  }}
                 ></MailCard>
               </li>
             )

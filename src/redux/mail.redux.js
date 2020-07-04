@@ -1,13 +1,13 @@
 import api from '../api'
 import { handleModalHide } from './common.redux'
-import { Toast } from 'antd-mobile'
 
 const initialState = {
   mailList: [],
   letterId: '',
   writeLetterContent: '',
   selectedPaper: {},
-  letterPapers: []
+  letterPapers: [],
+  receiveAddress: {}
 }
 
 //types
@@ -22,6 +22,7 @@ const QUERY_DRAFTBOX_LIST = 'QUERY_DRAFTBOX_LIST'
 const QUERY_DYNAMIC_DETAIL = 'QUERY_DYNAMIC_DETAIL'
 const UPLOAD_SHARE_IMG_SUCCESS = 'UPLOAD_SHARE_IMG_SUCCESS'
 const DYNAMIC_EDIT_ID = 'DYNAMIC_EDIT_ID'
+const QUERY_RECEIVE_ADDRESS = 'QUERY_RECEIVE_ADDRESS'
 
 //reducers
 export const mail = (state = initialState, action) => {
@@ -48,6 +49,8 @@ export const mail = (state = initialState, action) => {
       return { ...state, dynamicShareImg: action.payload.dynamicShareImg }
     case DYNAMIC_EDIT_ID:
       return { ...state, dynamicShareId: action.payload.dynamicShareId }
+    case QUERY_RECEIVE_ADDRESS:
+      return { ...state, receiveAddress: action.payload.receiveAddress }
     default:
       return state
   }
@@ -75,17 +78,33 @@ export const queryMailList = (pageIndex, callback) => {
 }
 
 //查询收信地址
-export const queryPostAddress = (pageIndex) => {
+export const queryPostAddress = (id, type) => {
   return async (dispatch, getState) => {
     try {
-      const res = await api.queryPostAddress()
-      const { contentList = [] } = res
-      // dispatch({
-      //   type: MAILS_LIST,
-      //   payload: {
-      //     mailList: contentList
-      //   }
-      // })
+      let params
+      if (type) {
+        params = {
+          letterId: id
+        }
+      } else {
+        params = {
+          userId: id
+        }
+      }
+      const res = await api.queryPostAddress(params)
+      const { mobileHid, penName, receiveUserAddress, receiveUserId } = res
+      dispatch({
+        type: QUERY_RECEIVE_ADDRESS,
+        payload: {
+          receiveAddress: {
+            mobileHid,
+            penName,
+            receiveUserAddress,
+            receiveUserId
+          }
+        }
+      })
+      window.ReactRouterHistory.push('/post_confirm?userType=1')
     } catch (error) {
       console.log(error)
     }
@@ -93,7 +112,7 @@ export const queryPostAddress = (pageIndex) => {
 }
 
 //写信校验接口(创建写信id)
-export const writeLettersCheck = (params) => {
+export const writeLettersCheck = (params, callback) => {
   return async (dispatch, getState) => {
     try {
       const res = await api.writeLettersCheck(params)
@@ -104,9 +123,19 @@ export const writeLettersCheck = (params) => {
           letterId
         }
       })
-      window.ReactRouterHistory.push('/write_letter')
+      callback && callback()
     } catch (error) {
       console.log(error)
+    }
+  }
+}
+
+//更新信件id
+export const updateLetterId = (id) => {
+  return {
+    type: CREATE_LETTER_ID,
+    payload: {
+      letterId: id
     }
   }
 }
@@ -247,13 +276,13 @@ export const queryDraftboxList = () => {
 }
 
 //信件寄出
-export const letterSendOut = () => {
+export const letterSendOut = (callback) => {
   return async (dispatch, getState) => {
     try {
-      const res = await api.letterSendOut({
+      await api.letterSendOut({
         letterId: getState().mail.letterId
       })
-      window.ReactRouterHistory.replace('/outbox')
+      callback && callback()
     } catch (error) {
       console.log(error)
     }
@@ -286,7 +315,7 @@ export const queryDynamicDetail = (id) => {
 export const commentDynamic = (id, comment, callback) => {
   return async (dispatch, getState) => {
     try {
-      const res = await api.commentDynamic({
+      await api.commentDynamic({
         contentId: id,
         comment
       })
@@ -297,7 +326,7 @@ export const commentDynamic = (id, comment, callback) => {
   }
 }
 
-//分享配图
+//编辑动态校验
 export const dynamicEditCheck = (callback) => {
   return async (dispatch, getState) => {
     try {
@@ -336,15 +365,43 @@ export const uploadContentImg = (params) => {
 export const publishDynamic = (params, callback) => {
   return async (dispatch, getState) => {
     try {
-      const res = await api.publishDynamic(params)
-      // dispatch({
-      //   type: UPLOAD_SHARE_IMG_SUCCESS,
-      //   payload: {
-      //     dynamicShareImg: res.contentImgPath
-      //   }
-      // })
-      Toast.info('发布成功')
+      await api.publishDynamic(params)
       callback && callback()
+    } catch (error) {
+      console.log(error)
+    }
+  }
+}
+
+//点赞
+export const giveAgree = (id, callback) => {
+  return async (dispatch, getState) => {
+    try {
+      await api.giveAgree({
+        contentId: id
+      })
+      callback && callback()
+    } catch (error) {
+      console.log(error)
+    }
+  }
+}
+
+//阅读信件明细
+export const readLetter = (id, callback) => {
+  return async (dispatch, getState) => {
+    try {
+      const res = await api.readLetter({
+        letterId: id
+      })
+      window.ReactRouterHistory.push({
+        pathname: '/preview',
+        state: {
+          content: res.content,
+          letterPaperUrlPath: res.letterPaperUrlPath
+        }
+      })
+      // callback && callback()
     } catch (error) {
       console.log(error)
     }

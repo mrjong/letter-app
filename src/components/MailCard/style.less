@@ -14,13 +14,42 @@
       font-size: 24px;
       font-weight: bold;
       color: #715c2e;
+      margin-bottom: 3px;
     }
   }
   &__center {
     margin: 20px 0 28px;
     width: 100%;
-    // .ellipsisText(100%);
+    padding-top: 10px;
+    font-size: 28px;
+    color: #333;
     .ellipsisLn(2);
+    .am-steps-label-vertical .am-steps-item-tail {
+      padding: 0;
+      margin-left: 100px;
+    }
+    .am-steps-small .am-steps-item-tail {
+      top: 10px;
+    }
+    .am-steps-small .am-steps-item-tail:after {
+      height: 6px;
+      border-radius: 3px;
+      background-color: #eeeeee;
+    }
+    .am-steps-item-finish .am-steps-item-tail:after {
+      height: 6px;
+      border-radius: 3px;
+      background-color: #585e48;
+    }
+    .am-steps-small .am-steps-item-title {
+      font-size: 28px;
+      color: #333333;
+      font-weight: normal;
+    }
+    .am-steps-small .am-steps-item-icon {
+      width: 32px;
+      height: 32px;
+    }
   }
   &__bottom {
     display: flex;

@@ -1,8 +1,15 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { Toast, Tabs } from 'antd-mobile'
-import { saveWriteLetterContent, saveSelectedPaper, queryLetterPapers, lettersSave } from '../../redux/mail.redux'
-import { handleModalShow } from '../../redux/common.redux'
+import { Toast } from 'antd-mobile'
+import qs from 'qs'
+import {
+  saveWriteLetterContent,
+  saveSelectedPaper,
+  queryLetterPapers,
+  lettersSave,
+  letterSendOut
+} from '../../redux/mail.redux'
+import { handleModalShow, handleModalHide } from '../../redux/common.redux'
 import LetterTemplate from './LetterTemplate'
 import './style.less'
 
@@ -16,7 +23,9 @@ import './style.less'
     saveWriteLetterContent,
     saveSelectedPaper,
     lettersSave,
-    handleModalShow
+    handleModalShow,
+    letterSendOut,
+    handleModalHide
   }
 )
 class WriteLetter extends Component {
@@ -24,34 +33,18 @@ class WriteLetter extends Component {
     super(props)
     this.state = {
       content: '',
-      templateShow: false,
-      lineNum: 14,
-      renderGrid: false,
-      tabs: [''],
-      allPages: [
-        {
-          content: ''
-        }
-      ],
-      pageIndex: 0
+      templateShow: false
     }
-    // if (!props.mail.letterId) {
-    //   Toast.info('未创建信件', 2, () => {
-    //     props.history.replace('/home')
-    //   })
-    //   return
-    // }
+    if (!props.mail.letterId) {
+      Toast.info('未创建信件', 2, () => {
+        props.history.replace('/home')
+      })
+      return
+    }
   }
 
   componentDidMount() {
     this.props.queryLetterPapers()
-    const doc = document.documentElement || document.body
-    const gridItemHeight = Math.floor(doc.clientHeight / this.state.lineNum)
-
-    this.setState({
-      renderGrid: true,
-      gridItemHeight
-    })
   }
 
   onContentChange = (e) => {
@@ -63,15 +56,24 @@ class WriteLetter extends Component {
   }
 
   handleSubmitMail = () => {
-    if (!this.state.content) {
-      Toast.info('您还未书写内容哦')
-      return
-    }
-    this.props.lettersSave(() => {
-      this.props.handleModalShow({
-        type: 'postConfirm'
+    if (this.state.content || this.props.mail.writeLetterContent) {
+      this.props.lettersSave(() => {
+        const query = qs.parse(window.location.search, { ignoreQueryPrefix: true })
+        if (query.postType === 'offline') {
+          //线下寄信
+          this.props.handleModalShow({
+            type: 'postConfirm'
+          })
+        } else {
+          this.props.letterSendOut(() => {
+            //寄出跳转发件箱
+            this.props.history.replace('/outbox')
+          })
+        }
       })
-    })
+    } else {
+      Toast.info('您还未书写内容哦')
+    }
   }
 
   togglePaper = (item) => {
@@ -86,61 +88,20 @@ class WriteLetter extends Component {
   }
 
   render() {
-    const { letterPapers = [], selectedPaper = {} } = this.props.mail
-    const { templateShow, lineNum, renderGrid, gridItemHeight, content } = this.state
-
+    const { letterPapers = [], selectedPaper = {}, writeLetterContent } = this.props.mail
+    const { templateShow, content } = this.state
     return (
       <div className="writeLetter">
         <div className="mail__content--background" style={{ backgroundImage: `url(${selectedPaper.letterPaperUrl})` }}>
-          {/* {renderGrid && (
-              <div className="mail__underline--layout">
-                {Array.from({ length: lineNum }).map((item, index) => {
-                  return (
-                    <div
-                      style={{ height: gridItemHeight / 50 + 'rem' }}
-                      className="mail__underline--item"
-                      key={index}
-                    ></div>
-                  )
-                })}
-              </div>
-            )} */}
           <textarea
             ref={(el) => (this.container = el)}
             className="mail__textarea"
-            value={content}
+            value={writeLetterContent || content}
             onChange={this.onContentChange}
+            maxLength={1000}
           ></textarea>
         </div>
 
-        {/* <Tabs
-          tabs={this.state.tabs}
-          initialPage={0}
-          // page={this.state.pageIndex}
-          onChange={(tab, index) => {
-            this.setState({
-              postType: index === 0 ? 'offline' : 'online'
-            })
-          }}
-        >
-          {this.state.allPages.length > 0 &&
-            this.state.allPages.map((item, index) => {
-              return (
-                <textarea
-                  ref={(el) => (this.container = el)}
-                  key={index}
-                  className="mail__textarea"
-                  value={item.content}
-                  style={{
-                    lineHeight: gridItemHeight / 50 + 'rem'
-                  }}
-                  onChange={(e) => {
-                    this.onContentChange(item, index, e)
-                  }}
-                ></textarea>
-              )
-            })}
-        </Tabs> */}
         <button className="letter__postout_button" onClick={this.handleSubmitMail}>
           寄出
         </button>

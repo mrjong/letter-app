@@ -1,0 +1,35 @@
+.preview__letter {
+  height: 100vh;
+  .am-tabs-tab-bar-wrap {
+    display: none;
+  }
+  &--content {
+    white-space: pre-wrap;
+    padding: 20px;
+    height: 100vh;
+    overflow: hidden;
+  }
+
+  .mail__content--background {
+    position: relative;
+    min-height: 100vh;
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    overflow: scroll;
+  }
+
+  .mail__underline--layout {
+    width: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
+    padding: 20px;
+    box-sizing: border-box;
+  }
+
+  .mail__underline--item {
+    width: 100%;
+    box-sizing: border-box;
+    border-bottom: 1px solid #ddd;
+  }
+}

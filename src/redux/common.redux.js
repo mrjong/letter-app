@@ -14,7 +14,7 @@ const BANNER = 'BANNER'
 export const common = (state = initialState, action) => {
   switch (action.type) {
     case MODAL_SHOW:
-      return { ...state, modalShow: action.payload.modalShow, modalType: action.payload.modalType }
+      return { ...state, ...action.payload }
     case MODAL_HIDE:
       return { ...state, modalShow: action.payload.modalShow }
     case BANNER:
@@ -32,7 +32,8 @@ export const handleModalShow = (params) => {
       type: MODAL_SHOW,
       payload: {
         modalShow: true,
-        modalType: params.type
+        modalType: params.type,
+        modalConfirmCallback: params.onConfirm
       }
     })
   }

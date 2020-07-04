@@ -8,24 +8,32 @@ import offlinePic from '@/assets/images/mails/xiexin_2.png'
 import { writeLettersCheck } from '../../redux/mail.redux'
 import { connect } from 'react-redux'
 
-const tabs = [{ title: '纸质信件' }, { title: '电子信件' }]
+const SYSTEM_USER = '1' //系统用户
+const NOT_SYSTEM_USER = '0' //非系统用户
+const tabs = [{ title: '电子信件' }, { title: '纸质信件' }]
+let query
 
-@connect((state) => state, {
+@connect((state) => state.mail, {
   writeLettersCheck
 })
 class PostConfirm extends Component {
-  state = {
-    online: {
-      postMan: '',
-      postPhone: '',
-      postAddress: ''
-    },
-    offline: {
-      postMan: '',
-      postPhone: '',
-      postAddress: ''
-    },
-    postType: 'offline'
+  constructor(props) {
+    super(props)
+    query = qs.parse(window.location.search, { ignoreQueryPrefix: true })
+    const { mobileHid, penName, receiveUserAddress } = query.userType === SYSTEM_USER ? props.receiveAddress : {}
+    this.state = {
+      online: {
+        postMan: penName,
+        postPhone: mobileHid,
+        postAddress: receiveUserAddress
+      },
+      offline: {
+        postMan: penName,
+        postPhone: mobileHid,
+        postAddress: receiveUserAddress
+      },
+      postType: 'online'
+    }
   }
   onPostManChange = (value) => {
     const { postType } = this.state
@@ -73,19 +81,31 @@ class PostConfirm extends Component {
       Toast.info('请填写收信人地址')
       return
     }
-    this.props.writeLettersCheck({
-      letterType: this.getLetterType(),
-      receivePenName: postMan,
-      receiveMobileNo: postPhone,
-      receiveAddress: postAddress
+    let params = {
+      letterType: this.getLetterType()
+    }
+    if (query.userType === SYSTEM_USER) {
+      params = {
+        ...params,
+        receiveUserId: this.props.receiveAddress.receiveUserId
+      }
+    } else {
+      params = {
+        ...params,
+        receivePenName: postMan,
+        receiveMobileNo: postPhone,
+        receiveAddress: postAddress
+      }
+    }
+    this.props.writeLettersCheck(params, () => {
+      this.props.history.push(`/write_letter?postType=${this.state.postType}`)
     })
   }
 
   getLetterType = () => {
-    const query = qs.parse(window.location.search, { ignoreQueryPrefix: true })
     const { postType } = this.state
     let str = ''
-    if (query.userType === '0') {
+    if (query.userType === NOT_SYSTEM_USER) {
       str = postType === 'offline' ? '33' : '22'
     } else {
       str = postType === 'offline' ? '11' : '00'
@@ -100,9 +120,10 @@ class PostConfirm extends Component {
         <Tabs
           tabs={tabs}
           initialPage={0}
+          swipeable={false}
           onChange={(tab, index) => {
             this.setState({
-              postType: index === 0 ? 'offline' : 'online'
+              postType: index === 0 ? 'online' : 'offline'
             })
           }}
           tabBarUnderlineStyle={{
@@ -117,8 +138,31 @@ class PostConfirm extends Component {
               onPostMan={this.onPostManChange}
               onPostPhone={this.onPostPhoneChange}
               onPostAddress={this.onPostAddressChange}
+              hide
+              {...online}
+              disabled={query.userType === SYSTEM_USER}
+            />
+            <div className="example-pic" style={{ height: '5.54rem' }}>
+              <div className="inner" style={{ height: '5.2rem' }}>
+                <div className="img-wrap" style={{ height: '5rem' }}>
+                  <img src={onlinePic} alt="" />
+                  <ul className="bottom-tip">
+                    <li className="bottom-tip-item">温馨提示:</li>
+                    <li className="bottom-tip-item">
+                      线上信件平台会根据寄信人和收信人之间的距离计算 派送时长喔,例：重庆->成都 约3小时
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="postConfirm__content">
+            <PostForm
+              onPostMan={this.onPostManChange}
+              onPostPhone={this.onPostPhoneChange}
+              onPostAddress={this.onPostAddressChange}
               {...offline}
-              disabled={false}
+              disabled={query.userType === SYSTEM_USER}
             />
             <div className="example-pic">
               <div className="inner">
@@ -130,29 +174,6 @@ class PostConfirm extends Component {
                     <li className="bottom-tip-item">2.书信内容由纸笔真实书写，非系统打印.</li>
                     <li className="bottom-tip-item">3.信件由平台从北京寄出，非写信人地址.</li>
                     <li className="bottom-tip-item">4.线下寄信平台将收取制作费用及运输费用.</li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="postConfirm__content">
-            <PostForm
-              onPostMan={this.onPostManChange}
-              onPostPhone={this.onPostPhoneChange}
-              onPostAddress={this.onPostAddressChange}
-              hide
-              {...online}
-              disabled={false}
-            />
-            <div className="example-pic" style={{ height: '5.54rem' }}>
-              <div className="inner" style={{ height: '5.2rem' }}>
-                <div className="img-wrap" style={{ height: '5rem' }}>
-                  <img src={onlinePic} alt="" />
-                  <ul className="bottom-tip">
-                    <li className="bottom-tip-item">温馨提示:</li>
-                    <li className="bottom-tip-item">
-                      线上信件平台会根据寄信人和收信人之间的距离计算 派送时长喔,例：重庆->成都 约3小时
-                    </li>
                   </ul>
                 </div>
               </div>

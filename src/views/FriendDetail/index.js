@@ -1,11 +1,12 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { queryFriendDetail, followUser, cancelFollowUser } from '../../redux/user.redux'
+import { queryPostAddress, giveAgree } from '../../redux/mail.redux'
 import './style.less'
 
 let userId
 
-@connect((state) => state.user, { queryFriendDetail, followUser, cancelFollowUser })
+@connect((state) => state.user, { queryFriendDetail, followUser, cancelFollowUser, queryPostAddress, giveAgree })
 class FriendDetail extends Component {
   componentDidMount() {
     userId = this.props.match.params.userId
@@ -27,6 +28,17 @@ class FriendDetail extends Component {
 
   lookDynamicDetail = (id) => {
     this.props.history.push(`/dynamic_detail/${id}`)
+  }
+
+  onWriteLetterButton = () => {
+    this.props.queryPostAddress(this.props.friendDetail.userId)
+  }
+
+  onLikesClick = (e, id) => {
+    e.stopPropagation()
+    this.props.giveAgree(id, () => {
+      this.props.queryFriendDetail(userId)
+    })
   }
 
   render() {
@@ -68,7 +80,9 @@ class FriendDetail extends Component {
             <p className="nickname">{autograph}</p>
           </div>
           <div className="button-wrap">
-            <button className="operate-button">写信</button>
+            <button className="operate-button" onClick={this.onWriteLetterButton}>
+              写信
+            </button>
             <button className="operate-button" onClick={this.onFollowUser}>
               {isFans === 'Y' ? '取消关注' : '关注'}
             </button>
@@ -76,30 +90,48 @@ class FriendDetail extends Component {
         </div>
         <div className="friend__detail--list">
           <p className="friend__detail--list-title">动态</p>
-          {contentList.map((item, index) => {
-            return (
-              <div
-                className="friend__detail--item"
-                key={item.id}
-                onClick={() => {
-                  this.lookDynamicDetail(item.contentId)
-                }}
-              >
-                <div className="friend__detail--item-center">
-                  <div className="friend__detail--item-cover">
-                    <span className="friend__detail--item-label">{item.createDay}</span>
-                    <img src={item.contentImgPath} alt="cover" />
+          {contentList.length > 0 ? (
+            <div>
+              {contentList.map((item, index) => {
+                return (
+                  <div
+                    className="friend__detail--item"
+                    key={item.id}
+                    onClick={() => {
+                      this.lookDynamicDetail(item.contentId)
+                    }}
+                  >
+                    <div className="friend__detail--item-center">
+                      <div className="friend__detail--item-cover">
+                        <span className="friend__detail--item-label">{item.createDay}</span>
+                        <img src={item.contentImgPath} alt="cover" />
+                      </div>
+                      <p className="friend__detail--item-content">{item.content}</p>
+                    </div>
+                    <div className="friend__detail--item-bottom">
+                      <span className="friend__detail--item-views">{item.readCount}</span>
+                      <span
+                        className="friend__detail--item-likes"
+                        onClick={(e) => {
+                          this.onLikesClick(e, item.contentId)
+                        }}
+                      >
+                        {item.goodCount}
+                      </span>
+                    </div>
                   </div>
-                  <p className="friend__detail--item-content">{item.content}</p>
-                </div>
-                <div className="friend__detail--item-bottom">
-                  <span className="friend__detail--item-views">{item.readCount}</span>
-                  <span className="friend__detail--item-likes">{item.goodCount}</span>
-                  <span className="friend__detail--item-delete">删除</span>
-                </div>
-              </div>
-            )
-          })}
+                )
+              })}
+            </div>
+          ) : (
+            <div
+              style={{
+                fontSize: '.28rem'
+              }}
+            >
+              该用户比较懒~
+            </div>
+          )}
         </div>
       </div>
     )

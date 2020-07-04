@@ -2,14 +2,15 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { ListView } from 'antd-mobile'
 import { AvatarUserInfo } from '@/components'
-import { queryMailList, dynamicEditCheck } from '../../redux/mail.redux'
+import { queryMailList, dynamicEditCheck, giveAgree } from '../../redux/mail.redux'
 import './style.less'
 
 let pageIndex = 1
 
 @connect((state) => state.mail, {
   queryMailList,
-  dynamicEditCheck
+  dynamicEditCheck,
+  giveAgree
 })
 class Mails extends Component {
   constructor(props) {
@@ -66,6 +67,23 @@ class Mails extends Component {
     })
   }
 
+  lookDynamicDetail = (id) => {
+    this.props.history.push(`/dynamic_detail/${id}`)
+  }
+
+  onLikesClick = (e, id) => {
+    e.stopPropagation()
+    this.props.giveAgree(id, () => {
+      this.props.queryMailList(pageIndex, () => {
+        this.rData = [...this.props.mailList]
+        this.setState({
+          dataSource: this.state.dataSource.cloneWithRows(this.rData),
+          isLoading: false
+        })
+      })
+    })
+  }
+
   render() {
     let index = this.rData.length - 1
     const row = (rowData, sectionID, rowID) => {
@@ -74,7 +92,13 @@ class Mails extends Component {
       }
       const obj = this.rData[index--]
       return (
-        <div className="mails__list--item" key={rowID}>
+        <div
+          className="mails__list--item"
+          key={rowID}
+          onClick={() => {
+            this.lookDynamicDetail(obj.contentId)
+          }}
+        >
           <div className="mails__list--item-top">
             <div className="mails__list--item-avatar">
               <AvatarUserInfo
@@ -84,7 +108,6 @@ class Mails extends Component {
                 userId={obj.userId}
               />
             </div>
-            <button className="mails__list--item-button">写信</button>
           </div>
           <div className="mails__list--item-center">
             <div className="mails__list--item-cover">
@@ -95,34 +118,48 @@ class Mails extends Component {
           </div>
           <div className="mails__list--item-bottom">
             <span className="mails__list--item-views">{obj.readCount}</span>
-            <span className="mails__list--item-likes">{obj.goodCount}</span>
+            <span
+              className="mails__list--item-likes"
+              onClick={(e) => {
+                this.onLikesClick(e, obj.contentId)
+              }}
+            >
+              {obj.goodCount}
+            </span>
           </div>
         </div>
       )
     }
     return (
       <div className="mails__list">
-        <ListView
-          ref={(el) => (this.lv = el)}
-          dataSource={this.state.dataSource}
-          renderFooter={() => (
-            <div style={{ padding: 20, textAlign: 'center' }}>
-              {this.state.isLoading ? '加载中...' : '我是有底线的'}
-            </div>
-          )}
-          renderRow={row}
-          style={{
-            height: this.state.height,
-            overflow: 'auto'
-          }}
-          pageSize={4}
-          useBodyScroll
-          scrollRenderAheadDistance={500}
-          onEndReached={this.onEndReached}
-          onEndReachedThreshold={10}
-        />
+        {this.rData.length > 0 ? (
+          <ListView
+            ref={(el) => (this.lv = el)}
+            dataSource={this.state.dataSource}
+            renderFooter={() => (
+              <div style={{ padding: 20, textAlign: 'center' }}>
+                {this.state.isLoading ? '加载中...' : '我是有底线的'}
+              </div>
+            )}
+            renderRow={row}
+            style={{
+              height: this.state.height,
+              overflow: 'auto'
+            }}
+            pageSize={4}
+            useBodyScroll
+            scrollRenderAheadDistance={500}
+            onEndReached={this.onEndReached}
+            onEndReachedThreshold={10}
+          />
+        ) : (
+          <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '80vh' }}>
+            <p>暂无信件</p>
+          </div>
+        )}
+
         <button className="share-button" onClick={this.goDynamicEdit}>
-          +写一条分享吧
+          写一条分享吧
         </button>
       </div>
     )

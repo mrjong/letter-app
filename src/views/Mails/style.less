@@ -25,6 +25,7 @@
       position: relative;
       border: 1px solid #585e48;
       border-radius: 5px;
+      margin-top: 20px;
     }
 
     &-cover {
@@ -86,8 +87,7 @@
   }
 
   .share-button {
-    width: 238px;
-    height: 74px;
+    padding: 20px;
     font-size: 28px;
     color: #fff;
     background-color: #595e4a;
@@ -95,8 +95,14 @@
     position: fixed;
     right: 15px;
     bottom: 140px;
-    font-weight: bold;
     z-index: 99;
+    &::before {
+      content: '+';
+      display: inline-block;
+      position: relative;
+      top: -3px;
+      right: 2px;
+    }
   }
 
   .am-list-body {

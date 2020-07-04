@@ -39,7 +39,11 @@ class DynamicEdit extends Component {
         status: '11'
       },
       () => {
-        this.props.history.replace('/home')
+        Toast.info('发布成功')
+        let timer = setTimeout(() => {
+          this.props.history.replace('/home')
+          clearTimeout(timer)
+        }, 1000)
       }
     )
   }
@@ -50,11 +54,10 @@ class DynamicEdit extends Component {
     return (
       <div>
         <div className="dynamic__edit">
-          <div className="share-img">
+          <div className="upload-wrap">
             {!dynamicShareImg && <p className="upload-tip">上传一张背景图吧</p>}
-
             {dynamicShareImg ? (
-              <img src={dynamicShareImg || avatarDefault} alt="" />
+              <img src={dynamicShareImg || avatarDefault} alt="" className='preview-img' />
             ) : (
               <ImagePicker
                 // files={files}

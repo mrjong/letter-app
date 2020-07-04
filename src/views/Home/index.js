@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import { createForm } from 'rc-form'
 import { queryBanner, handleModalShow } from '../../redux/common.redux'
 import { queryUserRecommend, queryUnreadPrompt } from '../../redux/user.redux'
+import { queryPostAddress } from '../../redux/mail.redux'
 import './style.less'
 import refreshIcon from '../../assets/images/home/shuaxin.png'
 import nanIcon from '../../assets/images/common/nan.png'
@@ -53,7 +54,8 @@ const featureList = [
     queryBanner,
     queryUserRecommend,
     queryUnreadPrompt,
-    handleModalShow
+    handleModalShow,
+    queryPostAddress
   }
 )
 class Home extends Component {
@@ -89,6 +91,11 @@ class Home extends Component {
     this.props.queryUserRecommend()
   }
 
+  onWriteLetterButton = (e, id) => {
+    e.stopPropagation()
+    this.props.queryPostAddress(id)
+  }
+
   render() {
     const {
       common: { bannerList },
@@ -98,7 +105,7 @@ class Home extends Component {
     return (
       <div className="home">
         {bannerList && bannerList.length > 0 && (
-          <Carousel autoplay={false} infinite>
+          <Carousel autoplay={true} infinite>
             {bannerList.map((item) => (
               <a
                 key={item.id}
@@ -174,7 +181,14 @@ class Home extends Component {
                     <img src={item.sex === 0 ? nvIcon : nanIcon} alt="" className="home__recommend--item-gender" />
                     <span className="home__recommend--item-name">{item.penName}</span>
                     <span className="home__recommend--item-desc">{item.autograph}</span>
-                    <button className="home__recommend--item-button">写信</button>
+                    <button
+                      className="home__recommend--item-button"
+                      onClick={(e) => {
+                        this.onWriteLetterButton(e, item.userId)
+                      }}
+                    >
+                      写信
+                    </button>
                     <span className="home__recommend--item-city">
                       {item.addressProvince}·{item.addressCity}
                     </span>

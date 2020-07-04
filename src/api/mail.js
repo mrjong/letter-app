@@ -27,3 +27,7 @@ export const queryDynamicDetail = (params) => request.post('/content/contentDeta
 export const dynamicEditCheck = (params) => request.post('/content/writeContent', params)
 
 export const publishDynamic = (params) => request.post('/content/saveContent', params)
+
+export const giveAgree = (params) => request.post('content/contentAgree', params)
+
+export const readLetter = (params) => request.post('/letter/readLetter', params)

@@ -1,12 +1,13 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { queryDynamicDetail, commentDynamic } from '../../redux/mail.redux'
+import { queryDynamicDetail, commentDynamic, giveAgree } from '../../redux/mail.redux'
 import './style.less'
 
 let dynamicId
 @connect((state) => state.mail, {
   queryDynamicDetail,
-  commentDynamic
+  commentDynamic,
+  giveAgree
 })
 class DynamicDetail extends Component {
   state = {
@@ -33,6 +34,13 @@ class DynamicDetail extends Component {
     })
   }
 
+  onLikesClick = (e, id) => {
+    e.stopPropagation()
+    this.props.giveAgree(id, () => {
+      this.props.queryDynamicDetail(dynamicId)
+    })
+  }
+
   render() {
     const { replyContent } = this.state
     const { dynamicDetail = {} } = this.props
@@ -44,7 +52,8 @@ class DynamicDetail extends Component {
       goodCount,
       readCount,
       contentImgPath,
-      commentList = []
+      commentList = [],
+      contentId
     } = dynamicDetail
     return (
       <div className="dynamic-detail">
@@ -60,7 +69,14 @@ class DynamicDetail extends Component {
           <p className="dynamic-detail__pannel--content">{content}</p>
           <div className="dynamic-detail__pannel--operate">
             <span className="views">{readCount}</span>
-            <span className="likes">{goodCount}</span>
+            <span
+              className="likes"
+              onClick={(e) => {
+                this.onLikesClick(e, contentId)
+              }}
+            >
+              {goodCount}
+            </span>
           </div>
           {commentList.length > 0 ? (
             <div className="dynamic-detail__pannel--comment">

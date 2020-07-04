@@ -13,7 +13,7 @@ export default function PostForm(props) {
             onChange={(e) => {
               onPostMan(e.target.value)
             }}
-            value={postMan}
+            value={postMan || ''}
             disabled={disabled}
           />
         </div>
@@ -22,12 +22,12 @@ export default function PostForm(props) {
         <label className="post__form--item-label">收信人电话</label>
         <div>
           <input
-            type="number"
+            type="text"
             className="post__form--item-input"
             onChange={(e) => {
               onPostPhone(e.target.value)
             }}
-            value={postPhone}
+            value={postPhone || ''}
             disabled={disabled}
           />
         </div>
@@ -42,7 +42,7 @@ export default function PostForm(props) {
               onChange={(e) => {
                 onPostAddress(e.target.value)
               }}
-              value={postAddress}
+              value={postAddress || ''}
               disabled={disabled}
             />
           </div>

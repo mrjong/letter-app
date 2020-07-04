@@ -9,7 +9,8 @@ export default function (props) {
     <div className="avatar__userinfo">
       <div
         className="avatar__userinfo--left"
-        onClick={() => {
+        onClick={(e) => {
+          e.stopPropagation()
           //查看好友详情
           window.ReactRouterHistory.push(`/friend_detail/${userId}`)
         }}
@@ -18,9 +19,9 @@ export default function (props) {
       </div>
       <div className="avatar__userinfo--right">
         {penName && <p className="avatar__userinfo--right-name">{penName}</p>}
-        {(address || String(sex)) && (
+        {address && (
           <div className="avatar__userinfo--right-genderWrap">
-            <img src={sex === '0' ? nv : nan} alt="gender" className="avatar__userinfo--right-gender" />
+            <img src={sex === 0 ? nv : nan} alt="gender" className="avatar__userinfo--right-gender" />
             <span className="avatar__userinfo--right-address">{address}</span>
           </div>
         )}
