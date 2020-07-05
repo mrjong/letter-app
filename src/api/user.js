@@ -16,5 +16,6 @@ export const queryFriendDetail = (params) => request.post('/user/userDetailConte
 
 export const commentDynamic = (params) => request.post('/content/contentComment', params)
 
+export const modifyUserInfo = (params) => request.post('/user/modifyUserInfo', params)
 
-
+export const modifyAvatar = (params) => request.post('/user/modifyHeadImg', params)

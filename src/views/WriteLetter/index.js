@@ -47,6 +47,10 @@ class WriteLetter extends Component {
     this.props.queryLetterPapers()
   }
 
+  componentWillUnmount() {
+    this.props.saveWriteLetterContent('')
+  }
+
   onContentChange = (e) => {
     this.setState({
       content: e.target.value
@@ -99,6 +103,7 @@ class WriteLetter extends Component {
             className="mail__textarea"
             value={writeLetterContent || content}
             onChange={this.onContentChange}
+            placeholder="温馨提示:用心的书写才会得到优质的回复，不如尝试分享一些美好的事物"
             maxLength={1000}
           ></textarea>
         </div>

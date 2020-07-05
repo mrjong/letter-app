@@ -2,6 +2,8 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { queryFriendDetail, followUser, cancelFollowUser } from '../../redux/user.redux'
 import { queryPostAddress, giveAgree } from '../../redux/mail.redux'
+import nan from '../../assets/images/common/nan.png'
+import nv from '../../assets/images/common/nv.png'
 import './style.less'
 
 let userId
@@ -46,7 +48,6 @@ class FriendDetail extends Component {
     const {
       address,
       autograph,
-      birthday,
       contentList = [],
       fansCount,
       headImgPath,
@@ -69,7 +70,7 @@ class FriendDetail extends Component {
               <div>
                 <span className="name">{penName}</span>
                 <div>
-                  <span className={`age ${sex === 1 ? 'nan' : 'nv'}`}>{birthday}</span>
+                  <img src={sex === 1 ? nan : nv} alt="" className="sex" />
                   <span className="city">{address}</span>
                 </div>
               </div>
@@ -129,7 +130,7 @@ class FriendDetail extends Component {
                 fontSize: '.28rem'
               }}
             >
-              该用户比较懒~
+              该用户暂无动态
             </div>
           )}
         </div>

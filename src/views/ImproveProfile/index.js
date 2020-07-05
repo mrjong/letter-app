@@ -1,13 +1,7 @@
 import React, { Component } from 'react'
 import { ImagePicker, Toast, Modal, List } from 'antd-mobile'
 import { connect } from 'react-redux'
-import {
-  uploadAvatar,
-  initQueryAreaList,
-  userRegister,
-  queryCityList,
-  selectCity
-} from '../../redux/user.redux'
+import { uploadAvatar, initQueryAreaList, userRegister, queryCityList, selectCity } from '../../redux/user.redux'
 import './style.less'
 import avatarDefault from '../../assets/images/common/avatar_default.jpeg'
 
@@ -84,6 +78,9 @@ class ImproveProfile extends Component {
     const { selectedArea } = this.props
     if (!nickname) {
       Toast.info('请填写昵称哦~')
+      return false
+    } else if (nickname.length > 7) {
+      Toast.info('笔名仅支持7个字哦~')
       return false
     } else if (!gender) {
       Toast.info('请选择性别哦~')

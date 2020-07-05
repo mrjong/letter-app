@@ -131,6 +131,12 @@ const config = [
         component: lazy(() => import('@/views/Preview'))
       },
       {
+        path: '/about',
+        name: '关于信友阁',
+        icon: 'setting',
+        component: lazy(() => import('@/views/About'))
+      },
+      {
         name: '404', //不给path属性也可以匹配404页面
         redirect: '/404'
       }

@@ -298,3 +298,27 @@ export const queryFriendDetail = (id) => {
     }
   }
 }
+
+//修改签名和明细地址
+export const modifyUserInfo = (params) => {
+  return async (dispatch, getState) => {
+    try {
+      await api.modifyUserInfo(params)
+      dispatch(queryUserInfo())
+    } catch (error) {
+      console.log(error)
+    }
+  }
+}
+
+//用户修改头像
+export const modifyAvatar = (params) => {
+  return async (dispatch, getState) => {
+    try {
+      await api.modifyAvatar(params)
+      dispatch(queryUserInfo())
+    } catch (error) {
+      console.log(error)
+    }
+  }
+}
