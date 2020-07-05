@@ -361,6 +361,15 @@ export const uploadContentImg = (params) => {
   }
 }
 
+export const clearUploadContentImg = () => {
+  return {
+    type: UPLOAD_SHARE_IMG_SUCCESS,
+    payload: {
+      dynamicShareImg: ''
+    }
+  }
+}
+
 //发表动态
 export const publishDynamic = (params, callback) => {
   return async (dispatch, getState) => {

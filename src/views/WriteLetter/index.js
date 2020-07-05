@@ -92,7 +92,8 @@ class WriteLetter extends Component {
     const { templateShow, content } = this.state
     return (
       <div className="writeLetter">
-        <div className="mail__content--background" style={{ backgroundImage: `url(${selectedPaper.letterPaperUrl})` }}>
+        <img src={selectedPaper.letterPaperUrl} alt="" className="mail__content--background" />
+        <div>
           <textarea
             ref={(el) => (this.container = el)}
             className="mail__textarea"

@@ -64,12 +64,6 @@ const config = [
         component: lazy(() => import('@/views/User'))
       },
       {
-        path: '/user_info',
-        name: '修改个人信息',
-        icon: 'setting',
-        component: lazy(() => import('@/views/UserInfo'))
-      },
-      {
         path: '/improve_profile',
         name: '完善个人信息',
         icon: 'setting',

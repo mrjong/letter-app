@@ -18,23 +18,31 @@ class FollowList extends Component {
     const { fansUserList = [] } = this.props
     return (
       <div className="follow__list">
-        {fansUserList.map((item, index) => {
-          return (
-            <div className="follow__list--item" key={item.userId}>
-              <div className="follow__list--item-left">
-                <AvatarUserInfo {...item} avatar={item.headImg} address={item.addressCity}/>
-              </div>
-              <button
-                className="follow__list--item-button"
-                onClick={() => {
-                  this.onWriteLetterButton(item.userId)
-                }}
-              >
-                写信
-              </button>
-            </div>
-          )
-        })}
+        {fansUserList.length > 0 ? (
+          <div>
+            {fansUserList.map((item, index) => {
+              return (
+                <div className="follow__list--item" key={item.userId}>
+                  <div className="follow__list--item-left">
+                    <AvatarUserInfo {...item} avatar={item.headImg} address={item.addressCity} />
+                  </div>
+                  <button
+                    className="follow__list--item-button"
+                    onClick={() => {
+                      this.onWriteLetterButton(item.userId)
+                    }}
+                  >
+                    写信
+                  </button>
+                </div>
+              )
+            })}
+          </div>
+        ) : (
+          <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '80vh' }}>
+            <p>暂没有相关数据喔</p>
+          </div>
+        )}
       </div>
     )
   }

@@ -78,7 +78,7 @@ class AppLayout extends Component {
                 key={item.title}
                 icon={renderIcon(item.icon)}
                 selectedIcon={renderIcon(item.selectedIcon)}
-                selected={this.state.selectedTab === item.path}
+                selected={this.props.history.location.pathname === item.path}
                 badge={item.badge}
                 dot={item.dot}
                 onPress={() => {

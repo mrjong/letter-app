@@ -77,7 +77,7 @@ function checkBackendCode(response) {
 
 instance.interceptors.request.use(
   (config) => {
-    // Toast.loading('加载中...', 1)
+    Toast.loading('加载中...', 1)
     // 发起请求时，取消掉当前正在进行的相同请求
     cancelPending(config)
 
@@ -97,6 +97,7 @@ instance.interceptors.request.use(
 instance.interceptors.response.use(
   (response) => {
     cancelPending(response.config)
+    Toast.hide()
     return response
   },
   (error) => {

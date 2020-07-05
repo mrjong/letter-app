@@ -34,41 +34,47 @@ class DraftBox extends Component {
     const { draftboxList = [] } = this.props
     return (
       <div className="draftbox">
-        <ul className="draftbox__list">
-          {draftboxList.map((item, index) => {
-            return (
-              <li className="draftbox__list--item" key={item.letterId}>
-                <MailCard
-                  {...item}
-                  label={item.letterTypeName}
-                  renderContent={item.content}
-                  buttons={[
-                    <button
-                      className="operate-button"
-                      onClick={(e) => {
-                        e.stopPropagation()
-                        this.props.handleModalShow({
-                          type: 'delete',
-                          onConfirm: () => {
-                            this.props.lettersDelete(item.letterId, () => {
-                              this.props.queryDraftboxList()
-                            })
-                          }
-                        })
-                      }}
-                      key="0"
-                    >
-                      删除
-                    </button>
-                  ]}
-                  onMailCardClick={() => {
-                    this.onMailCardClick(item)
-                  }}
-                ></MailCard>
-              </li>
-            )
-          })}
-        </ul>
+        {draftboxList.length > 0 ? (
+          <ul className="draftbox__list">
+            {draftboxList.map((item, index) => {
+              return (
+                <li className="draftbox__list--item" key={item.letterId}>
+                  <MailCard
+                    {...item}
+                    label={item.letterTypeName}
+                    renderContent={item.content}
+                    buttons={[
+                      <button
+                        className="operate-button"
+                        onClick={(e) => {
+                          e.stopPropagation()
+                          this.props.handleModalShow({
+                            type: 'delete',
+                            onConfirm: () => {
+                              this.props.lettersDelete(item.letterId, () => {
+                                this.props.queryDraftboxList()
+                              })
+                            }
+                          })
+                        }}
+                        key="0"
+                      >
+                        删除
+                      </button>
+                    ]}
+                    onMailCardClick={() => {
+                      this.onMailCardClick(item)
+                    }}
+                  ></MailCard>
+                </li>
+              )
+            })}
+          </ul>
+        ) : (
+          <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '80vh' }}>
+            <p>暂没有相关数据喔</p>
+          </div>
+        )}
       </div>
     )
   }

@@ -7,6 +7,7 @@ const interceptRouteArr = [
   '/friends',
   '/user',
   '/write_letter',
+  '/dynamic_edit'
   // '/outbox',
   // '/inbox',
   // '/post_confirm',
@@ -35,6 +36,13 @@ window.addEventListener('popstate', () => {
       store.dispatch(
         handleModalShow({
           type: 'editSave'
+        })
+      )
+      break
+    case '/dynamic_edit':
+      store.dispatch(
+        handleModalShow({
+          type: 'tip'
         })
       )
       break

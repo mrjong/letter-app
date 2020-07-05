@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Steps } from 'antd-mobile'
 import { MailCard } from '@/components'
-import { queryInboxList, lettersDelete, queryPostAddress } from '../../redux/mail.redux'
+import { queryInboxList, lettersDelete, queryPostAddress, readLetter } from '../../redux/mail.redux'
 import { handleModalShow } from '../../redux/common.redux'
 import successIcon from '../../assets/images/mails/success.png'
 import waitIcon from '../../assets/images/mails/wait.png'
@@ -14,7 +14,8 @@ const Step = Steps.Step
   queryInboxList,
   lettersDelete,
   queryPostAddress,
-  handleModalShow
+  handleModalShow,
+  readLetter
 })
 class InBox extends Component {
   componentDidMount() {
@@ -22,7 +23,7 @@ class InBox extends Component {
   }
 
   onMailCardClick = (item) => {
-    console.log(item)
+    this.props.readLetter(item.letterId)
   }
 
   onWriteLetterButton = (id) => {
@@ -67,51 +68,57 @@ class InBox extends Component {
     const { inboxList = [] } = this.props
     return (
       <div>
-        <ul className="inbox__list">
-          {inboxList.map((item, index) => {
-            return (
-              <li className="inbox__list--item" key={item.letterId}>
-                <MailCard
-                  {...item}
-                  label={`${item.addressCity}·${item.letterName}`}
-                  renderContent={this.renderContent(item)}
-                  buttons={[
-                    <button
-                      className="operate-button"
-                      onClick={(e) => {
-                        e.stopPropagation()
-                        this.onWriteLetterButton(item.sendUserId)
-                      }}
-                      key="0"
-                    >
-                      回信
-                    </button>,
-                    <button
-                      className="operate-button"
-                      onClick={(e) => {
-                        e.stopPropagation()
-                        this.props.handleModalShow({
-                          type: 'delete',
-                          onConfirm: () => {
-                            this.props.lettersDelete(item.letterId, () => {
-                              this.props.queryInboxList()
-                            })
-                          }
-                        })
-                      }}
-                      key="1"
-                    >
-                      删除
-                    </button>
-                  ]}
-                  onMailCardClick={() => {
-                    this.onMailCardClick(item)
-                  }}
-                ></MailCard>
-              </li>
-            )
-          })}
-        </ul>
+        {inboxList.length > 0 ? (
+          <ul className="inbox__list">
+            {inboxList.map((item, index) => {
+              return (
+                <li className="inbox__list--item" key={item.letterId}>
+                  <MailCard
+                    {...item}
+                    label={`${item.addressCity}·${item.letterName}`}
+                    renderContent={this.renderContent(item)}
+                    buttons={[
+                      <button
+                        className="operate-button"
+                        onClick={(e) => {
+                          e.stopPropagation()
+                          this.onWriteLetterButton(item.sendUserId)
+                        }}
+                        key="0"
+                      >
+                        回信
+                      </button>,
+                      <button
+                        className="operate-button"
+                        onClick={(e) => {
+                          e.stopPropagation()
+                          this.props.handleModalShow({
+                            type: 'delete',
+                            onConfirm: () => {
+                              this.props.lettersDelete(item.letterId, () => {
+                                this.props.queryInboxList()
+                              })
+                            }
+                          })
+                        }}
+                        key="1"
+                      >
+                        删除
+                      </button>
+                    ]}
+                    onMailCardClick={() => {
+                      this.onMailCardClick(item)
+                    }}
+                  ></MailCard>
+                </li>
+              )
+            })}
+          </ul>
+        ) : (
+          <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '80vh' }}>
+            <p>暂没有相关数据喔</p>
+          </div>
+        )}
       </div>
     )
   }

@@ -106,6 +106,7 @@ class Mails extends Component {
                 penName={obj.penName}
                 address={obj.address}
                 userId={obj.userId}
+                sex={obj.sex}
               />
             </div>
           </div>

@@ -52,6 +52,21 @@ class AppModal extends Component {
             { text: '确定', onPress: () => common.modalConfirmCallback() }
           ]
         }
+      case 'tip':
+        return {
+          title: '',
+          content: '返回后内容将不会保存',
+          button: [
+            { text: '取消', onPress: () => handleModalHide() },
+            {
+              text: '确定',
+              onPress: () => {
+                handleModalHide()
+                window.ReactRouterHistory.goBack()
+              }
+            }
+          ]
+        }
       case 'editSave':
         return {
           title: '',
