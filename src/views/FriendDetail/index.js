@@ -76,7 +76,7 @@ class FriendDetail extends Component {
               </div>
             </div>
             <p className="total">
-              粉丝 {fansCount} 丨 收信 {sendCount} 丨 写信 {receiveCount}
+              粉丝 {fansCount} 丨 收信 {receiveCount} 丨 写信 {sendCount}
             </p>
             <p className="nickname">{autograph}</p>
           </div>

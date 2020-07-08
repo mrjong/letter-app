@@ -7,8 +7,8 @@ const interceptRouteArr = [
   '/friends',
   '/user',
   '/write_letter',
-  '/dynamic_edit'
-  // '/outbox',
+  '/dynamic_edit',
+  '/outbox'
   // '/inbox',
   // '/post_confirm',
   // '/follow_list',
@@ -21,6 +21,7 @@ export const changeHistoryState = () => {
   }
 }
 window.addEventListener('popstate', () => {
+  changeHistoryState()
   switch (window.location.pathname) {
     case '/home':
     case '/mails':
@@ -47,6 +48,8 @@ window.addEventListener('popstate', () => {
       )
       break
     case '/outbox':
+      window.ReactRouterHistory.push('/home')
+      break
     case '/inbox':
     case '/post_confirm':
     case '/follow_list':

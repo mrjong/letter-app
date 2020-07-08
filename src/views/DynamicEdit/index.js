@@ -15,6 +15,11 @@ class DynamicEdit extends Component {
     files: [],
     dynamicContent: ''
   }
+
+  componentWillUnmount() {
+    this.props.clearUploadContentImg()
+  }
+
   onFileChange = (files, type, index) => {
     let formData = new FormData()
     formData.append('contentImg', files[0].file)
@@ -40,12 +45,10 @@ class DynamicEdit extends Component {
         status: '11'
       },
       () => {
-        Toast.info('发布成功')
-        let timer = setTimeout(() => {
+        Toast.info('发布成功', 1, () => {
           this.props.history.replace('/home')
           this.props.clearUploadContentImg()
-          clearTimeout(timer)
-        }, 1000)
+        })
       }
     )
   }

@@ -60,11 +60,9 @@ function checkBackendCode(response) {
         return response.data.data
       case '0003':
         localStorage.clear()
-        Toast.info('登录超时，请重新登录')
-        let timer = setTimeout(() => {
+        Toast.info('登录超时，请重新登录', 2, () => {
           window.ReactRouterHistory.replace('/login')
-          clearTimeout(timer)
-        }, 2000)
+        })
         break
       default:
         return Promise.reject({

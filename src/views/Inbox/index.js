@@ -88,23 +88,23 @@ class InBox extends Component {
                       >
                         回信
                       </button>,
-                      <button
-                        className="operate-button"
-                        onClick={(e) => {
-                          e.stopPropagation()
-                          this.props.handleModalShow({
-                            type: 'delete',
-                            onConfirm: () => {
-                              this.props.lettersDelete(item.letterId, () => {
-                                this.props.queryInboxList()
-                              })
-                            }
-                          })
-                        }}
-                        key="1"
-                      >
-                        删除
-                      </button>
+                      // <button
+                      //   className="operate-button"
+                      //   onClick={(e) => {
+                      //     e.stopPropagation()
+                      //     this.props.handleModalShow({
+                      //       type: 'delete',
+                      //       onConfirm: () => {
+                      //         this.props.lettersDelete(item.letterId, () => {
+                      //           this.props.queryInboxList()
+                      //         })
+                      //       }
+                      //     })
+                      //   }}
+                      //   key="1"
+                      // >
+                      //   删除
+                      // </button>
                     ]}
                     onMailCardClick={() => {
                       this.onMailCardClick(item)

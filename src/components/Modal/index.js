@@ -136,7 +136,7 @@ class AppModal extends Component {
       <Modal
         visible={visible}
         transparent
-        maskClosable={true}
+        maskClosable={false}
         onClose={() => {
           this.props.handleModalHide()
         }}

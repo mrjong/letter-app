@@ -56,23 +56,23 @@ class OutBox extends Component {
                       >
                         再写一封
                       </button>,
-                      <button
-                        className="operate-button"
-                        onClick={(e) => {
-                          e.stopPropagation()
-                          this.props.handleModalShow({
-                            type: 'delete',
-                            onConfirm: () => {
-                              this.props.lettersDelete(item.letterId, () => {
-                                this.props.queryOutboxList()
-                              })
-                            }
-                          })
-                        }}
-                        key="1"
-                      >
-                        删除
-                      </button>
+                      // <button
+                      //   className="operate-button"
+                      //   onClick={(e) => {
+                      //     e.stopPropagation()
+                      //     this.props.handleModalShow({
+                      //       type: 'delete',
+                      //       onConfirm: () => {
+                      //         this.props.lettersDelete(item.letterId, () => {
+                      //           this.props.queryOutboxList()
+                      //         })
+                      //       }
+                      //     })
+                      //   }}
+                      //   key="1"
+                      // >
+                      //   删除
+                      // </button>
                     ]}
                     onMailCardClick={() => {
                       this.onMailCardClick(item)

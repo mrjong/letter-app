@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Carousel } from 'antd-mobile'
+import { Carousel, Toast } from 'antd-mobile'
 import { connect } from 'react-redux'
 import { queryLetterPapers, letterPaperPurchase } from '../../redux/mail.redux'
 import './style.less'
@@ -17,7 +17,11 @@ class LetterPaper extends Component {
   }
 
   letterPaperPurchase = (letterPaperId) => {
-    this.props.letterPaperPurchase(letterPaperId)
+    this.props.letterPaperPurchase(letterPaperId, () => {
+      Toast.info('购买成功', 1, () => {
+        this.props.queryLetterPapers()
+      })
+    })
   }
 
   render() {

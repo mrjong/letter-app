@@ -11,7 +11,7 @@ class Preview extends Component {
     renderGrid: false,
     tabs: [],
     allPages: [],
-    pageIndex: 0
+    currentPage: 1
   }
   componentDidMount() {
     const doc = document.documentElement || document.body
@@ -34,12 +34,11 @@ class Preview extends Component {
   }
 
   render() {
-    const { lineNum, renderGrid, gridItemHeight, allPages, tabs } = this.state
+    const { lineNum, renderGrid, gridItemHeight, allPages, tabs, currentPage } = this.state
     return (
-      <div
-        className="preview__letter"
-        style={{ backgroundImage: `url(${this.props.history.location.state.letterPaperUrlPath})` }}
-      >
+      <div className="preview__letter">
+        <img src={this.props.history.location.state.letterPaperUrlPath} alt="" className="mail__content--background" />
+
         {renderGrid && (
           <div className="mail__underline--layout">
             {Array.from({ length: lineNum }).map((item, index) => {
@@ -53,7 +52,15 @@ class Preview extends Component {
             })}
           </div>
         )}
-        <Tabs tabs={tabs} initialPage={0}>
+        <Tabs
+          tabs={tabs}
+          initialPage={0}
+          onChange={(tab, index) => {
+            this.setState({
+              currentPage: index + 1
+            })
+          }}
+        >
           {allPages.length > 0 &&
             allPages.map((value, index) => {
               return (
@@ -67,6 +74,9 @@ class Preview extends Component {
               )
             })}
         </Tabs>
+        <span className="page-number">
+          {currentPage} / {allPages.length}
+        </span>
       </div>
     )
   }

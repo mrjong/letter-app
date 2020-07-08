@@ -179,12 +179,13 @@ export const queryLetterPapers = () => {
 }
 
 //信纸购买
-export const letterPaperPurchase = (id) => {
+export const letterPaperPurchase = (id, callback) => {
   return async (dispatch, getState) => {
     try {
       await api.letterPaperPurchase({
         letterPaperId: id + ''
       })
+      callback && callback()
     } catch (error) {
       console.log(error)
     }
