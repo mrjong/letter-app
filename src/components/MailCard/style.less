@@ -54,6 +54,7 @@
     .am-steps-item-wait {
       .am-steps-item-tail {
         display: block !important;
+        background-color: #eeeeee;
         &::after {
           content: '';
           display: inline-block;
@@ -62,6 +63,10 @@
           margin-left: -70px;
         }
       }
+    }
+    .am-steps-item:last-child .am-steps-item-tail,
+    .am-steps-item:last-child .am-steps-item-title:after {
+      background-color: transparent;
     }
   }
   &__bottom {
