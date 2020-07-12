@@ -16,7 +16,8 @@ import './style.less'
     handleModalHide,
     lettersSave,
     lettersDelete,
-    letterSendOut
+    letterSendOut,
+    logoutApp
   }
 )
 class AppModal extends Component {
@@ -32,7 +33,7 @@ class AppModal extends Component {
   }
 
   renderModal = (prevProps) => {
-    const { handleModalHide, lettersDelete, lettersSave, letterSendOut, mail = {}, common = {} } = prevProps
+    const { handleModalHide, lettersDelete, lettersSave, letterSendOut, logoutApp, mail = {}, common = {} } = prevProps
     switch (common.modalType) {
       case 'logout':
         return {
@@ -62,7 +63,7 @@ class AppModal extends Component {
               text: '确定',
               onPress: () => {
                 handleModalHide()
-                window.ReactRouterHistory.goBack()
+                window.ReactRouterHistory.go(-2)
               }
             }
           ]
@@ -143,9 +144,7 @@ class AppModal extends Component {
         title={title}
         footer={button}
       >
-        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', fontSize: '.4rem' }}>
-          {content}
-        </div>
+        <div className="modal-content-wrap">{content}</div>
       </Modal>
     )
   }

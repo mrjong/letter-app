@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { Modal, Toast, ImagePicker } from 'antd-mobile'
 import { connect } from 'react-redux'
 import { queryUserInfo, modifyUserInfo, modifyAvatar } from '../../redux/user.redux'
+import { handleModalShow } from '../../redux/common.redux'
 import nan from '../../assets/images/common/nan.png'
 import nv from '../../assets/images/common/nv.png'
 import './style.less'
@@ -64,7 +65,8 @@ const navList = [
 @connect((state) => state.user, {
   queryUserInfo,
   modifyUserInfo,
-  modifyAvatar
+  modifyAvatar,
+  handleModalShow
 })
 class User extends Component {
   state = {
@@ -136,6 +138,12 @@ class User extends Component {
     if (index === 2) {
       this.editAddress()
     }
+  }
+
+  onLogout = () => {
+    this.props.handleModalShow({
+      type: 'logout'
+    })
   }
 
   render() {
@@ -231,6 +239,9 @@ class User extends Component {
               )
             })}
           </div>
+          <button className="logout-button" onClick={this.onLogout}>
+            退出登录
+          </button>
         </div>
       </div>
     )

@@ -12,6 +12,8 @@ const initialState = {
   userRecommends: [],
   unreadTip: false,
   userInfo: {},
+  friends: [],
+  fansUserList: [],
   friendDetail: {}
 }
 

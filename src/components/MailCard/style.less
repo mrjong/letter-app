@@ -44,11 +44,24 @@
     .am-steps-small .am-steps-item-title {
       font-size: 28px;
       color: #333333;
+      margin-left: -20px;
       font-weight: normal;
     }
     .am-steps-small .am-steps-item-icon {
       width: 32px;
       height: 32px;
+    }
+    .am-steps-item-wait {
+      .am-steps-item-tail {
+        display: block !important;
+        &::after {
+          content: '';
+          display: inline-block;
+          border-radius: 0;
+          width: 30%;
+          margin-left: -70px;
+        }
+      }
     }
   }
   &__bottom {

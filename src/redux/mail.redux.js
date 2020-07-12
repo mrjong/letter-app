@@ -7,6 +7,12 @@ const initialState = {
   writeLetterContent: '',
   selectedPaper: {},
   letterPapers: [],
+  outboxList: [],
+  inboxList: [],
+  draftboxList: [],
+  dynamicDetail: {},
+  dynamicShareImg: '',
+  dynamicShareId: '',
   receiveAddress: {}
 }
 
@@ -398,7 +404,7 @@ export const giveAgree = (id, callback) => {
 }
 
 //阅读信件明细
-export const readLetter = (id, callback) => {
+export const readLetter = (id) => {
   return async (dispatch, getState) => {
     try {
       const res = await api.readLetter({
@@ -411,7 +417,6 @@ export const readLetter = (id, callback) => {
           letterPaperUrlPath: res.letterPaperUrlPath
         }
       })
-      // callback && callback()
     } catch (error) {
       console.log(error)
     }

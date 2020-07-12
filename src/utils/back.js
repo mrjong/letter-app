@@ -1,19 +1,7 @@
 import store from '../redux/store'
 import { handleModalShow } from '../redux/common.redux'
 
-const interceptRouteArr = [
-  '/home',
-  '/mails',
-  '/friends',
-  '/user',
-  '/write_letter',
-  '/dynamic_edit',
-  '/outbox'
-  // '/inbox',
-  // '/post_confirm',
-  // '/follow_list',
-  // '/draftbox'
-]
+const interceptRouteArr = ['/home', '/mails', '/friends', '/user', '/write_letter', '/dynamic_edit', '/outbox']
 
 export const changeHistoryState = () => {
   if (interceptRouteArr.includes(window.location.pathname)) {
@@ -27,11 +15,6 @@ window.addEventListener('popstate', () => {
     case '/mails':
     case '/friends':
     case '/user':
-      // store.dispatch(
-      //   handleModalShow({
-      //     type: 'logout'
-      //   })
-      // )
       break
     case '/write_letter':
       store.dispatch(
@@ -49,12 +32,6 @@ window.addEventListener('popstate', () => {
       break
     case '/outbox':
       window.ReactRouterHistory.push('/home')
-      break
-    case '/inbox':
-    case '/post_confirm':
-    case '/follow_list':
-    case '/draftbox':
-      // window.ReactRouterHistory.push('/home')
       break
     default:
       break

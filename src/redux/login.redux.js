@@ -1,4 +1,5 @@
 import api from '../api'
+import { handleModalHide } from './common.redux'
 
 const initialState = {
   mobileNo: '',
@@ -93,6 +94,12 @@ export const smsCodeCountDownEnd = () => {
 
 //退出app
 export const logoutApp = () => {
-  localStorage.clear()
-  window.ReactRouterHistory.replace('/login')
+  return (dispatch, getState) => {
+    localStorage.clear()
+    dispatch(handleModalHide())
+    let timer = setTimeout(() => {
+      window.ReactRouterHistory.replace('/login')
+      clearTimeout(timer)
+    }, 300)
+  }
 }

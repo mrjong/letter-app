@@ -87,7 +87,7 @@ class InBox extends Component {
                         key="0"
                       >
                         回信
-                      </button>,
+                      </button>
                       // <button
                       //   className="operate-button"
                       //   onClick={(e) => {

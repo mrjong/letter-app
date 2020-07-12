@@ -75,7 +75,7 @@ class Preview extends Component {
             })}
         </Tabs>
         <span className="page-number">
-          {currentPage} / {allPages.length}
+          {currentPage}/{allPages.length}
         </span>
       </div>
     )
