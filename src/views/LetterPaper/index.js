@@ -37,7 +37,6 @@ class LetterPaper extends Component {
             slideWidth={0.6}
             dots={false}
             infinite
-            // beforeChange={(from, to) => console.log(`slide from ${from} to ${to}`)}
             afterChange={(index) => this.setState({ slideIndex: index })}
           >
             {letterPapers.map((item, index) => (

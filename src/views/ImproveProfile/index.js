@@ -19,7 +19,6 @@ class ImproveProfile extends Component {
     showPikerModal: false
   }
   onFileChange = (files, type, index) => {
-    console.log(files, type, index)
     const mobileNo = localStorage.getItem('mobileNo')
     let formData = new FormData()
     formData.append('headImg', files[0].file)

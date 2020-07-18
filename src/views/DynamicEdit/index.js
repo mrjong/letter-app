@@ -60,7 +60,11 @@ class DynamicEdit extends Component {
       <div>
         <div className="dynamic__edit">
           <div className="upload-wrap">
-            {!dynamicShareImg && <p className="upload-tip">上传一张背景图吧</p>}
+            {!dynamicShareImg && (
+              <p className="upload-tip">
+                上传一张背景图吧 <br /> (建议尺寸2:1)
+              </p>
+            )}
             {dynamicShareImg ? (
               <img src={dynamicShareImg || avatarDefault} alt="" className="preview-img" />
             ) : (

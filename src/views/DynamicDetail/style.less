@@ -1,7 +1,7 @@
 .dynamic-detail {
   height: 100vh;
   &__cover {
-    height: 300px;
+    height: 380px;
     width: 100%;
   }
   &__pannel {
@@ -44,7 +44,8 @@
       line-height: 1.8;
       margin-bottom: 20px;
       margin-top: 38px;
-      height: 450px;
+      height: 550px;
+      height: calc(100vh - 630px);
       overflow: scroll;
     }
 
@@ -56,8 +57,14 @@
       color: #999999;
       margin-top: 10px;
 
+      span {
+        margin-left: 70px;
+        &:last-child {
+          margin-left: 58px;
+        }
+      }
+
       .views {
-        margin-right: 68px;
         background-image: url('../../assets/images/mails/shuji.png');
         background-size: 24px 20px;
         background-position: 0px 6px;
@@ -72,24 +79,31 @@
         background-repeat: no-repeat;
         padding-left: 40px;
       }
+
+      .comment {
+        vertical-align: middle;
+        margin-right: 10px;
+      }
     }
 
     &--comment {
       position: relative;
-      margin-top: 20px;
-      padding-top: 30px;
-      height: 220px;
-      overflow: scroll;
-      border-top: 1px solid #595e4a;
-      // &::before {
-      //   .top-line(#595e4a);
-      // }
+      padding-bottom: 40px;
+      margin: 30px 40px 0;
+      .comment-close-icon {
+        position: absolute;
+        right: 0;
+        top: -5px;
+      }
+    }
+    &--commentTitle {
+      margin-bottom: 30px;
+      font-weight: bold;
     }
 
     &--commentList {
-      padding-bottom: 100px;
-      box-sizing: border-box;
-
+      height: calc(100vh - 480px);
+      overflow: scroll;
       .comment-item {
         display: flex;
         .comment-wrap {
@@ -99,6 +113,7 @@
           flex-direction: column;
           padding-bottom: 30px;
           margin-bottom: 26px;
+          text-align: left;
 
           &::before {
             .bottom-line(#595e4a);
@@ -124,40 +139,40 @@
       }
     }
   }
+}
 
-  .empty-comment {
-    position: relative;
-    height: 490px;
-    line-height: 340px;
-    text-align: center;
+.comment-modal {
+  .am-modal-content {
+    border-radius: 28px 28px 0 0;
+    background-color: #fff;
     font-size: 30px;
-    margin-top: 36px;
-
-    &::before {
-      .top-line(#595e4a);
+    box-sizing: border-box;
+    .empty-comment {
+      height: calc(100vh - 480px);
+      line-height: 380px;
     }
-  }
 
-  .reply-wrap {
-    position: fixed;
-    left: 0;
-    bottom: 0;
-    display: flex;
-    width: 100%;
-    height: 70px;
-    line-height: 70px;
-    .input {
-      width: 75%;
-      padding-left: 15px;
-      border-radius: 0px;
-    }
-    .button {
-      width: 25%;
-      background-color: #595e4a;
-      color: #fff;
-      font-size: 24px;
-      font-weight: bold;
-      border-radius: 0px;
+    .reply-wrap {
+      position: fixed;
+      left: 0;
+      bottom: 0;
+      display: flex;
+      width: 100%;
+      height: 70px;
+      line-height: 70px;
+      .input {
+        width: 75%;
+        padding-left: 15px;
+        border-radius: 0px;
+      }
+      .button {
+        width: 25%;
+        background-color: #595e4a;
+        color: #fff;
+        font-size: 24px;
+        font-weight: bold;
+        border-radius: 0px;
+      }
     }
   }
 }

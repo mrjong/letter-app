@@ -3,7 +3,7 @@ import { Modal } from 'antd-mobile'
 import { connect } from 'react-redux'
 import { handleModalHide } from '../../redux/common.redux'
 import { logoutApp } from '../../redux/login.redux'
-import { lettersSave, lettersDelete, letterSendOut } from '../../redux/mail.redux'
+import { lettersSave, letterSendOut } from '../../redux/mail.redux'
 import mail_img from '../../assets/images/mails/xiexin_2.png'
 import './style.less'
 
@@ -15,7 +15,6 @@ import './style.less'
   {
     handleModalHide,
     lettersSave,
-    lettersDelete,
     letterSendOut,
     logoutApp
   }
@@ -33,7 +32,7 @@ class AppModal extends Component {
   }
 
   renderModal = (prevProps) => {
-    const { handleModalHide, lettersDelete, lettersSave, letterSendOut, logoutApp, mail = {}, common = {} } = prevProps
+    const { handleModalHide, lettersSave, letterSendOut, logoutApp, mail = {}, common = {} } = prevProps
     switch (common.modalType) {
       case 'logout':
         return {
@@ -74,11 +73,11 @@ class AppModal extends Component {
           content: '是否保存为草稿箱?',
           button: [
             {
-              text: '删除',
-              onPress: () =>
-                lettersDelete(mail.letterId, () => {
-                  window.ReactRouterHistory.replace('/home')
-                })
+              text: '不保存',
+              onPress: () => {
+                handleModalHide()
+                window.ReactRouterHistory.replace('/home')
+              }
             },
             {
               text: '保存',

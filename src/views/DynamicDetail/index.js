@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { Modal, Icon } from 'antd-mobile'
 import { connect } from 'react-redux'
 import { queryDynamicDetail, commentDynamic, giveAgree } from '../../redux/mail.redux'
 import './style.less'
@@ -11,7 +12,8 @@ let dynamicId
 })
 class DynamicDetail extends Component {
   state = {
-    replyContent: ''
+    replyContent: '',
+    showCommentModal: false
   }
   componentDidMount() {
     dynamicId = this.props.match.params.dynamicId
@@ -41,8 +43,14 @@ class DynamicDetail extends Component {
     })
   }
 
+  toggleCommentModal = () => {
+    this.setState({
+      showCommentModal: !this.state.showCommentModal
+    })
+  }
+
   render() {
-    const { replyContent } = this.state
+    const { replyContent, showCommentModal } = this.state
     const { dynamicDetail = {} } = this.props
     const {
       penName,
@@ -77,9 +85,24 @@ class DynamicDetail extends Component {
             >
               {goodCount}
             </span>
+            <span onClick={this.toggleCommentModal}>
+              <Icon type="ellipsis" className="comment" size="xxs" />
+              评论
+            </span>
           </div>
-          {commentList.length > 0 ? (
-            <div className="dynamic-detail__pannel--comment">
+        </div>
+
+        <Modal
+          popup
+          visible={showCommentModal}
+          className="comment-modal"
+          onClose={this.toggleCommentModal}
+          animationType="slide-up"
+        >
+          <div className="dynamic-detail__pannel--comment">
+            <p className="dynamic-detail__pannel--commentTitle">{commentList.length}条评论</p>
+            <Icon type="cross" className="comment-close-icon" onClick={this.toggleCommentModal} />
+            {commentList.length > 0 ? (
               <ul className="dynamic-detail__pannel--commentList">
                 {commentList.map((item, index) => {
                   return (
@@ -93,11 +116,10 @@ class DynamicDetail extends Component {
                   )
                 })}
               </ul>
-            </div>
-          ) : (
-            <p className="empty-comment">暂无评论</p>
-          )}
-
+            ) : (
+              <p className="empty-comment">暂无评论</p>
+            )}
+          </div>
           <div className="reply-wrap">
             <input
               type="text"
@@ -110,7 +132,7 @@ class DynamicDetail extends Component {
               回复
             </button>
           </div>
-        </div>
+        </Modal>
       </div>
     )
   }

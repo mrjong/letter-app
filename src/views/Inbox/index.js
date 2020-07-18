@@ -82,7 +82,7 @@ class InBox extends Component {
                         className="operate-button"
                         onClick={(e) => {
                           e.stopPropagation()
-                          this.onWriteLetterButton(item.sendUserId)
+                          this.onWriteLetterButton(item.userId)
                         }}
                         key="0"
                       >

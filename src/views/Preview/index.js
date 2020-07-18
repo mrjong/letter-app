@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { Tabs } from 'antd-mobile'
 import './style.less'
 
-const perPageChar = 300
+const perPageChar = 255
 
 class Preview extends Component {
   state = {
@@ -22,7 +22,7 @@ class Preview extends Component {
 
     const arr = []
     for (let i = 0; i < totalPage; i++) {
-      arr.push(content.slice(i * perPageChar, i + perPageChar * (i + 1)))
+      arr.push(content.slice(i * perPageChar, perPageChar * (i + 1)))
     }
 
     this.setState({
@@ -32,6 +32,33 @@ class Preview extends Component {
       allPages: arr
     })
   }
+
+  // calcPerPageChar = (content) => {
+  //   let arr = []
+  //   let index = 0
+  //   let space = 0
+  //   let char = 0
+  //   for (let i = 0; i < content.length; i++) {
+  //     if (/\s/.test(content[i])) {
+  //       console.log('kongge')
+  //       space++
+  //       if (space === 4) {
+  //         space = 0
+  //         index++
+  //       }
+  //     } else {
+  //       index++
+  //     }
+  //     if (index === perPageChar) {
+  //       arr.push(content.slice(char, i))
+  //       console.log(arr, i)
+
+  //       char = i
+  //       index = 0
+  //     }
+  //   }
+  //   return arr
+  // }
 
   render() {
     const { lineNum, renderGrid, gridItemHeight, allPages, tabs, currentPage } = this.state
