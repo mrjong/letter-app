@@ -147,20 +147,19 @@ class User extends Component {
   }
 
   render() {
+    const { userInfo = {} } = this.props
     const {
-      userInfo: {
-        address,
-        autograph,
-        fansCount,
-        headImgPath,
-        letterPaperCount,
-        penName,
-        receiveCount,
-        sendCount,
-        sex,
-        addressDetail
-      }
-    } = this.props
+      address,
+      autograph,
+      fansCount,
+      headImgPath,
+      letterPaperCount,
+      penName,
+      receiveCount,
+      sendCount,
+      sex,
+      addressDetail
+    } = userInfo
     return (
       <div>
         <div className="user__header--title">

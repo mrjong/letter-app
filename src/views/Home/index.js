@@ -65,7 +65,9 @@ class Home extends Component {
   }
   componentDidMount() {
     this.props.queryBanner()
-    this.props.queryUserRecommend()
+    if (this.props.user.userRecommends.length === 0) {
+      this.props.queryUserRecommend()
+    }
     this.props.queryUnreadPrompt()
   }
 
@@ -87,7 +89,6 @@ class Home extends Component {
         }, 1000)
       }
     )
-
     this.props.queryUserRecommend()
   }
 

@@ -4,7 +4,7 @@ const config = [
   { path: '/', exact: true, redirect: '/home' },
   {
     path: '/login', // 路由路径
-    name: '登录页', // 菜单名称 (不设置,则不展示在菜单栏中）
+    name: '登录', // 菜单名称 (不设置,则不展示在菜单栏中）
     icon: 'setting', // 菜单图标
     component: lazy(() => import('@/views/Login')) // 懒加载 路由组件
   },
