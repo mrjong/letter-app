@@ -112,6 +112,7 @@ class AppModal extends Component {
                     className="post__confirm--button"
                     onClick={() => {
                       letterSendOut(() => {
+                        handleModalHide()
                         //寄出跳转发件箱
                         window.ReactRouterHistory.replace('/outbox')
                       })

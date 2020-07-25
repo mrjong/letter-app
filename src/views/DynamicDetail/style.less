@@ -6,7 +6,7 @@
   }
   &__pannel {
     position: relative;
-    top: -20px;
+    top: -30px;
     border-radius: 28px 28px 0 0;
     background-color: #fff;
     font-size: 30px;
@@ -97,7 +97,7 @@
       }
     }
     &--commentTitle {
-      margin-bottom: 30px;
+      margin-bottom: 20px;
       font-weight: bold;
     }
 
@@ -142,9 +142,12 @@
 }
 
 .comment-modal {
+  .am-modal-body {
+    background-color: transparent;
+  }
   .am-modal-content {
     border-radius: 28px 28px 0 0;
-    background-color: #fff;
+    background-color: rgba(255, 255, 255, 0.9);
     font-size: 30px;
     box-sizing: border-box;
     .empty-comment {
@@ -164,12 +167,14 @@
         width: 75%;
         padding-left: 15px;
         border-radius: 0px;
+        border: none;
+        outline: none;
       }
       .button {
         width: 25%;
         background-color: #595e4a;
         color: #fff;
-        font-size: 24px;
+        font-size: 28px;
         font-weight: bold;
         border-radius: 0px;
       }

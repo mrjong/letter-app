@@ -159,6 +159,7 @@ class ImproveProfile extends Component {
           完成
         </button>
         <Modal popup visible={showPikerModal} onClose={this.onClosePikerModal} animationType="slide-up">
+          <p className='picker__title'>请选择城市</p>
           <div className="picker__modal--wrap">
             <List className="popup-list">
               {provinces.map((item, index) => (

@@ -13,7 +13,8 @@ const initialState = {
   dynamicDetail: {},
   dynamicShareImg: '',
   dynamicShareId: '',
-  receiveAddress: {}
+  receiveAddress: {},
+  previewContent: {}
 }
 
 //types
@@ -29,6 +30,7 @@ const QUERY_DYNAMIC_DETAIL = 'QUERY_DYNAMIC_DETAIL'
 const UPLOAD_SHARE_IMG_SUCCESS = 'UPLOAD_SHARE_IMG_SUCCESS'
 const DYNAMIC_EDIT_ID = 'DYNAMIC_EDIT_ID'
 const QUERY_RECEIVE_ADDRESS = 'QUERY_RECEIVE_ADDRESS'
+const STORE_PREVIEW_CONTENT = 'STORE_PREVIEW_CONTENT'
 
 //reducers
 export const mail = (state = initialState, action) => {
@@ -57,6 +59,8 @@ export const mail = (state = initialState, action) => {
       return { ...state, dynamicShareId: action.payload.dynamicShareId }
     case QUERY_RECEIVE_ADDRESS:
       return { ...state, receiveAddress: action.payload.receiveAddress }
+    case STORE_PREVIEW_CONTENT:
+      return { ...state, previewContent: { ...state.previewContent, ...action.payload.previewContent } }
     default:
       return state
   }
@@ -406,15 +410,41 @@ export const giveAgree = (id, callback) => {
 //阅读信件明细
 export const readLetter = (id) => {
   return async (dispatch, getState) => {
+    let content
     try {
       const res = await api.readLetter({
         letterId: id
       })
+      content = res.content
+      console.log(getState().mail)
+      if (getState().mail.previewContent[id]) {
+        //分片内容
+        content = getState().mail.previewContent[id]
+      }
       window.ReactRouterHistory.push({
         pathname: '/preview',
         state: {
-          content: res.content,
+          content,
+          letterId: id,
           letterPaperUrlPath: res.letterPaperUrlPath
+        }
+      })
+    } catch (error) {
+      console.log(error)
+    }
+  }
+}
+
+//存储已经分片过的信件预览内容
+export const storePreviewContent = (id, content) => {
+  return async (dispatch, getState) => {
+    try {
+      dispatch({
+        type: STORE_PREVIEW_CONTENT,
+        payload: {
+          previewContent: {
+            [id]: content
+          }
         }
       })
     } catch (error) {

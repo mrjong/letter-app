@@ -104,12 +104,13 @@ class Login extends Component {
             type="number"
             placeholder="请输入短信验证码"
             clear
+            style={{ height: '100%' }}
           />
           <Button
             type="primary"
             onClick={this.onSmsCodeClick}
             disabled={smsCodeCountDownSts}
-            style={{ width: '2.8rem', borderRadius: '0px', flexShrink: '0' }}
+            style={{ width: '2.8rem', borderRadius: '0px', flexShrink: '0', height: '.8rem', lineHeight: '.8rem', fontSize: '.3rem' }}
           >
             {smsCodeCountDownSts ? `${smsCodeTimes}"` : '验证码'}
           </Button>
