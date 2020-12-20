@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
-import { Modal } from 'antd-mobile'
+import { Modal, Toast } from 'antd-mobile'
 import { connect } from 'react-redux'
 import { handleModalHide } from '../../redux/common.redux'
 import { logoutApp } from '../../redux/login.redux'
-import { lettersSave, letterSendOut } from '../../redux/mail.redux'
+import { lettersSave, wxPay } from '../../redux/mail.redux'
 import mail_img from '../../assets/images/mails/xiexin_2.png'
 import './style.less'
 
@@ -15,7 +15,7 @@ import './style.less'
   {
     handleModalHide,
     lettersSave,
-    letterSendOut,
+    wxPay,
     logoutApp
   }
 )
@@ -32,7 +32,7 @@ class AppModal extends Component {
   }
 
   renderModal = (prevProps) => {
-    const { handleModalHide, lettersSave, letterSendOut, logoutApp, mail = {}, common = {} } = prevProps
+    const { handleModalHide, lettersSave, wxPay, logoutApp, mail = {}, common = {} } = prevProps
     switch (common.modalType) {
       case 'logout':
         return {
@@ -111,12 +111,40 @@ class AppModal extends Component {
                   <span
                     className="post__confirm--button"
                     onClick={() => {
-                      alert(88)
-                      // letterSendOut(() => {
-                      //   handleModalHide()
-                      //   //寄出跳转发件箱
-                      //   window.ReactRouterHistory.replace('/outbox')
-                      // })
+                      wxPay((data) => {
+                          function onBridgeReady() {
+                              window.WeixinJSBridge && window.WeixinJSBridge.invoke(
+                                  'getBrandWCPayRequest', {
+                                      appId: data.appid,
+                                      timeStamp: data.timeStamp,
+                                      nonceStr: data.nonce_str,
+                                      package: data.packageStr,
+                                      signType: data.signType,
+                                      paySign: data.sign
+                                  },
+                                  function(res){
+                                      if (res.err_msg === "get_brand_wcpay_request:ok" ) {
+                                          // 使用以上方式判断前端返回,微信团队郑重提示：
+                                          //res.err_msg将在用户支付成功后返回ok，但并不保证它绝对可靠。
+                                          Toast.info('支付成功', 2, () => {
+                                              handleModalHide()
+                                              //寄出跳转发件箱
+                                              window.ReactRouterHistory.replace('/outbox')
+                                          })
+                                      }
+                                  })
+                          }
+                          if (typeof WeixinJSBridge == "undefined"){
+                              if( document.addEventListener ){
+                                  document.addEventListener('WeixinJSBridgeReady', onBridgeReady, false);
+                              }else if (document.attachEvent){
+                                  document.attachEvent('WeixinJSBridgeReady', onBridgeReady);
+                                  document.attachEvent('onWeixinJSBridgeReady', onBridgeReady);
+                              }
+                          }else{
+                              onBridgeReady();
+                          }
+                      })
                     }}
                   >
                     去支付

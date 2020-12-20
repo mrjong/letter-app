@@ -22,6 +22,8 @@ export const queryDraftboxList = (params) => request.post('/letter/drafts', para
 
 export const letterSendOut = (params) => request.post('/letter/sendOut', params)
 
+export const wxPay = (params) => request.post('/wxpay/toPay', params)
+
 export const queryDynamicDetail = (params) => request.post('/content/contentDetail', params)
 
 export const dynamicEditCheck = (params) => request.post('/content/writeContent', params)

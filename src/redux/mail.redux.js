@@ -300,6 +300,21 @@ export const letterSendOut = (callback) => {
   }
 }
 
+//微信支付
+export const wxPay = (callback) => {
+  return async (dispatch, getState) => {
+    try {
+      const res = await api.wxPay({
+        letterId: getState().mail.letterId,
+        code: localStorage.getItem('wxPayCode')
+      })
+      callback && callback(res)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+}
+
 //查询动态详情
 export const queryDynamicDetail = (id) => {
   return async (dispatch, getState) => {

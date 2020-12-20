@@ -4,7 +4,6 @@ import { Loading } from '@/components'
 import { connect } from 'react-redux'
 import { renderRoutes } from '../../routers'
 import { changeHistoryState } from '../../utils/back'
-import qs from "qs"
 
 @connect()
 class RouterGuard extends Component {
@@ -19,18 +18,11 @@ class RouterGuard extends Component {
     document.title = this.props.route.name
     const mobileNo = localStorage.getItem('mobileNo')
     const tokenId = localStorage.getItem('tokenId')
+
     if (route.auth) {
       if (isImproveProfile) {
         if (tokenId) {
-          alert(1)
-          const urlParam = qs.parse(window.location.search, { ignoreQueryPrefix: true });
-          if (!urlParam.code) {
-            alert(2)
-            location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx3576204e0d02bf51&redirect_uri=${encodeURIComponent('http://xinyouge.email/home')}&response_type=code&scope=snsapi_base&state=#wechat_redirect`
-          } else {
-            alert(JSON.stringify(urlParam))
-            this.props.history.replace('/home')
-          }
+          this.props.history.replace('/home')
         } else if (!mobileNo) {
           Toast.info('请先登录', 2, () => {
             this.props.history.replace('/login')
