@@ -99,19 +99,19 @@ class Preview extends Component {
     return (
       <div className="preview__letter">
         <img src={state.letterPaperUrlPath} alt="" className="mail__content--background" />
-        {renderGrid && (
-          <div className="mail__underline--layout">
-            {Array.from({ length: lineNum }).map((item, index) => {
-              return (
-                <div
-                  style={{ height: gridItemHeight / 50 + 'rem' }}
-                  className="mail__underline--item"
-                  key={index}
-                ></div>
-              )
-            })}
-          </div>
-        )}
+        {/*{renderGrid && (*/}
+        {/*  <div className="mail__underline--layout">*/}
+        {/*    {Array.from({ length: lineNum }).map((item, index) => {*/}
+        {/*      return (*/}
+        {/*        <div*/}
+        {/*          style={{ height: gridItemHeight / 50 + 'rem' }}*/}
+        {/*          className="mail__underline--item"*/}
+        {/*          key={index}*/}
+        {/*        ></div>*/}
+        {/*      )*/}
+        {/*    })}*/}
+        {/*  </div>*/}
+        {/*)}*/}
         {sliceRenderEnd ? (
           <Tabs
             tabs={tabs}

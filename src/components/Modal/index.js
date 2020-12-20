@@ -111,11 +111,12 @@ class AppModal extends Component {
                   <span
                     className="post__confirm--button"
                     onClick={() => {
-                      letterSendOut(() => {
-                        handleModalHide()
-                        //寄出跳转发件箱
-                        window.ReactRouterHistory.replace('/outbox')
-                      })
+                      alert(88)
+                      // letterSendOut(() => {
+                      //   handleModalHide()
+                      //   //寄出跳转发件箱
+                      //   window.ReactRouterHistory.replace('/outbox')
+                      // })
                     }}
                   >
                     去支付

@@ -133,7 +133,7 @@ class ImproveProfile extends Component {
                 女
               </span>
             </div>
-            <p className="improve__form--item-tip">后续不可更改</p>
+            {/*<p className="improve__form--item-tip">后续不可更改</p>*/}
           </div>
           <div className="improve__form--item">
             <label className="improve__form--item-label">*笔名</label>
@@ -144,7 +144,7 @@ class ImproveProfile extends Component {
               value={nickname || ''}
               onChange={this.onNameChange}
             />
-            <p className="improve__form--item-tip">后续将作为唯一身份标识。不可更改喔</p>
+            {/*<p className="improve__form--item-tip">后续将作为唯一身份标识。不可更改喔</p>*/}
           </div>
           <div className="improve__form--item">
             <label className="improve__form--item-label">*你的省市</label>
@@ -152,7 +152,7 @@ class ImproveProfile extends Component {
               <span className="improve__form--item-city-item">{selectedArea[0] || '请选择'}</span>
               <span className="improve__form--item-city-item">{selectedArea[1] || '请选择'}</span>
             </div>
-            <p className="improve__form--item-tip">将成为你推荐信友的重要指标</p>
+            {/*<p className="improve__form--item-tip">将成为你推荐信友的重要指标</p>*/}
           </div>
         </div>
         <button onClick={this.onUserRegister} className="improve__form--button">
