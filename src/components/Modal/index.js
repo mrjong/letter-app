@@ -3,7 +3,7 @@ import { Modal, Toast } from 'antd-mobile'
 import { connect } from 'react-redux'
 import { handleModalHide } from '../../redux/common.redux'
 import { logoutApp } from '../../redux/login.redux'
-import { lettersSave, wxPay } from '../../redux/mail.redux'
+import { lettersSave, lettersDelete, wxPay } from '../../redux/mail.redux'
 import mail_img from '../../assets/images/mails/xiexin_2.png'
 import './style.less'
 
@@ -15,6 +15,7 @@ import './style.less'
   {
     handleModalHide,
     lettersSave,
+      lettersDelete,
     wxPay,
     logoutApp
   }
@@ -32,7 +33,7 @@ class AppModal extends Component {
   }
 
   renderModal = (prevProps) => {
-    const { handleModalHide, lettersSave, wxPay, logoutApp, mail = {}, common = {} } = prevProps
+    const { handleModalHide, lettersSave, lettersDelete, wxPay, logoutApp, mail = {}, common = {} } = prevProps
     switch (common.modalType) {
       case 'logout':
         return {
@@ -76,7 +77,9 @@ class AppModal extends Component {
               text: '不保存',
               onPress: () => {
                 handleModalHide()
-                window.ReactRouterHistory.replace('/home')
+                  lettersDelete(mail.letterId, () => {
+                      window.ReactRouterHistory.replace('/home')
+                  })
               }
             },
             {
@@ -105,8 +108,8 @@ class AppModal extends Component {
               text: (
                 <div className="post__confirm--footer">
                   <span>
-                    <span className="post__confirm--price">限时: ¥9.8</span>
-                    <del className="post__confirm--oldprice">原价: ¥19.8</del>
+                    <span className="post__confirm--price">限时: ¥19.8</span>
+                    <del className="post__confirm--oldprice">原价: ¥29.8</del>
                   </span>
                   <span
                     className="post__confirm--button"

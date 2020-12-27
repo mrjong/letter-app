@@ -44,14 +44,6 @@ class WriteLetter extends Component {
   }
 
   componentDidMount() {
-    const urlParam = qs.parse(window.location.search, { ignoreQueryPrefix: true });
-    if (urlParam.code) {
-      // 如果拿到微信授权重定向后的code存入本地
-      localStorage.setItem('wxPayCode', urlParam.code)
-    }
-    if (!localStorage.getItem('wxPayCode')) {
-      window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx3576204e0d02bf51&redirect_uri=${location.origin}${location.pathname}&response_type=code&scope=snsapi_base&state=#wechat_redirect`
-    }
     this.props.queryLetterPapers()
   }
 

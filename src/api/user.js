@@ -19,3 +19,5 @@ export const commentDynamic = (params) => request.post('/content/contentComment'
 export const modifyUserInfo = (params) => request.post('/user/modifyUserInfo', params)
 
 export const modifyAvatar = (params) => request.post('/user/modifyHeadImg', params)
+
+export const updateUserAppId = (params) => request.post('/user/updateUserAppId', params)

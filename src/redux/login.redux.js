@@ -63,7 +63,8 @@ export const handleGetLogin = (smsCode) => {
           window.ReactRouterHistory.push('/improve_profile')
         } else if (businessCode === '0002') {
           localStorage.setItem('tokenId', tokenId)
-          window.ReactRouterHistory.push('/home')
+          window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx3576204e0d02bf51&redirect_uri=${location.origin}/wx_auth&response_type=code&scope=snsapi_base&state=#wechat_redirect`
+          // window.ReactRouterHistory.push('/home')
         }
       })
       .catch((err) => {})

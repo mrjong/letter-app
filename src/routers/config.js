@@ -137,6 +137,12 @@ const config = [
         component: lazy(() => import('@/views/About'))
       },
       {
+        path: '/wx_auth',
+        name: '',
+        icon: '',
+        component: lazy(() => import('@/views/WxAuth'))
+      },
+      {
         name: '404', //不给path属性也可以匹配404页面
         redirect: '/404'
       }
